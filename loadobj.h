@@ -47,5 +47,5 @@ public:
     objPoint getThirdPoint() const;
 }
 // Load a vector of triangles from obj file
-std::vector<objTriangle> loadObj(std::string);
+std::vector<objTriangle> loadObj(const std::string);
 #endif
