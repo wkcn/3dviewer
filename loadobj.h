@@ -19,9 +19,9 @@ public:
 	objPoint(glm::vec3);
 	objPoint(glm::vec3, glm::vec2);
 	objPoint(glm::vec3, glm::vec3);
-	// Return whether the point has texture vector information
+	// Return whether the point has texture vector information or not
 	bool isTextureVector();
-	// Return whether the point has normal vector information
+	// Return whether the point has normal vector information or not
 	bool isNormalVector();
 };
 // Load a vector of points from obj file
