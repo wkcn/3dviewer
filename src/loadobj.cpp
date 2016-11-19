@@ -71,7 +71,20 @@ Model loadObj(std::string _filename) {
 			objPoint point3 = GetVSTN(ss, vs, vt, vn);
 			if (!ss.eof()){
 				objPoint point4 = GetVSTN(ss, vs, vt, vn);
-				result.rs.push_back(objRect(point1, point2, point3, point4));
+				if (ss.eof()){
+					result.rs.push_back(objRect(point1, point2, point3, point4));
+				}else{
+					objPoly op;
+					op.points.push_back(point1);
+					op.points.push_back(point2);
+					op.points.push_back(point3);
+					op.points.push_back(point4);
+					while (!ss.eof()){
+						objPoint p = GetVSTN(ss, vs, vt, vn);
+						op.points.push_back(p);
+					}
+					result.ps.push_back(op);
+				}
 			}else{
 				result.ts.push_back(objTriangle(point1, point2, point3));
 			} 

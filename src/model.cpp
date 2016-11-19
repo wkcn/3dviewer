@@ -1,29 +1,37 @@
-#include "drawobj.h"
-#include <iostream>
-using namespace std;
+#include "model.h"
 
-void DrawModel(const Model &md){
+void Model::Draw(){
 	glBegin(GL_TRIANGLES);
-	for (const objTriangle &t : md.ts){
+	for (const objTriangle &t : ts){
 		for (int i = 0; i < 3;++i)
 			DrawObjPoint(t.points[i]);
 	}
 	glEnd();
+
 	glBegin(GL_QUADS);
-	for (const objRect &t : md.rs){
+	for (const objRect &t : rs){
 		for (int i = 0; i < 4;++i)
 			DrawObjPoint(t.points[i]);
 	}
 	glEnd();
+
 	glBegin(GL_LINES);
-	for (const objLine &t : md.ls){
+	for (const objLine &t : ls){
 		for (int i = 0; i < 2;++i)
 			DrawObjPoint(t.points[i]);
 	}
 	glEnd();
+
+	for (const objPoly &t : ps){
+		glBegin(GL_POLYGON);
+		for (const objPoint &p : t.points){
+			DrawObjPoint(p);
+		}
+		glEnd();
+	}
 }
 
-void DrawObjPoint(const objPoint &p){
+void Model::DrawObjPoint(const objPoint &p){
 	glm::vec3 cv = p.getCoordinateVector();
 	glVertex3f(cv.x, cv.y, cv.z);
 	//cout << cv.x << "-" << cv.y << "-" << cv.z << endl;

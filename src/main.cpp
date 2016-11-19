@@ -3,7 +3,8 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include "drawobj.h"
+#include "loadobj.h"
+#include "model.h"
 using namespace std;
 
 Model md = loadObj("bb.obj");
@@ -14,7 +15,7 @@ void Display(){
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 
-	DrawModel(md);
+	md.Draw();
 
 	glutSwapBuffers();
 }

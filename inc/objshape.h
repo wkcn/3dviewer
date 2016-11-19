@@ -3,6 +3,7 @@
 
 #include <glm/vec2.hpp>
 #include <glm/vec3.hpp>
+#include <vector>
 
 class objPoint {
 private:
@@ -60,6 +61,11 @@ public:
 public:
 	objLine();
 	objLine(const objPoint&, const objPoint&) ;
+};
+
+class objPoly {
+public:
+	std::vector<objPoint> points;
 };
 
 

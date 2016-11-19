@@ -6,14 +6,7 @@
 #include <string>
 #include <sstream>
 
-#include "objshape.h"
-
-class Model{
-	public:
-		std::vector<objTriangle> ts;
-		std::vector<objRect> rs;
-		std::vector<objLine> ls;
-};
+#include "model.h"
 
 // Load a vector of triangles from obj file
 // The second parameter tells if the obj file has texture and normal vector information
