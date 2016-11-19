@@ -7,7 +7,7 @@
 #include <vector>
 using namespace std;
 
-void DrawObj(const vector<objTriangle> &vt);
+void DrawModel(const Model &);
 void DrawObjPoint(const objPoint &p);
 
 #endif

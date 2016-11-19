@@ -2,15 +2,23 @@
 #include <iostream>
 using namespace std;
 
-void DrawObj(const vector<objTriangle> &vt){
+void DrawModel(const Model &md){
 	glBegin(GL_TRIANGLES);
-	for (const objTriangle &t : vt){
-		objPoint p0 = t.getFirstPoint();
-		objPoint p1 = t.getSecondPoint();
-		objPoint p2 = t.getThirdPoint();
-		DrawObjPoint(p0);
-		DrawObjPoint(p1);
-		DrawObjPoint(p2);
+	for (const objTriangle &t : md.ts){
+		for (int i = 0; i < 3;++i)
+			DrawObjPoint(t.points[i]);
+	}
+	glEnd();
+	glBegin(GL_QUADS);
+	for (const objRect &t : md.rs){
+		for (int i = 0; i < 4;++i)
+			DrawObjPoint(t.points[i]);
+	}
+	glEnd();
+	glBegin(GL_LINES);
+	for (const objLine &t : md.ls){
+		for (int i = 0; i < 2;++i)
+			DrawObjPoint(t.points[i]);
 	}
 	glEnd();
 }

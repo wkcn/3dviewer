@@ -1,5 +1,7 @@
 #include"loadobj.h"
 
+objPoint::objPoint(){}
+
 objPoint::objPoint(const glm::vec3& _coordinateVector, const glm::vec2& _textureVector, const glm::vec3& _normalVector)
 	: coordinateVector(_coordinateVector), textureVector(_textureVector), normalVector(_normalVector),
 	hasTextureVector(true), hasNormalVector(true) {}
@@ -32,33 +34,44 @@ glm::vec3 objPoint::getNormalVector() const {
 	return normalVector;
 }
 
-objTriangle::objTriangle(const objPoint& _p1, const objPoint& _p2, const objPoint& _p3) :
-firstPoint(_p1),secondPoint(_p2),thirdPoint(_p3){}
+objTriangle::objTriangle(){}
 
-objPoint objTriangle::getFirstPoint() const {
-	return firstPoint;
+objTriangle::objTriangle(const objPoint& _p1, const objPoint& _p2, const objPoint& _p3){
+	points[0] = _p1;
+	points[1] = _p2;
+	points[2] = _p3;
 }
-objPoint objTriangle::getSecondPoint() const {
-	return secondPoint;
-}
-objPoint objTriangle::getThirdPoint() const {
-	return thirdPoint;
-}
+
+objRect::objRect(){};
+
+objRect::objRect(const objPoint& _p1, const objPoint& _p2, const objPoint& _p3, const objPoint& _p4){
+	points[0] = _p1;
+	points[1] = _p2;
+	points[2] = _p3;
+	points[3] = _p4;
+}	
+
+objLine::objLine(){};
+
+objLine::objLine(const objPoint& _p1, const objPoint& _p2){
+	points[0] = _p1;
+	points[1] = _p2;
+}	
 
 #include <iostream>
 using namespace std;
 
-objPoint GetVSTN(std::ifstream &file, std::vector<glm::vec3> &vs, std::vector<glm::vec2> &vt, std::vector<glm::vec3> &vn){
+objPoint GetVSTN(std::stringstream &file, std::vector<glm::vec3> &vs, std::vector<glm::vec2> &vt, std::vector<glm::vec3> &vn){
 	std::string s;
 	file >> s;
-	int par[3];
+	int par[3] = {0,0,0};
 	int p = 0;
 	std::string buf;
 	for (char c:s){
 		if (c == ' ')continue;
 		if (c == '/'){
 			if (buf.empty()){
-				par[p++] = -1;
+				par[p++] = 0;
 			}else{
 				int t;
 				sscanf(buf.c_str(), "%d", &t);
@@ -78,20 +91,20 @@ objPoint GetVSTN(std::ifstream &file, std::vector<glm::vec3> &vs, std::vector<gl
 	glm::vec3 nv;
 	cout << "===" << p << endl;
 	cout << par[0] << ", " << par[1] << ", " << par[2] << endl;
-	if (par[0] != -1)cv = vs[par[0] - 1];
-	if (par[1] != -1)tv = vt[par[1] - 1];
-	if (par[2] != -1)nv = vn[par[2] - 1];
+	if (par[0])cv = vs[par[0] - 1];
+	if (par[1])tv = vt[par[1] - 1];
+	if (par[2])nv = vn[par[2] - 1];
 	return objPoint(cv,tv,nv);
 }
 
-std::vector<objTriangle> loadObj(std::string _filename) {
+Model loadObj(std::string _filename) {
 	std::ifstream file(_filename);
 	std::string operatorCh;
 	char tempCh;
 	std::vector<glm::vec3> vs;
 	std::vector<glm::vec3> vn;
 	std::vector<glm::vec2> vt;
-	std::vector<objTriangle> result;
+	Model result;
 	double x, y, z;
 	double u, v;
 	int vs1, vn1, vt1, vs2, vn2, vt2, vs3, vn3, vt3;
@@ -112,11 +125,24 @@ std::vector<objTriangle> loadObj(std::string _filename) {
 		}
 		if (operatorCh == "f") {
 			// s/t/n
-			objPoint point1 = GetVSTN(file, vs, vt, vn);
-			objPoint point2 = GetVSTN(file, vs, vt, vn);
-			objPoint point3 = GetVSTN(file, vs, vt, vn);
-			objPoint point4 = GetVSTN(file, vs, vt, vn);
-			result.push_back(objTriangle(point1, point2, point3));
+			string buf;
+			std::getline(file, buf);
+			stringstream ss;
+			ss << buf;
+			objPoint point1 = GetVSTN(ss, vs, vt, vn);
+			objPoint point2 = GetVSTN(ss, vs, vt, vn);
+			objPoint point3 = GetVSTN(ss, vs, vt, vn);
+			if (!ss.eof()){
+				objPoint point4 = GetVSTN(ss, vs, vt, vn);
+				result.rs.push_back(objRect(point1, point2, point3, point4));
+			}else{
+				result.ts.push_back(objTriangle(point1, point2, point3));
+			} 
+		}
+		if (operatorCh == "l"){
+			int a,b;
+			file >> a >> b;
+			result.ls.push_back(objLine(vs[a-1], vs[b-1]));
 		}
 		if (operatorCh != "v" && operatorCh != "vn" && operatorCh != "vt" && operatorCh != "f")
 			std::getline(file, operatorCh);

@@ -5,6 +5,8 @@
 #include <vector>
 #include <fstream>
 #include <string>
+#include <sstream>
+
 class objPoint {
 private:
 	// Coordinate vector of a point in (x, y, z)
@@ -16,6 +18,7 @@ private:
 	bool hasTextureVector;
 	bool hasNormalVector;
 public:
+	objPoint();
 	objPoint(const glm::vec3&, const glm::vec2&, const glm::vec3&);
 	objPoint(const glm::vec3&);
 	objPoint(const glm::vec3&, const glm::vec2&);
@@ -35,22 +38,45 @@ public:
 };
 
 class objTriangle {
-private:
-	// Points are connected to each other
-	// in order first->second->third->first to form a triangle
-	objPoint firstPoint;
-	objPoint secondPoint;
-	objPoint thirdPoint;
 public:
+	// Points are connected to each other
+	objPoint points[3];
+public:
+	objTriangle();
 	objTriangle(const objPoint&, const objPoint&, const objPoint&) ;
-	objPoint getFirstPoint() const;
-    objPoint getSecondPoint() const;
-    objPoint getThirdPoint() const;
 };
+
+
+class objRect {
+public:
+	// Points are connected to each other
+	objPoint points[4];
+public:
+	objRect();
+	objRect(const objPoint&, const objPoint&, const objPoint&, const objPoint&) ;
+};
+
+class objLine {
+public:
+	// Points are connected to each other
+	objPoint points[2];
+public:
+	objLine();
+	objLine(const objPoint&, const objPoint&) ;
+};
+
+
+class Model{
+	public:
+		std::vector<objTriangle> ts;
+		std::vector<objRect> rs;
+		std::vector<objLine> ls;
+};
+
 // Load a vector of triangles from obj file
 // The second parameter tells if the obj file has texture and normal vector information
 // the default setting is false.
 // If it set to true, means it has such informations, which is (v, vt, vn)
 // otherwise it is (v)
-std::vector<objTriangle> loadObj(const std::string);
+Model loadObj(const std::string);
 #endif

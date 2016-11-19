@@ -6,7 +6,7 @@
 #include "drawobj.h"
 using namespace std;
 
-vector<objTriangle> vt = loadObj("a.obj");
+Model md = loadObj("bb.obj");
 void Display(){
 	glEnable(GL_DEPTH_TEST);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -14,7 +14,7 @@ void Display(){
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 
-	DrawObj(vt);
+	DrawModel(md);
 
 	glutSwapBuffers();
 }
@@ -31,7 +31,6 @@ void Keyboard(unsigned char key, int x, int y){
 
 
 int main(int argc, char *argv[]){
-	cout << vt.size() << endl;
 
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE);
