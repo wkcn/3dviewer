@@ -1,11 +1,10 @@
 #ifndef OBJLOAD_H
 #define OBJLOAD_H
-#include <iostream>
 #include <glm/vec2.hpp>
 #include <glm/vec3.hpp>
 #include <vector>
+#include <fstream>
 #include <string>
-
 class objPoint {
 private:
 	// Coordinate vector of a point in (x, y, z)
@@ -14,15 +13,17 @@ private:
 	glm::vec2 textureVector;
 	// Normal vector of a point in (x, y, z)
 	glm::vec3 normalVector;
+	bool hasTextureVector;
+	bool hasNormalVector;
 public:
 	objPoint(const glm::vec3&, const glm::vec2&, const glm::vec3&);
 	objPoint(const glm::vec3&);
 	objPoint(const glm::vec3&, const glm::vec2&);
 	objPoint(const glm::vec3&, const glm::vec3&);
 	// Return whether the point has texture vector information or not
-	bool isTextureVector();
+	bool isTextureVector() const;
 	// Return whether the point has normal vector information or not
-	bool isNormalVector();
+	bool isNormalVector() const;
 	// Return CoordinateVector
 	glm::vec3 getCoordinateVector() const;
 	// Return TextureVector, please first use isTextureVector()
@@ -38,14 +39,18 @@ private:
 	// Points are connected to each other
 	// in order first->second->third->first to form a triangle
 	objPoint firstPoint;
-	objPoint SecondPoint;
-	objPoint ThirdPoint;
+	objPoint secondPoint;
+	objPoint thirdPoint;
 public:
 	objTriangle(const objPoint&, const objPoint&, const objPoint&) ;
 	objPoint getFirstPoint() const;
     objPoint getSecondPoint() const;
     objPoint getThirdPoint() const;
-}
+};
 // Load a vector of triangles from obj file
-std::vector<objTriangle> loadObj(const std::string);
+// The second parameter tells if the obj file has texture and normal vector information
+// the default setting is false.
+// If it set to true, means it has such informations, which is (v, vt, vn)
+// otherwise it is (v)
+std::vector<objTriangle> loadObj(const std::string, bool);
 #endif
