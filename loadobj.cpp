@@ -45,7 +45,7 @@ objPoint objTriangle::getThirdPoint() const {
 	return thirdPoint;
 }
 
-std::vector<objTriangle> loadObj(std::string _filename, bool _addtional = false) {
+std::vector<objTriangle> loadObj(std::string _filename, int type = 0) {
 	std::ifstream file(_filename);
 	std::string operatorCh;
 	char tempCh;
@@ -71,7 +71,7 @@ std::vector<objTriangle> loadObj(std::string _filename, bool _addtional = false)
 			vt.push_back(glm::vec2(u, v));
 		}
 		if (operatorCh == "f") {
-			if(!_addtional) {
+			if(type == 0) {
 				file >> vs1 >>
 					vs2 >>
 					vs3;
@@ -79,9 +79,8 @@ std::vector<objTriangle> loadObj(std::string _filename, bool _addtional = false)
 				objPoint point2(vs[vs2 - 1]);
 				objPoint point3(vs[vs3 - 1]);
 				result.push_back(objTriangle(point1, point2, point3));
-
 			}
-			else {
+			if (type == 1) {
 				file >> vs1 >> tempCh >> vt1 >> tempCh >> vn1 >>
 					vs2 >> tempCh >> vt2 >> tempCh >> vn2 >>
 					vs3 >> tempCh >> vt3 >> tempCh >> vn3;
@@ -90,6 +89,15 @@ std::vector<objTriangle> loadObj(std::string _filename, bool _addtional = false)
 				objPoint point3(vs[vs3 - 1], vt[vt3 - 1], vn[vn3 - 1]);
 				result.push_back(objTriangle(point1, point2, point3));
 
+			}
+			if (type == 2) {
+				file >> vs1 >> tempCh >> tempCh >> vn1 >>
+					vs2 >> tempCh >>  tempCh >> vn2 >>
+					vs3 >> tempCh >>  tempCh >> vn3;
+				objPoint point1(vs[vs1 - 1], vt[vt1 - 1], vn[vn1 - 1]);
+				objPoint point2(vs[vs2 - 1], vt[vt2 - 1], vn[vn2 - 1]);
+				objPoint point3(vs[vs3 - 1], vt[vt3 - 1], vn[vn3 - 1]);
+				result.push_back(objTriangle(point1, point2, point3));
 			}
 		}
 		if (operatorCh != "v" && operatorCh != "vn" && operatorCh != "vt" && operatorCh != "f")
