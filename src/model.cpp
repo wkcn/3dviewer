@@ -1,6 +1,7 @@
 #include "model.h"
 
 void Model::Draw(){
+	glColor4ub(156, 156, 170, 255);
 	glBegin(GL_TRIANGLES);
 	for (const objTriangle &t : ts){
 		for (int i = 0; i < 3;++i)
