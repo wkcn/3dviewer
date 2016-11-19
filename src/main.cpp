@@ -15,7 +15,7 @@ void Display(){
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 
-	md.Draw();
+	md.DrawLines();
 
 	glutSwapBuffers();
 }

@@ -8,6 +8,7 @@
 class Model{
 	public:
 		void Draw();
+		void DrawLines();
 	public:
 		std::vector<objTriangle> ts;
 		std::vector<objRect> rs;
