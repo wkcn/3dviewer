@@ -52,5 +52,5 @@ public:
 // the default setting is false.
 // If it set to true, means it has such informations, which is (v, vt, vn)
 // otherwise it is (v)
-std::vector<objTriangle> loadObj(const std::string, int);
+std::vector<objTriangle> loadObj(const std::string);
 #endif

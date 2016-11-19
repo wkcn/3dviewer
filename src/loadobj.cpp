@@ -45,7 +45,46 @@ objPoint objTriangle::getThirdPoint() const {
 	return thirdPoint;
 }
 
-std::vector<objTriangle> loadObj(std::string _filename, int type = 0) {
+#include <iostream>
+using namespace std;
+
+objPoint GetVSTN(std::ifstream &file, std::vector<glm::vec3> &vs, std::vector<glm::vec2> &vt, std::vector<glm::vec3> &vn){
+	std::string s;
+	file >> s;
+	int par[3];
+	int p = 0;
+	std::string buf;
+	for (char c:s){
+		if (c == ' ')continue;
+		if (c == '/'){
+			if (buf.empty()){
+				par[p++] = -1;
+			}else{
+				int t;
+				sscanf(buf.c_str(), "%d", &t);
+				par[p++] = t;
+			}
+			buf.clear();
+		}else{
+			buf += c;
+		}
+	}
+	int t;
+	sscanf(buf.c_str(), "%d", &t);
+	par[p++] = t;
+
+	glm::vec3 cv;
+	glm::vec2 tv;
+	glm::vec3 nv;
+	cout << "===" << p << endl;
+	cout << par[0] << ", " << par[1] << ", " << par[2] << endl;
+	if (par[0] != -1)cv = vs[par[0] - 1];
+	if (par[1] != -1)tv = vt[par[1] - 1];
+	if (par[2] != -1)nv = vn[par[2] - 1];
+	return objPoint(cv,tv,nv);
+}
+
+std::vector<objTriangle> loadObj(std::string _filename) {
 	std::ifstream file(_filename);
 	std::string operatorCh;
 	char tempCh;
@@ -58,6 +97,7 @@ std::vector<objTriangle> loadObj(std::string _filename, int type = 0) {
 	int vs1, vn1, vt1, vs2, vn2, vt2, vs3, vn3, vt3;
 	while (!file.eof()) {
 		file >> operatorCh;
+		if (file.eof())break;
 		if (operatorCh == "v") {
 			file >> x >> y >> z;
 			vs.push_back(glm::vec3(x, y, z));
@@ -71,34 +111,12 @@ std::vector<objTriangle> loadObj(std::string _filename, int type = 0) {
 			vt.push_back(glm::vec2(u, v));
 		}
 		if (operatorCh == "f") {
-			if(type == 0) {
-				file >> vs1 >>
-					vs2 >>
-					vs3;
-				objPoint point1(vs[vs1 - 1]);
-				objPoint point2(vs[vs2 - 1]);
-				objPoint point3(vs[vs3 - 1]);
-				result.push_back(objTriangle(point1, point2, point3));
-			}
-			if (type == 1) {
-				file >> vs1 >> tempCh >> vt1 >> tempCh >> vn1 >>
-					vs2 >> tempCh >> vt2 >> tempCh >> vn2 >>
-					vs3 >> tempCh >> vt3 >> tempCh >> vn3;
-				objPoint point1(vs[vs1 - 1], vt[vt1 - 1], vn[vn1 - 1]);
-				objPoint point2(vs[vs2 - 1], vt[vt2 - 1], vn[vn2 - 1]);
-				objPoint point3(vs[vs3 - 1], vt[vt3 - 1], vn[vn3 - 1]);
-				result.push_back(objTriangle(point1, point2, point3));
-
-			}
-			if (type == 2) {
-				file >> vs1 >> tempCh >> tempCh >> vn1 >>
-					vs2 >> tempCh >>  tempCh >> vn2 >>
-					vs3 >> tempCh >>  tempCh >> vn3;
-				objPoint point1(vs[vs1 - 1], vt[vt1 - 1], vn[vn1 - 1]);
-				objPoint point2(vs[vs2 - 1], vt[vt2 - 1], vn[vn2 - 1]);
-				objPoint point3(vs[vs3 - 1], vt[vt3 - 1], vn[vn3 - 1]);
-				result.push_back(objTriangle(point1, point2, point3));
-			}
+			// s/t/n
+			objPoint point1 = GetVSTN(file, vs, vt, vn);
+			objPoint point2 = GetVSTN(file, vs, vt, vn);
+			objPoint point3 = GetVSTN(file, vs, vt, vn);
+			objPoint point4 = GetVSTN(file, vs, vt, vn);
+			result.push_back(objTriangle(point1, point2, point3));
 		}
 		if (operatorCh != "v" && operatorCh != "vn" && operatorCh != "vt" && operatorCh != "f")
 			std::getline(file, operatorCh);
