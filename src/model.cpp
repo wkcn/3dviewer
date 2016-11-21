@@ -66,8 +66,6 @@ void Model::DrawLines(){
 
 
 void Model::DrawObjPoint(const objPoint &p){
-	glm::vec3 cv = p.getCoordinateVector();
-	glVertex3f(cv.x, cv.y, cv.z);
 	//cout << cv.x << "-" << cv.y << "-" << cv.z << endl;
 	if (p.isTextureVector()){
 		glm::vec2 tv = p.getTextureVector();
@@ -77,4 +75,6 @@ void Model::DrawObjPoint(const objPoint &p){
 		glm::vec3 nv = p.getNormalVector();
 		glNormal3f(nv.x, nv.y, nv.z);
 	}
+	glm::vec3 cv = p.getCoordinateVector();
+	glVertex3f(cv.x, cv.y, cv.z);
 }

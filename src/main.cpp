@@ -21,8 +21,8 @@ GLfloat CAM_DELTAX, CAM_DELTAY;									//释放后，x和y移动分量
 
 void SetLight(){
 	const GLfloat am = 0.0f;
-	const GLfloat l = 0.5f;
-	GLfloat light_position[] = {50,50,50,1.0f};
+	const GLfloat l = 0.01f;
+	GLfloat light_position[] = {200,200,200,1.0f};
 	GLfloat light_ambient[] = {am, am, am, 1.0f};
 	GLfloat light_diffuse[] = {l,l,l,l};
 	GLfloat light_specular[] = {l,l,l,l};
@@ -32,6 +32,8 @@ void SetLight(){
 	glLightfv(lid, GL_DIFFUSE, light_diffuse); // 漫反射
 	glLightfv(lid, GL_SPECULAR, light_specular); // 镜面反射
 	glEnable(lid);
+	glEnable(GL_LIGHTING);
+	glEnable(GL_DEPTH_TEST);
 }
 
 void DrawCube(){
@@ -81,14 +83,12 @@ void Display(){
 	glTranslatef(CAM_X, CAM_Y, cam_z);
 	glScalef(CAM_TX, CAM_TY, CAM_TZ);
 
-
-
+	SetLight();
 
 	// 线框模型
 	//md.DrawLines();
 	
 	// 面模型
-	SetLight();
 	md.Draw();
 	DrawCube();
 
@@ -146,6 +146,17 @@ void Keyboard(unsigned char key, int x, int y){
 void Mouse(int button, int state, int x, int y){ //处理鼠标点击
 	if (state == GLUT_DOWN) //第一次鼠标按下时,记录鼠标在窗口中的初始坐标  
 		CAM_OLDMX = x, CAM_OLDMY = y;
+	if (button == 4){
+		CAM_TX = CAM_TX / 1.1;
+		CAM_TY = CAM_TY / 1.1;
+		CAM_TZ = CAM_TZ / 1.1;
+		glutPostRedisplay();
+	}else if (button == 3){
+		CAM_TX = CAM_TX * 1.1;
+		CAM_TY = CAM_TY * 1.1;
+		CAM_TZ = CAM_TZ * 1.1;
+		glutPostRedisplay();
+	}
 }
 
 void OnMouseMove(int x, int y){ //处理鼠标拖动  
@@ -160,7 +171,6 @@ void Init(){
 	//打开2D贴图状态
 	glEnable(GL_TEXTURE_2D);
 	//混色
-	/*
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glShadeModel(GL_SMOOTH);
@@ -176,17 +186,14 @@ void Init(){
 	glHint(GL_POLYGON_SMOOTH_HINT, GL_NICEST);
 
 	glHint(GL_FOG_HINT, GL_NICEST);
-	*/
 
-	/*
 	GLfloat light_a[4] = {0.1,0.1,0.1,1.0};
 	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, light_a);
 	glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_FALSE);
 	glLightModeli(GL_LIGHT_MODEL_COLOR_CONTROL, GL_SEPARATE_SPECULAR_COLOR);
 
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	*/
-	//glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
+	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
 
 	glEnable(GL_COLOR_MATERIAL);
 	glEnable(GL_DEPTH_TEST);
