@@ -2,6 +2,7 @@
 
 void Model::Draw(){
 	glColor4ub(156, 156, 170, 255);
+	/*
 	glBegin(GL_TRIANGLES);
 	for (const objTriangle &t : ts){
 		for (int i = 0; i < 3;++i)
@@ -16,6 +17,7 @@ void Model::Draw(){
 	}
 	glEnd();
 
+	*/
 	glBegin(GL_LINES);
 	for (const objLine &t : ls){
 		for (int i = 0; i < 2;++i)
@@ -34,6 +36,7 @@ void Model::Draw(){
 
 
 void Model::DrawLines(){
+	/*
 	for (const objTriangle &t : ts){
 		glBegin(GL_LINE_LOOP);
 		for (int i = 0; i < 3;++i)
@@ -48,6 +51,7 @@ void Model::DrawLines(){
 		glEnd();
 	}
 
+	*/
 	glBegin(GL_LINES);
 	for (const objLine &t : ls){
 		for (int i = 0; i < 2;++i)

@@ -66,6 +66,13 @@ Model loadObj(std::string _filename) {
 			std::getline(file, buf);
 			std::stringstream ss;
 			ss << buf;
+			objPoly op;
+			while (!ss.eof()){
+				objPoint p = GetVSTN(ss, vs, vt, vn);
+				op.points.push_back(p);
+			}
+			result.ps.push_back(op);
+			/*
 			objPoint point1 = GetVSTN(ss, vs, vt, vn);
 			objPoint point2 = GetVSTN(ss, vs, vt, vn);
 			objPoint point3 = GetVSTN(ss, vs, vt, vn);
@@ -88,6 +95,7 @@ Model loadObj(std::string _filename) {
 			}else{
 				result.ts.push_back(objTriangle(point1, point2, point3));
 			} 
+			*/
 		}
 		if (operatorCh == "l"){
 			int a,b;

@@ -10,8 +10,10 @@ class Model{
 		void Draw();
 		void DrawLines();
 	public:
+		/*
 		std::vector<objTriangle> ts;
 		std::vector<objRect> rs;
+		*/
 		std::vector<objLine> ls;
 		std::vector<objPoly> ps;
 	private:
