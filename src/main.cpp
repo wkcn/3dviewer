@@ -22,7 +22,7 @@ GLfloat CAM_DELTAX, CAM_DELTAY;									//释放后，x和y移动分量
 void SetLight(){
 	const GLfloat am = 0.0f;
 	const GLfloat l = 0.01f;
-	GLfloat light_position[] = {200,200,200,1.0f};
+	GLfloat light_position[] = {-1,-1,-1,0.0f};
 	GLfloat light_ambient[] = {am, am, am, 1.0f};
 	GLfloat light_diffuse[] = {l,l,l,l};
 	GLfloat light_specular[] = {l,l,l,l};
@@ -82,8 +82,11 @@ void Display(){
 	glTranslatef(CAM_X, CAM_Y, cam_z);
 	glScalef(CAM_TX, CAM_TY, CAM_TZ);
 
-	SetLight();
 
+	glPushMatrix();
+	glTranslatef(0,0,6);
+	SetLight();
+	glPopMatrix();
 	// 线框模型
 	//md.DrawLines();
 	
@@ -186,7 +189,8 @@ void Init(){
 
 	glHint(GL_FOG_HINT, GL_NICEST);
 
-	GLfloat light_a[4] = {0.1,0.1,0.1,1.0};
+	// 环境光
+	GLfloat light_a[4] = {0.2,0.2,0.2,1.0};
 	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, light_a);
 	glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_FALSE);
 	glLightModeli(GL_LIGHT_MODEL_COLOR_CONTROL, GL_SEPARATE_SPECULAR_COLOR);
