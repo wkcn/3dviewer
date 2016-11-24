@@ -44,7 +44,6 @@ Model loadObj(std::string _filename) {
 	Model result;
 	double x, y, z;
 	double u, v;
-	int vs1, vn1, vt1, vs2, vn2, vt2, vs3, vn3, vt3;
 	while (!file.eof()) {
 		file >> operatorCh;
 		if (file.eof())break;

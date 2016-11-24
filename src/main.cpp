@@ -7,7 +7,7 @@
 #include "model.h"
 using namespace std;
 
-Model md = loadObj("wolverine_obj.obj");
+Model md = loadObj("model/wolverine_obj.obj");
 
 
 GLfloat CAM_X = 0.0f;										//图像平移分量
@@ -22,7 +22,7 @@ GLfloat CAM_DELTAX, CAM_DELTAY;									//释放后，x和y移动分量
 void SetLight(){
 	const GLfloat am = 0.0f;
 	const GLfloat l = 0.01f;
-	GLfloat light_position[] = {-1,-1,-1,0.0f};
+	GLfloat light_position[] = {0,0,-1,0.0f};
 	GLfloat light_ambient[] = {am, am, am, 1.0f};
 	GLfloat light_diffuse[] = {l,l,l,l};
 	GLfloat light_specular[] = {l,l,l,l};
@@ -84,7 +84,7 @@ void Display(){
 
 
 	glPushMatrix();
-	glTranslatef(0,0,6);
+	glTranslatef(30,0,20);
 	SetLight();
 	glPopMatrix();
 	// 线框模型
