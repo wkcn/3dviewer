@@ -76,6 +76,9 @@ void Display(){
 	glTranslatef(CAM_X, CAM_Y, cam_z);
 	glScalef(CAM_TX, CAM_TY, CAM_TZ);
 
+	DrawGround();
+	DrawAxis();
+
 
 	glPushMatrix();
 	glTranslatef(30,0,20);
@@ -98,7 +101,7 @@ void Display(){
 			md.DrawPoints();
 			break;
 	};
-	DrawCube();
+	//DrawCube();
 
 	glPopMatrix();
 	glutSwapBuffers();
