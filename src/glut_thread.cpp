@@ -1,6 +1,7 @@
 #include "glut_thread.h"
 
 Model md = loadObj("model/wolverine_obj.obj");
+VIEW_MODE view_mode = TEX_MODE;
 
 
 GLfloat CAM_X = 0.0f;										//图像平移分量
@@ -84,7 +85,19 @@ void Display(){
 	//md.DrawLines();
 	
 	// 面模型
-	md.Draw();
+	
+	switch (view_mode){
+		case TEX_MODE:
+		case FACE_MODE:
+			md.Draw();
+			break;
+		case LINE_MODE:
+			md.DrawLines();
+			break;
+		case POINT_MODE:
+			md.DrawPoints();
+			break;
+	};
 	DrawCube();
 
 	glPopMatrix();
@@ -219,3 +232,6 @@ void GLUT_Thread::run(){
 
 }
 
+void GLUT_Thread::SetViewMode(VIEW_MODE mode){
+	view_mode = mode;
+}

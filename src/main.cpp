@@ -1,5 +1,5 @@
 #include "glut_thread.h"
-#include "win.h"
+#include "mainwindow.h"
 
 int main(int argc, char *argv[]){
 	glutInit(&argc, argv);
@@ -7,7 +7,7 @@ int main(int argc, char *argv[]){
 	t.start();
 
 	QApplication a(argc, argv);
-	Win w(&t);
+	MainWindow w(&t);
 	w.show();
 	return a.exec();
 }

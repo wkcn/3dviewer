@@ -9,6 +9,7 @@ class Model{
 	public:
 		void Draw();
 		void DrawLines();
+		void DrawPoints();
 	public:
 		/*
 		std::vector<objTriangle> ts;

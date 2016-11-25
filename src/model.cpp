@@ -58,6 +58,21 @@ void Model::DrawLines(){
 	}
 }
 
+void Model::DrawPoints(){
+	glBegin(GL_POINTS);
+	for (const objLine &t : ls){
+		for (int i = 0; i < 2;++i)
+			DrawObjPoint(t.points[i]);
+	}
+
+	for (const objPoly &t : ps){
+		for (const objPoint &p : t.points){
+			DrawObjPoint(p);
+		}
+	}
+	glEnd();
+}
+
 
 void Model::DrawObjPoint(const objPoint &p){
 	//cout << cv.x << "-" << cv.y << "-" << cv.z << endl;
