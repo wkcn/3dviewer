@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>300</width>
+    <height>800</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Control</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QSplitter" name="splitter">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>40</y>
+      <width>231</width>
+      <height>36</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>显示模式:</string>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="comboBox"/>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>300</width>
+     <height>36</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menu_S">
+    <property name="geometry">
+     <rect>
+      <x>267</x>
+      <y>164</y>
+      <width>300</width>
+      <height>800</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>开始(&amp;S)</string>
+    </property>
+   </widget>
+   <addaction name="menu_S"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

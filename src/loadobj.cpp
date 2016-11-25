@@ -36,12 +36,18 @@ objPoint GetVSTN(std::stringstream &file, std::vector<glm::vec3> &vs, std::vecto
 
 Model loadObj(std::string _filename) {
 	std::ifstream file(_filename);
+	if (file.fail()){
+		std::cout << "Read " << _filename << " Error :-(" << std::endl;
+		return Model();
+	}
 	std::string operatorCh;
-	char tempCh;
 	std::vector<glm::vec3> vs;
 	std::vector<glm::vec3> vn;
 	std::vector<glm::vec2> vt;
-	Model result;
+	std::vector<objPoly> triangles;
+	std::vector<objPoly> rects;
+	std::vector<objPoly> others;
+	Model md;
 	double x, y, z;
 	double u, v;
 	while (!file.eof()) {
@@ -70,40 +76,39 @@ Model loadObj(std::string _filename) {
 				objPoint p = GetVSTN(ss, vs, vt, vn);
 				op.points.push_back(p);
 			}
-			result.ps.push_back(op);
-			/*
-			objPoint point1 = GetVSTN(ss, vs, vt, vn);
-			objPoint point2 = GetVSTN(ss, vs, vt, vn);
-			objPoint point3 = GetVSTN(ss, vs, vt, vn);
-			if (!ss.eof()){
-				objPoint point4 = GetVSTN(ss, vs, vt, vn);
-				if (ss.eof()){
-					result.rs.push_back(objRect(point1, point2, point3, point4));
-				}else{
-					objPoly op;
-					op.points.push_back(point1);
-					op.points.push_back(point2);
-					op.points.push_back(point3);
-					op.points.push_back(point4);
-					while (!ss.eof()){
-						objPoint p = GetVSTN(ss, vs, vt, vn);
-						op.points.push_back(p);
-					}
-					result.ps.push_back(op);
-				}
-			}else{
-				result.ts.push_back(objTriangle(point1, point2, point3));
-			} 
-			*/
-		}
+			switch(op.points.size()){
+			case 3:
+				triangles.push_back(op);
+				break;
+			case 4:
+				rects.push_back(op);
+				break;
+			default:
+				others.push_back(op);
+			}
+		}	
 		if (operatorCh == "l"){
 			int a,b;
 			file >> a >> b;
-			result.ls.push_back(objLine(vs[a-1], vs[b-1]));
+			md.ls.push_back(objLine(vs[a-1], vs[b-1]));
 		}
 		if (operatorCh != "v" && operatorCh != "vn" && operatorCh != "vt" && operatorCh != "f")
 			std::getline(file, operatorCh);
 	}
-	return result;
+
+	md.triangleNum = triangles.size();
+	md.rectNum = rects.size();
+	md.ps.resize(triangles.size() + rects.size() + others.size());
+	int k = 0;
+	for (objPoly &p : triangles){
+		md.ps[k++] = p;
+	}
+	for (objPoly &p : rects){
+		md.ps[k++] = p;
+	}
+	for (objPoly &p : others){
+		md.ps[k++] = p;
+	}
+	return md; 
 }
 

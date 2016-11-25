@@ -1,6 +1,7 @@
 #ifndef OBJLOAD_H
 #define OBJLOAD_H
 
+#include <iostream>
 #include <vector>
 #include <fstream>
 #include <string>

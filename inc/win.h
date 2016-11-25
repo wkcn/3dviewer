@@ -6,6 +6,7 @@
 #include <QtGui>
 #include <QtCore>
 #include "glut_thread.h"
+#include "mainwindow.h"
 
 class Win : public QMainWindow{
 	Q_OBJECT
@@ -13,6 +14,7 @@ public:
 	explicit Win(GLUT_Thread *t, QWidget *parent = 0);
 private:
 	GLUT_Thread *glut;
+	Ui::MainWindow *ui;
 };
 
 #endif

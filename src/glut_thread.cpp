@@ -25,7 +25,7 @@ void SetLight(){
 	glLightfv(lid, GL_DIFFUSE, light_diffuse); // 漫反射
 	glLightfv(lid, GL_SPECULAR, light_specular); // 镜面反射
 	glEnable(lid);
-	glEnable(GL_LIGHTING);
+	//glEnable(GL_LIGHTING);
 }
 
 void DrawCube(){

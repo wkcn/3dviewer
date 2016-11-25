@@ -2,22 +2,6 @@
 
 void Model::Draw(){
 	glColor4ub(156, 156, 170, 255);
-	/*
-	glBegin(GL_TRIANGLES);
-	for (const objTriangle &t : ts){
-		for (int i = 0; i < 3;++i)
-			DrawObjPoint(t.points[i]);
-	}
-	glEnd();
-
-	glBegin(GL_QUADS);
-	for (const objRect &t : rs){
-		for (int i = 0; i < 4;++i)
-			DrawObjPoint(t.points[i]);
-	}
-	glEnd();
-
-	*/
 	glBegin(GL_LINES);
 	for (const objLine &t : ls){
 		for (int i = 0; i < 2;++i)
@@ -25,33 +9,39 @@ void Model::Draw(){
 	}
 	glEnd();
 
-	for (const objPoly &t : ps){
+	int k = 0;
+	int endk = triangleNum;
+	// 绘制三角形
+	glBegin(GL_TRIANGLES);
+	for (;k < endk;++k){
+		objPoly &t = ps[k];
+		for (int i = 0; i < 3;++i)
+			DrawObjPoint(t.points[i]);
+	}
+	glEnd();
+	endk += rectNum;
+	// 绘制四边形
+	glBegin(GL_QUADS);
+	for (;k < endk;++k){
+		objPoly &t = ps[k];
+		for (int i = 0; i < 4;++i)
+			DrawObjPoint(t.points[i]);
+	}
+	glEnd();
+	endk = ps.size();
+	for (;k < endk;++k){
+		objPoly &t = ps[k];
 		glBegin(GL_POLYGON);
 		for (const objPoint &p : t.points){
 			DrawObjPoint(p);
 		}
 		glEnd();
 	}
+
 }
 
 
 void Model::DrawLines(){
-	/*
-	for (const objTriangle &t : ts){
-		glBegin(GL_LINE_LOOP);
-		for (int i = 0; i < 3;++i)
-				DrawObjPoint(t.points[i]);
-		glEnd();
-	}
-
-	for (const objRect &t : rs){
-		glBegin(GL_LINE_LOOP);
-		for (int i = 0; i < 4;++i)
-			DrawObjPoint(t.points[i]);
-		glEnd();
-	}
-
-	*/
 	glBegin(GL_LINES);
 	for (const objLine &t : ls){
 		for (int i = 0; i < 2;++i)

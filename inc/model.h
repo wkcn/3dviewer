@@ -16,6 +16,8 @@ class Model{
 		*/
 		std::vector<objLine> ls;
 		std::vector<objPoly> ps;
+		int triangleNum;
+		int rectNum;
 	private:
 		void DrawObjPoint(const objPoint &p);
 };
