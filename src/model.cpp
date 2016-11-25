@@ -42,6 +42,8 @@ void Model::Draw(){
 
 
 void Model::DrawLines(){
+	glLineWidth(1);
+	glColor3ub(255, 0, 0);
 	glBegin(GL_LINES);
 	for (const objLine &t : ls){
 		for (int i = 0; i < 2;++i)
@@ -59,6 +61,8 @@ void Model::DrawLines(){
 }
 
 void Model::DrawPoints(){
+	glPointSize(3);
+	glColor3ub(255, 0, 0);
 	glBegin(GL_POINTS);
 	for (const objLine &t : ls){
 		for (int i = 0; i < 2;++i)

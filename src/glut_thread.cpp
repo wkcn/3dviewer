@@ -1,6 +1,7 @@
 #include "glut_thread.h"
 
 Model md = loadObj("model/wolverine_obj.obj");
+GLuint TEX_ID;
 VIEW_MODE view_mode = TEX_MODE;
 
 
@@ -91,6 +92,7 @@ void Display(){
 	
 	switch (view_mode){
 		case TEX_MODE:
+			glBindTexture(GL_TEXTURE_2D, TEX_ID);
 		case FACE_MODE:
 			md.Draw();
 			break;
@@ -101,6 +103,7 @@ void Display(){
 			md.DrawPoints();
 			break;
 	};
+	glBindTexture(GL_TEXTURE_2D, 0);
 	//DrawCube();
 
 	glPopMatrix();
@@ -179,6 +182,12 @@ void OnMouseMove(int x, int y){ //处理鼠标拖动
 
 
 void Init(){
+	// 初始化FreeImage
+	FreeImage_Initialise();
+
+
+	TEX_ID = LoadTexture("model/s.png");
+
 	//打开2D贴图状态
 	glEnable(GL_TEXTURE_2D);
 	//混色

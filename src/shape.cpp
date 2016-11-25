@@ -1,5 +1,37 @@
 #include "shape.h"
 
+#include <iostream>
+using namespace std;
+GLuint LoadTexture(const string filename){
+	GLuint id;
+	FREE_IMAGE_FORMAT fif = FreeImage_GetFileType(filename.c_str(), 0);
+	FIBITMAP *dib = FreeImage_Load(fif, filename.c_str());
+	BYTE *buf = FreeImage_GetBits(dib);
+	unsigned int width = FreeImage_GetWidth(dib);
+	unsigned int height = FreeImage_GetHeight(dib);
+	glGenTextures(1, &id);
+	glBindTexture(GL_TEXTURE_2D, id);
+
+	GLenum image_format = GL_RGB;		//format the image is in
+	GLint internal_format = GL_BGR_EXT;	//format to store the image in
+
+	int bpp = FreeImage_GetBPP(dib);
+	if (bpp == 32){
+		image_format = GL_RGBA;
+		internal_format = GL_BGRA_EXT;
+	}
+
+	cout << width << endl;
+	glTexImage2D(GL_TEXTURE_2D, 0, image_format, width, height,0, internal_format, GL_UNSIGNED_BYTE, buf);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+	glBindTexture(GL_TEXTURE_2D, 0);
+
+	return id;
+}
+
 void DrawAxis(){
 
 	glLineWidth(4);
@@ -14,7 +46,7 @@ void DrawAxis(){
 		glVertex3f(0, 0, 0);
 		glVertex3f(0, 0, 1);
 	glEnd();
-	glLineWidth(0);
+	glLineWidth(1);
 	
 	double base = 0.05, height = 0.10;
 	int slices = 10, stacks = 10;
