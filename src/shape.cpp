@@ -52,21 +52,21 @@ void DrawAxis(){
 	int slices = 10, stacks = 10;
 	glColor3ub(255, 0, 0);
     glPushMatrix();  
-    glTranslatef(1.0f,0.0f,0.0f);  
+    glTranslatef(1.0f - height,0.0f,0.0f);  
     glRotatef(90.0f,0.0f,1.0f,0.0f);  
     glutWireCone(base,height,slices,stacks);  
     glPopMatrix();  
   
 	glColor3ub(0, 255, 0);
     glPushMatrix();  
-    glTranslatef(0.0f,1.0f,0.0f);  
+    glTranslatef(0.0f,1.0f - height,0.0f);  
     glRotatef(-90.0f,1.0f,0.0f,0.0f);  
     glutWireCone(base,height,slices,stacks);  
     glPopMatrix();  
   
 	glColor3ub(0, 0, 255);
     glPushMatrix();  
-    glTranslatef(0.0f,0.0f,1.0f);  
+    glTranslatef(0.0f,0.0f,1.0f - height);  
     glRotatef(90.0f,0.0f,0.0f,1.0f);  
     glutWireCone(base,height,slices,stacks);  
     glPopMatrix();  

@@ -71,6 +71,7 @@ void Display(){
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	//glEnable(GL_DEPTH_TEST);
 
+	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
 	glRotatef(CAM_DELTAX, 0.0, 1.0, 0.0);					//x轴旋转
 	glRotatef(CAM_DELTAY, 1.0, 0.0, 0.0);					//y轴旋转
@@ -157,7 +158,41 @@ void Keyboard(unsigned char key, int x, int y){
 	}
 }
 
+double abs(double a){
+	return a > 0 ? a : -a;
+}
+
+void UnProject(float mouse_x,float mouse_y){
+	cout << mouse_x << "||" << mouse_y << endl;
+	double modelview[16];// = {1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1};
+	double projection[16];
+	int viewport[4];
+	float winX,winY,winZ;
+	double object_x = 0,object_y = 0,object_z = 0;     //3D坐标
+	glGetDoublev(GL_MODELVIEW_MATRIX, modelview);
+	glGetDoublev(GL_PROJECTION_MATRIX, projection);
+	glGetIntegerv(GL_VIEWPORT, viewport);
+	winX=(float)mouse_x;
+	winY=(float)viewport[3]-(float)mouse_y;
+	glReadPixels(mouse_x, int(winY),1,1,GL_DEPTH_COMPONENT,GL_FLOAT, &winZ);
+	gluUnProject((GLdouble)winX,(GLdouble)winY,(GLdouble)winZ,modelview,projection,viewport,&object_x,&object_y,&object_z);
+	cout << object_x << ", " << object_y << ", " << object_z << endl;
+	/*
+		for (objPoly &p : md.ps){
+			for (objPoint &v : p.points){
+				glm::vec3 c = v.getCoordinateVector();
+				if (abs(c.x - object_x) + abs(c.y - object_y)+ abs(c.z - object_z) < 0.1){
+					cout << "Find" << endl;
+					break;
+				}
+			}
+		}
+	*/
+}
+
+
 void Mouse(int button, int state, int x, int y){ //处理鼠标点击
+	UnProject(x,y);
 	if (state == GLUT_DOWN) //第一次鼠标按下时,记录鼠标在窗口中的初始坐标  
 		CAM_OLDMX = x, CAM_OLDMY = y;
 	if (button == 4){
@@ -211,7 +246,7 @@ void Init(){
 	GLfloat light_a[4] = {0.2,0.2,0.2,1.0};
 	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, light_a);
 	glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_FALSE);
-	glLightModeli(GL_LIGHT_MODEL_COLOR_CONTROL, GL_SEPARATE_SPECULAR_COLOR);
+    //glLightModeli(GL_LIGHT_MODEL_COLOR_CONTROL, GL_SEPARATE_SPECULAR_COLOR);
 
 	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
