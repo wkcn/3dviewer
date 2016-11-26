@@ -14,6 +14,9 @@ GLfloat CAM_TZ = 1.0f;
 GLfloat CAM_OLDMY, CAM_OLDMX;									//鼠标按下的位置（x,y)
 GLfloat CAM_DELTAX, CAM_DELTAY;									//释放后，x和y移动分量
 
+objPoint *SELECTED_POINT = 0;
+int MOUSE_BUTTON = 0;
+
 void SetLight(){
 	const GLfloat am = 0.0f;
 	const GLfloat l = 0.01f;
@@ -72,7 +75,7 @@ void Display(){
 	//glEnable(GL_DEPTH_TEST);
 
 	glMatrixMode(GL_MODELVIEW);
-	glPushMatrix();
+	glLoadIdentity();
 	glRotatef(CAM_DELTAX, 0.0, 1.0, 0.0);					//x轴旋转
 	glRotatef(CAM_DELTAY, 1.0, 0.0, 0.0);					//y轴旋转
 	glTranslatef(CAM_X, CAM_Y, cam_z);
@@ -107,7 +110,6 @@ void Display(){
 	glBindTexture(GL_TEXTURE_2D, 0);
 	//DrawCube();
 
-	glPopMatrix();
 	glutSwapBuffers();
 }
 
@@ -162,9 +164,8 @@ double abs(double a){
 	return a > 0 ? a : -a;
 }
 
-void UnProject(float mouse_x,float mouse_y){
-	cout << mouse_x << "||" << mouse_y << endl;
-	double modelview[16];// = {1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1};
+glm::vec3 UnProject(float mouse_x,float mouse_y){
+	double modelview[16];
 	double projection[16];
 	int viewport[4];
 	float winX,winY,winZ;
@@ -176,25 +177,37 @@ void UnProject(float mouse_x,float mouse_y){
 	winY=(float)viewport[3]-(float)mouse_y;
 	glReadPixels(mouse_x, int(winY),1,1,GL_DEPTH_COMPONENT,GL_FLOAT, &winZ);
 	gluUnProject((GLdouble)winX,(GLdouble)winY,(GLdouble)winZ,modelview,projection,viewport,&object_x,&object_y,&object_z);
-	cout << object_x << ", " << object_y << ", " << object_z << endl;
-	/*
-		for (objPoly &p : md.ps){
-			for (objPoint &v : p.points){
-				glm::vec3 c = v.getCoordinateVector();
-				if (abs(c.x - object_x) + abs(c.y - object_y)+ abs(c.z - object_z) < 0.1){
-					cout << "Find" << endl;
-					break;
-				}
-			}
-		}
-	*/
+	return glm::vec3(object_x, object_y, object_z);
+
 }
 
 
 void Mouse(int button, int state, int x, int y){ //处理鼠标点击
-	UnProject(x,y);
-	if (state == GLUT_DOWN) //第一次鼠标按下时,记录鼠标在窗口中的初始坐标  
+	MOUSE_BUTTON = button;
+	if (state == GLUT_DOWN){ //第一次鼠标按下时,记录鼠标在窗口中的初始坐标  
 		CAM_OLDMX = x, CAM_OLDMY = y;
+		if (button == GLUT_LEFT_BUTTON){
+			glm::vec3 pos = UnProject(x,y);
+			double best = 10;
+			if (!SELECTED_POINT){
+				for (objPoly &p : md.ps){
+					for (objPoint &v : p.points){
+						glm::vec3 c = v.getCoordinateVector();
+						double dx = c.x - pos.x;
+						double dy = c.y - pos.y;
+						double dz = c.z - pos.z;
+						double f = dx * dx + dy * dy + dz * dz;
+						if (f < best || !SELECTED_POINT){
+							best = f;
+							SELECTED_POINT = &v;
+						}
+					}
+				}
+			}
+		}
+	}else{
+		SELECTED_POINT = 0;
+	}
 	if (button == 4){
 		CAM_TX = CAM_TX / 1.1;
 		CAM_TY = CAM_TY / 1.1;
@@ -209,10 +222,17 @@ void Mouse(int button, int state, int x, int y){ //处理鼠标点击
 }
 
 void OnMouseMove(int x, int y){ //处理鼠标拖动  
-	CAM_DELTAX += 360 * (x - CAM_OLDMX) / 600;
-	CAM_DELTAY += 360 * (y - CAM_OLDMY) / 600;
-	CAM_OLDMX = x;
-	CAM_OLDMY = y;
+	if (MOUSE_BUTTON == GLUT_RIGHT_BUTTON){
+		CAM_DELTAX += 360 * (x - CAM_OLDMX) / 600;
+		CAM_DELTAY += 360 * (y - CAM_OLDMY) / 600;
+		CAM_OLDMX = x;
+		CAM_OLDMY = y;
+	}else if (MOUSE_BUTTON == GLUT_LEFT_BUTTON){
+		if (SELECTED_POINT){
+			glm::vec3 pos = UnProject(x,y);
+			SELECTED_POINT->coordinateVector = pos;
+		}
+	}
 }
 
 

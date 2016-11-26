@@ -6,13 +6,14 @@
 #include <vector>
 
 class objPoint {
-private:
+public:
 	// Coordinate vector of a point in (x, y, z)
 	glm::vec3 coordinateVector;
 	// Texture vector of a point in (u, v)
 	glm::vec2 textureVector;
 	// Normal vector of a point in (x, y, z)
 	glm::vec3 normalVector;
+private:
 	bool hasTextureVector;
 	bool hasNormalVector;
 public:
