@@ -16,6 +16,11 @@ GLfloat CAM_DELTAX, CAM_DELTAY;									//释放后，x和y移动分量
 
 objPoint *SELECTED_POINT = 0;
 int MOUSE_BUTTON = 0;
+int WINDOW_HEIGHT = 800;
+int WINDOW_WIDTH = 800;
+
+const double MIN_SELECTED_PIXEL = 64;
+const double CROSS_PIXEL = 24;
 
 void SetLight(){
 	const GLfloat am = 0.0f;
@@ -118,6 +123,8 @@ void Idle(){
 }
 
 void Reshape(int w, int h){
+	WINDOW_WIDTH = w;
+	WINDOW_HEIGHT = h;
 	glViewport(0, 0, w, h);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
@@ -173,6 +180,7 @@ glm::vec3 UnProject(float mouse_x,float mouse_y){
 	glGetDoublev(GL_MODELVIEW_MATRIX, modelview);
 	glGetDoublev(GL_PROJECTION_MATRIX, projection);
 	glGetIntegerv(GL_VIEWPORT, viewport);
+
 	winX=(float)mouse_x;
 	winY=(float)viewport[3]-(float)mouse_y;
 	glReadPixels(mouse_x, int(winY),1,1,GL_DEPTH_COMPONENT,GL_FLOAT, &winZ);
@@ -181,29 +189,56 @@ glm::vec3 UnProject(float mouse_x,float mouse_y){
 
 }
 
+glm::vec3 UnProject(float mouse_x,float mouse_y, float winZ){
+	double modelview[16];
+	double projection[16];
+	int viewport[4];
+	float winX,winY;
+	double object_x = 0,object_y = 0,object_z = 0;     //3D坐标
+	glGetDoublev(GL_MODELVIEW_MATRIX, modelview);
+	glGetDoublev(GL_PROJECTION_MATRIX, projection);
+	glGetIntegerv(GL_VIEWPORT, viewport);
+
+	winX=(float)mouse_x;
+	winY=(float)viewport[3]-(float)mouse_y;
+	gluUnProject((GLdouble)winX,(GLdouble)winY,(GLdouble)winZ,modelview,projection,viewport,&object_x,&object_y,&object_z);
+	return glm::vec3(object_x, object_y, object_z);
+}
+
 
 void Mouse(int button, int state, int x, int y){ //处理鼠标点击
 	MOUSE_BUTTON = button;
 	if (state == GLUT_DOWN){ //第一次鼠标按下时,记录鼠标在窗口中的初始坐标  
 		CAM_OLDMX = x, CAM_OLDMY = y;
 		if (button == GLUT_LEFT_BUTTON){
-			glm::vec3 pos = UnProject(x,y);
-			double best = 10;
+			double modelview[16];
+			double projection[16];
+			int viewport[4];
+			glGetDoublev(GL_MODELVIEW_MATRIX, modelview);
+			glGetDoublev(GL_PROJECTION_MATRIX, projection);
+			glGetIntegerv(GL_VIEWPORT, viewport);
+
+			//glm::vec3 pos = UnProject(x,y);
+			double best = MIN_SELECTED_PIXEL * MIN_SELECTED_PIXEL;
+			double bestz = -1000;
 			if (!SELECTED_POINT){
 				for (objPoly &p : md.ps){
 					for (objPoint &v : p.points){
 						glm::vec3 c = v.getCoordinateVector();
-						double dx = c.x - pos.x;
-						double dy = c.y - pos.y;
-						double dz = c.z - pos.z;
-						double f = dx * dx + dy * dy + dz * dz;
-						if (f < best || !SELECTED_POINT){
+						double sx,sy,sz;
+						gluProject(c.x,c.y,c.z,modelview,projection,viewport,&sx,&sy,&sz);
+						double dx = sx - x;
+						double dy = sy - (viewport[3] - y);
+						double f = dx * dx + dy * dy;
+						if (f < best || ((f - best) < CROSS_PIXEL && sz > bestz)){
 							best = f;
+							bestz = sz;
 							SELECTED_POINT = &v;
 						}
 					}
 				}
 			}
+
 		}
 	}else{
 		SELECTED_POINT = 0;
@@ -229,8 +264,23 @@ void OnMouseMove(int x, int y){ //处理鼠标拖动
 		CAM_OLDMY = y;
 	}else if (MOUSE_BUTTON == GLUT_LEFT_BUTTON){
 		if (SELECTED_POINT){
-			glm::vec3 pos = UnProject(x,y);
-			SELECTED_POINT->coordinateVector = pos;
+			double modelview[16];
+			double projection[16];
+			int viewport[4];
+			glGetDoublev(GL_MODELVIEW_MATRIX, modelview);
+			glGetDoublev(GL_PROJECTION_MATRIX, projection);
+			glGetIntegerv(GL_VIEWPORT, viewport);
+
+			glm::vec3 &v = SELECTED_POINT->coordinateVector;
+			double sx,sy,sz;
+			gluProject(v.x,v.y,v.z,modelview,projection,viewport,&sx,&sy,&sz);
+			double object_x = 0,object_y = 0,object_z = 0;     //3D坐标
+
+			float winX=(float)x;
+			float winY=(float)viewport[3]-(float)y;
+			gluUnProject((GLdouble)winX,(GLdouble)winY,(GLdouble)sz,modelview,projection,viewport,&object_x,&object_y,&object_z);
+
+			SELECTED_POINT->coordinateVector = glm::vec3(object_x, object_y, object_z);//UnProject(x,y,sz);
 		}
 	}
 }
@@ -282,7 +332,7 @@ GLUT_Thread::GLUT_Thread(){
 void GLUT_Thread::run(){
 	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
 	glutInitWindowPosition(300, 100);
-	glutInitWindowSize(800, 800);
+	glutInitWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 	glutCreateWindow("3dviewer");
 
 	Init();

@@ -21,7 +21,6 @@ GLuint LoadTexture(const string filename){
 		internal_format = GL_BGRA_EXT;
 	}
 
-	cout << width << endl;
 	glTexImage2D(GL_TEXTURE_2D, 0, image_format, width, height,0, internal_format, GL_UNSIGNED_BYTE, buf);
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
