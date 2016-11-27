@@ -1,6 +1,8 @@
 #include "glut_thread.h"
 
-Model md = loadObj("model/wolverine_obj.obj");
+QSemaphore renderSem(1);
+
+vector<Model> models;
 GLuint TEX_ID;
 VIEW_MODE view_mode = TEX_MODE;
 
@@ -15,6 +17,8 @@ GLfloat CAM_OLDMY, CAM_OLDMX;									//鼠标按下的位置（x,y)
 GLfloat CAM_DELTAX, CAM_DELTAY;									//释放后，x和y移动分量
 
 objPoint *SELECTED_POINT = 0;
+objPoly *SELECTED_POLY = 0;
+Model *SELECTED_MODEL = 0;
 int MOUSE_BUTTON = 0;
 int WINDOW_HEIGHT = 800;
 int WINDOW_WIDTH = 800;
@@ -76,6 +80,7 @@ void DrawCube(){
 }
 
 void Display(){
+	renderSem.acquire();
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	//glEnable(GL_DEPTH_TEST);
 
@@ -99,23 +104,26 @@ void Display(){
 	
 	// 面模型
 	
-	switch (view_mode){
-		case TEX_MODE:
-			glBindTexture(GL_TEXTURE_2D, TEX_ID);
-		case FACE_MODE:
-			md.Draw();
-			break;
-		case LINE_MODE:
-			md.DrawLines();
-			break;
-		case POINT_MODE:
-			md.DrawPoints();
-			break;
-	};
+	for (Model &md : models){
+		switch (view_mode){
+			case TEX_MODE:
+				glBindTexture(GL_TEXTURE_2D, TEX_ID);
+			case FACE_MODE:
+				md.Draw();
+				break;
+			case LINE_MODE:
+				md.DrawLines();
+				break;
+			case POINT_MODE:
+				md.DrawPoints();
+				break;
+		};
+	}
 	glBindTexture(GL_TEXTURE_2D, 0);
 	//DrawCube();
 
 	glutSwapBuffers();
+	renderSem.release();
 }
 
 void Idle(){
@@ -148,6 +156,27 @@ void SpecialKeys(int key, int x, int y){
 	glutPostRedisplay();
 }
 
+void KeyDeleteDown(){
+	if (SELECTED_POINT){
+		renderSem.acquire();
+		glm::vec3 u = SELECTED_POINT->coordinateVector;
+		vector<objPoly> &t = SELECTED_MODEL->ps; // vec<多边形>
+		bool changed = false;
+		for (auto o = t.begin();o != t.end();++o){
+			auto &p = o->points;
+			for (auto v = p.begin();v != p.end();++v){
+				if (v->coordinateVector == u){
+					v = p.erase(v);
+					changed = true;
+					if (v == p.end())break;
+				}
+			}
+		}
+		if (changed)SELECTED_MODEL->Rebuild();
+		SELECTED_POINT = 0;
+		renderSem.release();
+	}
+}
 
 void Keyboard(unsigned char key, int x, int y){
 	switch (key) {
@@ -163,6 +192,9 @@ void Keyboard(unsigned char key, int x, int y){
 		CAM_TY = CAM_TY / 1.1;
 		CAM_TZ = CAM_TZ / 1.1;
 		glutPostRedisplay();
+		break;
+	case 127:
+		KeyDeleteDown();
 		break;
 	}
 }
@@ -222,18 +254,22 @@ void Mouse(int button, int state, int x, int y){ //处理鼠标点击
 			double best = MIN_SELECTED_PIXEL * MIN_SELECTED_PIXEL;
 			double bestz = -1000;
 			if (!SELECTED_POINT){
-				for (objPoly &p : md.ps){
-					for (objPoint &v : p.points){
-						glm::vec3 c = v.getCoordinateVector();
-						double sx,sy,sz;
-						gluProject(c.x,c.y,c.z,modelview,projection,viewport,&sx,&sy,&sz);
-						double dx = sx - x;
-						double dy = sy - (viewport[3] - y);
-						double f = dx * dx + dy * dy;
-						if (f < best || ((f - best) < CROSS_PIXEL && sz > bestz)){
-							best = f;
-							bestz = sz;
-							SELECTED_POINT = &v;
+				for (Model &md : models){
+					for (objPoly &p : md.ps){
+						for (objPoint &v : p.points){
+							glm::vec3 c = v.getCoordinateVector();
+							double sx,sy,sz;
+							gluProject(c.x,c.y,c.z,modelview,projection,viewport,&sx,&sy,&sz);
+							double dx = sx - x;
+							double dy = sy - (viewport[3] - y);
+							double f = dx * dx + dy * dy;
+							if (f < best || ((f - best) < CROSS_PIXEL && sz > bestz)){
+								best = f;
+								bestz = sz;
+								SELECTED_POINT = &v;
+								SELECTED_POLY = &p;
+								SELECTED_MODEL = &md;
+							}
 						}
 					}
 				}
@@ -280,7 +316,13 @@ void OnMouseMove(int x, int y){ //处理鼠标拖动
 			float winY=(float)viewport[3]-(float)y;
 			gluUnProject((GLdouble)winX,(GLdouble)winY,(GLdouble)sz,modelview,projection,viewport,&object_x,&object_y,&object_z);
 
-			SELECTED_POINT->coordinateVector = glm::vec3(object_x, object_y, object_z);//UnProject(x,y,sz);
+			for (objPoly &p : SELECTED_MODEL->ps){
+				for (objPoint &v : p.points){
+					if (v.coordinateVector == SELECTED_POINT->coordinateVector){
+						v.coordinateVector = glm::vec3(object_x, object_y, object_z);//UnProject(x,y,sz);
+					}
+				}
+			}
 		}
 	}
 }
@@ -292,6 +334,8 @@ void Init(){
 
 
 	TEX_ID = LoadTexture("model/s.png");
+	Model md = loadObj("model/wolverine_obj.obj");
+	models.push_back(md);
 
 	//打开2D贴图状态
 	glEnable(GL_TEXTURE_2D);

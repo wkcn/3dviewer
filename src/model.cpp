@@ -91,3 +91,36 @@ void Model::DrawObjPoint(const objPoint &p){
 	glm::vec3 cv = p.getCoordinateVector();
 	glVertex3f(cv.x, cv.y, cv.z);
 }
+
+void Model::Rebuild(){
+	vector<objPoly> triangles;
+	vector<objPoly> rects;
+	vector<objPoly> others;
+	for (objPoly &p:ps){
+		if (p.points.size() < 3)continue;
+		switch(p.points.size()){
+			case 3:
+				triangles.push_back(p);
+				break;
+			case 4:
+				rects.push_back(p);
+				break;
+			default:
+				others.push_back(p);
+		};
+	}
+	triangleNum = triangles.size();
+	rectNum = rects.size();
+	ps.resize(triangles.size() + rects.size() + others.size());
+	int k = 0;
+	for (objPoly &p : triangles){
+		ps[k++] = p;
+	}
+	for (objPoly &p : rects){
+		ps[k++] = p;
+	}
+	for (objPoly &p : others){
+		ps[k++] = p;
+	}
+
+}

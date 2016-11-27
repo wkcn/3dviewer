@@ -1,6 +1,7 @@
 #ifndef _GLUT_THREAD_H_
 #define _GLUT_THREAD_H_
 #include <QThread>
+#include <QSemaphore>
 #include <GL/glut.h>
 #include <GL/glu.h>
 #include <iostream>
