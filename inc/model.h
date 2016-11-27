@@ -19,8 +19,9 @@ class Model{
 		std::vector<objRect> rs;
 		*/
 		string name;
-		std::vector<objLine> ls;
-		std::vector<objPoly> ps;
+		//std::vector<objLine> ls;
+		std::vector<objPoly> ps; // 多边形集合
+		std::vector<glm::vec3> vs; // 顶点集合
 		int triangleNum;
 		int rectNum;
 	private:

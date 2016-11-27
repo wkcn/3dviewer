@@ -2,6 +2,7 @@
 
 objPoint::objPoint(){}
 
+/*
 objPoint::objPoint(const glm::vec3& _coordinateVector, const glm::vec2& _textureVector, const glm::vec3& _normalVector)
 	: coordinateVector(_coordinateVector), textureVector(_textureVector), normalVector(_normalVector),
 	hasTextureVector(true), hasNormalVector(true) {}
@@ -14,6 +15,21 @@ objPoint::objPoint(const glm::vec3&_coordinateVector, const glm::vec2&_textureVe
 objPoint::objPoint(const glm::vec3&_coordinateVector, const glm::vec3&_normalVector):
 	coordinateVector(_coordinateVector), textureVector(NULL), normalVector(_normalVector),
 	hasTextureVector(false), hasNormalVector(true) {}
+*/
+
+objPoint::objPoint(const int i, const glm::vec2& _textureVector, const glm::vec3& _normalVector)
+	: id(i), textureVector(_textureVector), normalVector(_normalVector),
+	hasTextureVector(true), hasNormalVector(true) {}
+objPoint::objPoint(const int i)
+	: id(i), textureVector(NULL), normalVector(NULL),
+	hasTextureVector(false), hasNormalVector(false) {}
+objPoint::objPoint(const int i, const glm::vec2&_textureVector)
+	: id(i), textureVector(_textureVector), normalVector(NULL),
+	hasTextureVector(true), hasNormalVector(false) {}
+objPoint::objPoint(const int i, const glm::vec3&_normalVector):
+	id(i), textureVector(NULL), normalVector(_normalVector),
+	hasTextureVector(false), hasNormalVector(true) {}
+
 bool objPoint::isTextureVector() const{
 	return hasTextureVector;
 }
@@ -22,9 +38,11 @@ bool objPoint::isNormalVector() const{
 	return hasNormalVector;
 }
 
+/*
 glm::vec3 objPoint::getCoordinateVector() const {
 	return coordinateVector;
 }
+*/
 
 glm::vec2 objPoint::getTextureVector() const {
 	return textureVector;

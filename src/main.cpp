@@ -167,13 +167,14 @@ void SpecialKeys(int key, int x, int y){
 
 void KeyDeleteDown(){
 	if (SELECTED_POINT){
-		glm::vec3 u = SELECTED_POINT->coordinateVector;
+		int id = SELECTED_POINT->id;
+		glm::vec3 u = SELECTED_MODEL->vs[SELECTED_POINT->id];
 		vector<objPoly> &t = SELECTED_MODEL->ps; // vec<多边形>
 		bool changed = false;
 		for (auto o = t.begin();o != t.end();++o){
 			auto &p = o->points;
 			for (auto v = p.begin();v != p.end();++v){
-				if (v->coordinateVector == u){
+				if (v->id == id){
 					v = p.erase(v);
 					changed = true;
 					if (v == p.end())break;
@@ -264,7 +265,7 @@ void Mouse(int button, int state, int x, int y){ //处理鼠标点击
 				for (Model &md : models){
 					for (objPoly &p : md.ps){
 						for (objPoint &v : p.points){
-							glm::vec3 c = v.getCoordinateVector();
+							glm::vec3 c = md.vs[v.id];
 							double sx,sy,sz;
 							gluProject(c.x,c.y,c.z,modelview,projection,viewport,&sx,&sy,&sz);
 							double dx = sx - x;
@@ -314,7 +315,7 @@ void OnMouseMove(int x, int y){ //处理鼠标拖动
 			glGetDoublev(GL_PROJECTION_MATRIX, projection);
 			glGetIntegerv(GL_VIEWPORT, viewport);
 
-			glm::vec3 &v = SELECTED_POINT->coordinateVector;
+			glm::vec3 &v = SELECTED_MODEL->vs[SELECTED_POINT->id];
 			double sx,sy,sz;
 			gluProject(v.x,v.y,v.z,modelview,projection,viewport,&sx,&sy,&sz);
 			double object_x = 0,object_y = 0,object_z = 0;     //3D坐标
@@ -323,13 +324,8 @@ void OnMouseMove(int x, int y){ //处理鼠标拖动
 			float winY=(float)viewport[3]-(float)y;
 			gluUnProject((GLdouble)winX,(GLdouble)winY,(GLdouble)sz,modelview,projection,viewport,&object_x,&object_y,&object_z);
 
-			for (objPoly &p : SELECTED_MODEL->ps){
-				for (objPoint &v : p.points){
-					if (v.coordinateVector == SELECTED_POINT->coordinateVector){
-						v.coordinateVector = glm::vec3(object_x, object_y, object_z);//UnProject(x,y,sz);
-					}
-				}
-			}
+			v = glm::vec3(object_x, object_y, object_z);
+
 		}
 	}
 }

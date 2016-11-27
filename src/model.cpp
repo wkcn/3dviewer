@@ -2,12 +2,14 @@
 
 void Model::Draw(){
 	glColor4ub(156, 156, 170, 255);
+	/*
 	glBegin(GL_LINES);
 	for (const objLine &t : ls){
 		for (int i = 0; i < 2;++i)
 			DrawObjPoint(t.points[i]);
 	}
 	glEnd();
+	*/
 
 	int k = 0;
 	int endk = triangleNum;
@@ -44,12 +46,14 @@ void Model::Draw(){
 void Model::DrawLines(){
 	glLineWidth(1);
 	glColor3ub(255, 0, 0);
+	/*
 	glBegin(GL_LINES);
 	for (const objLine &t : ls){
 		for (int i = 0; i < 2;++i)
 			DrawObjPoint(t.points[i]);
 	}
 	glEnd();
+	*/
 
 	for (const objPoly &t : ps){
 		glBegin(GL_LINE_LOOP);
@@ -64,10 +68,12 @@ void Model::DrawPoints(){
 	glPointSize(3);
 	glColor3ub(255, 0, 0);
 	glBegin(GL_POINTS);
+	/*
 	for (const objLine &t : ls){
 		for (int i = 0; i < 2;++i)
 			DrawObjPoint(t.points[i]);
 	}
+	*/
 
 	for (const objPoly &t : ps){
 		for (const objPoint &p : t.points){
@@ -88,7 +94,7 @@ void Model::DrawObjPoint(const objPoint &p){
 		glm::vec3 nv = p.getNormalVector();
 		glNormal3f(nv.x, nv.y, nv.z);
 	}
-	glm::vec3 cv = p.getCoordinateVector();
+	glm::vec3 cv = vs[p.id]; //p.getCoordinateVector();
 	glVertex3f(cv.x, cv.y, cv.z);
 }
 

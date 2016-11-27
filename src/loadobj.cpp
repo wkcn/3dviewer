@@ -25,13 +25,13 @@ objPoint GetVSTN(std::stringstream &file, std::vector<glm::vec3> &vs, std::vecto
 	sscanf(buf.c_str(), "%d", &t);
 	par[p++] = t;
 
-	glm::vec3 cv;
+	//glm::vec3 cv;
 	glm::vec2 tv;
 	glm::vec3 nv;
-	if (par[0])cv = vs[par[0] - 1];
+	//if (par[0])cv = vs[par[0] - 1];
 	if (par[1])tv = vt[par[1] - 1];
 	if (par[2])nv = vn[par[2] - 1];
-	return objPoint(cv,tv,nv);
+	return objPoint(par[0] - 1,tv,nv);
 }
 
 Model loadObj(std::string _filename) {
@@ -41,13 +41,13 @@ Model loadObj(std::string _filename) {
 		return Model();
 	}
 	std::string operatorCh;
-	std::vector<glm::vec3> vs;
+	Model md;
+	std::vector<glm::vec3> &vs = md.vs;
 	std::vector<glm::vec3> vn;
 	std::vector<glm::vec2> vt;
 	std::vector<objPoly> triangles;
 	std::vector<objPoly> rects;
 	std::vector<objPoly> others;
-	Model md;
 	double x, y, z;
 	double u, v;
 	while (!file.eof()) {
@@ -87,11 +87,13 @@ Model loadObj(std::string _filename) {
 				others.push_back(op);
 			}
 		}	
+		/*
 		if (operatorCh == "l"){
 			int a,b;
 			file >> a >> b;
 			md.ls.push_back(objLine(vs[a-1], vs[b-1]));
 		}
+		*/
 		if (operatorCh != "v" && operatorCh != "vn" && operatorCh != "vt" && operatorCh != "f")
 			std::getline(file, operatorCh);
 	}
