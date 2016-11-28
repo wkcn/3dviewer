@@ -1,8 +1,11 @@
-#include "inc/objshape.h"
+#include "objshape.h"
 
-// æ ‡å·0ä»£è¡¨ç©º
-objPoint::objPoint(int _id,int _tid,int _nid)
-	: id(_id), tid(_tid), nid(_nid){}
+// ±êºÅ0´ú±í¿Õ
+objPoint::objPoint(int _id, int _tid, int _nid){
+    id = _id;
+    tid = _tid;
+    nid = _nid;
+}
 
 bool objPoint::isTextureVector() const{
 	return tid;

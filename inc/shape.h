@@ -1,7 +1,12 @@
 #ifndef _SHAPE_H_
 #define _SHAPE_H_
-#include <GL/glut.h>
-#include <GL/glu.h>
+
+
+#include <Windows.h>
+#include <gl/glut.h>
+#include <gl/GLU.h>
+#include <gl/GL.h>
+
 #include <iostream>
 #include <string>
 #include "model.h"

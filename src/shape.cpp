@@ -1,7 +1,7 @@
-#include "inc/shape.h"
+#include "shape.h"
 #include <QImage>
 
-// æ³¨: è´´å›¾æœ‰å¯èƒ½åäº†
+// ×¢: ÌùÍ¼ÓĞ¿ÉÄÜ·´ÁË
 GLuint LoadTexture(const string filename){
 	GLuint id;
 	glGenTextures(1, &id);
@@ -96,7 +96,7 @@ Model GetCube(double x, double y, double z){
 	double hx = x / 2;
 	double hy = y / 2;
 	double hz = z / 2;
-	// ä»ä¸Šåˆ°ä¸‹, æŒ‰è±¡é™é¡ºåº
+	// ´ÓÉÏµ½ÏÂ, °´ÏóÏŞË³Ğò
 	md.vs.push_back(glm::vec3(hx,hy,hz));
 	md.vs.push_back(glm::vec3(-hx,hy,hz));
 	md.vs.push_back(glm::vec3(-hx,-hy,hz));
@@ -111,7 +111,7 @@ Model GetCube(double x, double y, double z){
 	md.vt.push_back(glm::vec2(1,0));
 	md.vt.push_back(glm::vec2(1,1));
 	md.vt.push_back(glm::vec2(0,1));
-	// é¢, ä¸Šä¸‹å·¦å³å‰å
+	// Ãæ, ÉÏÏÂ×óÓÒÇ°ºó
 	AddRect(md, 1,4,3,2);
 	AddRect(md, 5,6,7,8);
 

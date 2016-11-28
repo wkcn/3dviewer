@@ -1,4 +1,4 @@
-#include "inc/model.h"
+#include "model.h"
 
 void Model::Draw(){
 	glColor4ub(156, 156, 170, 255);
@@ -13,7 +13,7 @@ void Model::Draw(){
 
 	int k = 0;
 	int endk = triangleNum;
-	// ç»˜åˆ¶ä¸‰è§’å½¢
+	// »æÖÆÈý½ÇÐÎ
 	glBegin(GL_TRIANGLES);
 	for (;k < endk;++k){
 		objPoly &t = ps[k];
@@ -22,7 +22,7 @@ void Model::Draw(){
 	}
 	glEnd();
 	endk += rectNum;
-	// ç»˜åˆ¶å››è¾¹å½¢
+	// »æÖÆËÄ±ßÐÎ
 	glBegin(GL_QUADS);
 	for (;k < endk;++k){
 		objPoly &t = ps[k];

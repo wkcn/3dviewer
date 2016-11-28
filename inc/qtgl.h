@@ -1,12 +1,15 @@
 #ifndef QTGL_H
 #define QTGL_H
 
+#include <Windows.h>
+#include <gl/glut.h>
+#include <gl/GLU.h>
+#include <gl/GL.h>
 #include <QOpenGLWidget>
 #include <QMouseEvent>
 #include <QWheelEvent>
 #include <QKeyEvent>
 #include <QWidget>
-#include <GL/glu.h>
 #include <iostream>
 #include <vector>
 #include <string>
@@ -46,14 +49,14 @@ private:
 	GLuint TEX_ID;
 	VIEW_MODE view_mode = TEX_MODE;
 
-	GLfloat CAM_X;										//å›¾åƒå¹³ç§»åˆ†é‡
+	GLfloat CAM_X;										//Í¼ÏñÆ½ÒÆ·ÖÁ¿
 	GLfloat CAM_Z;
 	GLfloat CAM_Y;
-	GLfloat CAM_TX;										//è§†å›¾å¤§å°ï¼Œæ§åˆ¶ç¼©æ”¾
+	GLfloat CAM_TX;										//ÊÓÍ¼´óĞ¡£¬¿ØÖÆËõ·Å
 	GLfloat CAM_TY;
 	GLfloat CAM_TZ;
-	GLfloat CAM_OLDMY, CAM_OLDMX;									//é¼ æ ‡æŒ‰ä¸‹çš„ä½ç½®ï¼ˆx,y)
-	GLfloat CAM_DELTAX, CAM_DELTAY;									//é‡Šæ”¾åï¼Œxå’Œyç§»åŠ¨åˆ†é‡
+	GLfloat CAM_OLDMY, CAM_OLDMX;									//Êó±ê°´ÏÂµÄÎ»ÖÃ£¨x,y)
+    float CAM_DELTAX, CAM_DELTAY;									//ÊÍ·Åºó£¬xºÍyÒÆ¶¯·ÖÁ¿
 
 	objPoint *SELECTED_POINT;
 	objPoly *SELECTED_POLY;

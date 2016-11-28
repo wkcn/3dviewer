@@ -1,15 +1,17 @@
-#include "inc/qtgl.h"
+#include "qtgl.h"
 #include <iostream>
 using namespace std;
 
 QtGL::QtGL(QWidget *parent):QOpenGLWidget(parent){
 	view_mode = TEX_MODE;
-	CAM_X = 0.0f;										//ÂõæÂÉèÂπ≥ÁßªÂàÜÈáè
+	CAM_X = 0.0f;										//ÕºœÒ∆Ω“∆∑÷¡ø
 	CAM_Z = 0.0f;
 	CAM_Y = 0.0f;
-	CAM_TX = 1.0f;										//ËßÜÂõæÂ§ßÂ∞èÔºåÊéßÂà∂Áº©Êîæ
+	CAM_TX = 1.0f;										// ”Õº¥Û–°£¨øÿ÷∆Àı∑≈
 	CAM_TY = 1.0f;
 	CAM_TZ = 1.0f;
+    CAM_DELTAX = 0;
+    CAM_DELTAY = 0;
 
 	SELECTED_POINT = 0;
 	SELECTED_POLY = 0;
@@ -29,14 +31,14 @@ void QtGL::initializeGL(){
 	Model cu = GetCube(2,2,2);
 	models.push_back(cu);
 
-	//ÊâìÂºÄ2DË¥¥ÂõæÁä∂ÊÄÅ
+	//¥Úø™2DÃ˘Õº◊¥Ã¨
 	glEnable(GL_TEXTURE_2D);
-	//Ê∑∑Ëâ≤
+	//ªÏ…´
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glShadeModel(GL_SMOOTH);
 
-	//ÊäóÈîØÈΩø
+	//øπæ‚≥›
 	glEnable(GL_POINT_SMOOTH);
 	glHint(GL_POINT_SMOOTH_HINT, GL_NICEST);
 
@@ -48,7 +50,7 @@ void QtGL::initializeGL(){
 
 	glHint(GL_FOG_HINT, GL_NICEST);
 
-	// ÁéØÂ¢ÉÂÖâ
+	// ª∑æ≥π‚
 	GLfloat light_a[4] = {0.4,0.4,0.4,1.0};
 	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, light_a);
 	glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_FALSE);
@@ -67,13 +69,13 @@ void QtGL::paintGL(){
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	glRotatef(CAM_DELTAX, 0.0, 1.0, 0.0);					//xËΩ¥ÊóãËΩ¨
-	glRotatef(CAM_DELTAY, 1.0, 0.0, 0.0);					//yËΩ¥ÊóãËΩ¨
+	glRotatef(CAM_DELTAX, 0.0, 1.0, 0.0);					//x÷·–˝◊™
+	glRotatef(CAM_DELTAY, 1.0, 0.0, 0.0);					//y÷·–˝◊™
 	glTranslatef(CAM_X, CAM_Y, CAM_Z);
 	glScalef(CAM_TX, CAM_TY, CAM_TZ);
 
 
-	// Êõ¥Êñ∞Áü©Èòµ
+	// ∏¸–¬æÿ’Û
 	glGetDoublev(GL_MODELVIEW_MATRIX, modelview);
 	glGetDoublev(GL_PROJECTION_MATRIX, projection);
 	glGetIntegerv(GL_VIEWPORT, viewport);
@@ -86,10 +88,10 @@ void QtGL::paintGL(){
 	glTranslatef(1,0,1);
 	SetLight();
 	glPopMatrix();
-	// Á∫øÊ°ÜÊ®°Âûã
+	// œﬂøÚƒ£–Õ
 	//md.DrawLines();
 	
-	// Èù¢Ê®°Âûã
+	// √Êƒ£–Õ
 	
 	for (Model &md : models){
 		switch (view_mode){
@@ -133,9 +135,9 @@ void QtGL::SetLight(){
 	GLfloat light_specular[] = {l,l,l,l};
 	GLuint lid = GL_LIGHT0;
 	glLightfv(lid, GL_POSITION, light_position);
-	glLightfv(lid, GL_AMBIENT, light_ambient); // ÊúÄÁªàÂÖâÁ∫ø
-	glLightfv(lid, GL_DIFFUSE, light_diffuse); // Êº´ÂèçÂ∞Ñ
-	glLightfv(lid, GL_SPECULAR, light_specular); // ÈïúÈù¢ÂèçÂ∞Ñ
+	glLightfv(lid, GL_AMBIENT, light_ambient); // ◊Ó÷’π‚œﬂ
+	glLightfv(lid, GL_DIFFUSE, light_diffuse); // ¬˛∑¥…‰
+	glLightfv(lid, GL_SPECULAR, light_specular); // æµ√Ê∑¥…‰
 	glEnable(lid);
 	//glEnable(GL_LIGHTING);
 }
@@ -143,7 +145,7 @@ void QtGL::SetLight(){
 void QtGL::KeyDeleteDown(){
 	if (SELECTED_POINT){
 		int id = SELECTED_POINT->id;
-		vector<objPoly> &t = SELECTED_MODEL->ps; // vec<Â§öËæπÂΩ¢>
+		vector<objPoly> &t = SELECTED_MODEL->ps; // vec<∂‡±ﬂ–Œ>
 		bool changed = false;
 		for (auto o = t.begin();o != t.end();++o){
 			auto &p = o->points;
@@ -167,11 +169,9 @@ void QtGL::mousePressEvent(QMouseEvent *event){
 	int x = p.x();
 	int y = p.y();
 	MOUSE_BUTTON = event->button();
-	if (MOUSE_BUTTON == Qt::LeftButton || MOUSE_BUTTON == Qt::RightButton){
-		CAM_OLDMX = x; CAM_OLDMY = y; 
+    CAM_OLDMX = x; CAM_OLDMY = y;
+    if (MOUSE_BUTTON == Qt::LeftButton || MOUSE_BUTTON == Qt::RightButton){
 		if (MOUSE_BUTTON == Qt::LeftButton){
-
-
 			double best = MIN_SELECTED_PIXEL * MIN_SELECTED_PIXEL;
 			double bestz = -1000;
 			if (!SELECTED_POINT){
@@ -208,16 +208,16 @@ void QtGL::mouseMoveEvent(QMouseEvent *event){
 	int y = p.y();
 
 	if (MOUSE_BUTTON == Qt::RightButton){
-		CAM_DELTAX += 360 * (x - CAM_OLDMX) / 600;
-		CAM_DELTAY += 360 * (y - CAM_OLDMY) / 600;
-		CAM_OLDMX = x;
-		CAM_OLDMY = y;
-	}else if (MOUSE_BUTTON == Qt::LeftButton){
+        CAM_DELTAX += 360.0 * (x - CAM_OLDMX) / 600.0;
+        CAM_DELTAY += 360.0 * (y - CAM_OLDMY) / 600.0;
+        CAM_OLDMX = x;
+        CAM_OLDMY = y;
+    }else if (MOUSE_BUTTON == Qt::LeftButton){
 		if (SELECTED_POINT){
 			glm::vec3 &v = SELECTED_MODEL->GetVertex(SELECTED_POINT->id);
 			double sx,sy,sz;
 			gluProject(v.x,v.y,v.z,modelview,projection,viewport,&sx,&sy,&sz);
-			double object_x = 0,object_y = 0,object_z = 0;     //3DÂùêÊ†á
+			double object_x = 0,object_y = 0,object_z = 0;     //3D◊¯±Í
 
 			float winX=(float)x;
 			float winY=(float)viewport[3]-(float)y;

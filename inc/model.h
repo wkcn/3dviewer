@@ -1,8 +1,10 @@
 #ifndef _MODEL_H_
 #define _MODEL_H_
 
-#include <GL/glut.h>
-#include <GL/glu.h>
+#include <Windows.h>
+#include <gl/glut.h>
+#include <gl/GLU.h>
+#include <gl/GL.h>
 #include "objshape.h"
 #include <string>
 using namespace std;
@@ -18,10 +20,10 @@ class Model{
 		glm::vec2& GetVT(int id);
 	public:
 		string name;
-		std::vector<objPoly> ps; // å¤šè¾¹å½¢é›†åˆ
-		std::vector<glm::vec3> vs; // é¡¶ç‚¹é›†åˆ
-		std::vector<glm::vec3> vn; // æ³•çº¿é›†åˆ
-		std::vector<glm::vec2> vt; // è´´å›¾é¡¶ç‚¹é›†åˆ
+		std::vector<objPoly> ps; // ¶à±ßĞÎ¼¯ºÏ
+		std::vector<glm::vec3> vs; // ¶¥µã¼¯ºÏ
+		std::vector<glm::vec3> vn; // ·¨Ïß¼¯ºÏ
+		std::vector<glm::vec2> vt; // ÌùÍ¼¶¥µã¼¯ºÏ
 		int triangleNum;
 		int rectNum;
 	private:
