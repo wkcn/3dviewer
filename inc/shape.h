@@ -2,7 +2,6 @@
 #define _SHAPE_H_
 #include <GL/glut.h>
 #include <GL/glu.h>
-#include <FreeImage.h>
 #include <string>
 using namespace std;
 

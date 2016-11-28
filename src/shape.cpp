@@ -1,25 +1,22 @@
 #include "shape.h"
+#include <QImage>
 
 #include <iostream>
 using namespace std;
+
+// 注: 贴图有可能反了
 GLuint LoadTexture(const string filename){
 	GLuint id;
-	FREE_IMAGE_FORMAT fif = FreeImage_GetFileType(filename.c_str(), 0);
-	FIBITMAP *dib = FreeImage_Load(fif, filename.c_str());
-	BYTE *buf = FreeImage_GetBits(dib);
-	unsigned int width = FreeImage_GetWidth(dib);
-	unsigned int height = FreeImage_GetHeight(dib);
 	glGenTextures(1, &id);
 	glBindTexture(GL_TEXTURE_2D, id);
 
-	GLenum image_format = GL_RGB;		//format the image is in
-	GLint internal_format = GL_BGR_EXT;	//format to store the image in
+	QImage img(filename.c_str());
+	unsigned char * buf = img.bits();
+	unsigned int width = img.width();
+	unsigned int height = img.height();
 
-	int bpp = FreeImage_GetBPP(dib);
-	if (bpp == 32){
-		image_format = GL_RGBA;
-		internal_format = GL_BGRA_EXT;
-	}
+	GLenum image_format = GL_RGB;
+	GLint internal_format = GL_BGRA_EXT;
 
 	glTexImage2D(GL_TEXTURE_2D, 0, image_format, width, height,0, internal_format, GL_UNSIGNED_BYTE, buf);
 
@@ -53,21 +50,21 @@ void DrawAxis(){
     glPushMatrix();  
     glTranslatef(1.0f - height,0.0f,0.0f);  
     glRotatef(90.0f,0.0f,1.0f,0.0f);  
-    glutWireCone(base,height,slices,stacks);  
+    //glutWireCone(base,height,slices,stacks);  
     glPopMatrix();  
   
 	glColor3ub(0, 255, 0);
     glPushMatrix();  
     glTranslatef(0.0f,1.0f - height,0.0f);  
     glRotatef(-90.0f,1.0f,0.0f,0.0f);  
-    glutWireCone(base,height,slices,stacks);  
+    //glutWireCone(base,height,slices,stacks);  
     glPopMatrix();  
   
 	glColor3ub(0, 0, 255);
     glPushMatrix();  
     glTranslatef(0.0f,0.0f,1.0f - height);  
     glRotatef(90.0f,0.0f,0.0f,1.0f);  
-    glutWireCone(base,height,slices,stacks);  
+    //glutWireCone(base,height,slices,stacks);  
     glPopMatrix();  
 }	
 
