@@ -1,4 +1,4 @@
-#include "qtgl.h"
+#include "inc/qtgl.h"
 #include <iostream>
 using namespace std;
 
@@ -23,8 +23,8 @@ QtGL::QtGL(QWidget *parent):QOpenGLWidget(parent){
 
 void QtGL::initializeGL(){
 
-	TEX_ID = LoadTexture("model/s.png");
-	Model md = loadObj("model/wolverine_obj.obj");
+    TEX_ID = LoadTexture("s.png");
+    Model md = loadObj("wolverine_obj.obj");
 	models.push_back(md);
 	Model cu = GetCube(2,2,2);
 	models.push_back(cu);

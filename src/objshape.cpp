@@ -1,4 +1,4 @@
-#include "objshape.h"
+#include "inc/objshape.h"
 
 objPoint::objPoint(){}
 

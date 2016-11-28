@@ -1,4 +1,4 @@
-#include "loadobj.h"
+#include "inc/loadobj.h"
 
 objPoint GetVSTN(std::stringstream &file, std::vector<glm::vec3> &vs, std::vector<glm::vec2> &vt, std::vector<glm::vec3> &vn){
 	std::string s;

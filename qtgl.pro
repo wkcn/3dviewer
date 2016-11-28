@@ -7,15 +7,29 @@
 QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
-QMAKE_CXXFLAGS += -Wno-unused-parameter -std=c++11 -Iinc
+QMAKE_CXXFLAGS += -std=c++11 -Iinc
 QMAKE_LFLAGS += -lGLU
 
 TARGET = qtgl
 TEMPLATE = app
 
+HEADERS += \
+    inc/loadobj.h \
+    inc/mainwindow.h \
+    inc/model.h \
+    inc/objshape.h \
+    inc/qtgl.h \
+    inc/shape.h
 
-SOURCES += src/*.cpp
+SOURCES += \
+    src/loadobj.cpp \
+    src/main.cpp \
+    src/mainwindow.cpp \
+    src/model.cpp \
+    src/objshape.cpp \
+    src/qtgl.cpp \
+    src/shape.cpp
 
-HEADERS  += inc/*.h
-
-FORMS    += ui/mainwindow.ui
+FORMS += \
+    ui/mainwindow.ui \
+    ui/parbar.ui

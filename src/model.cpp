@@ -1,4 +1,4 @@
-#include "model.h"
+#include "inc/model.h"
 
 void Model::Draw(){
 	glColor4ub(156, 156, 170, 255);

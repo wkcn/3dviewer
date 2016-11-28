@@ -1,4 +1,4 @@
-#include "shape.h"
+#include "inc/shape.h"
 #include <QImage>
 
 // 注: 贴图有可能反了
