@@ -1,55 +1,15 @@
 #include "inc/objshape.h"
 
-objPoint::objPoint(){}
-
-/*
-objPoint::objPoint(const glm::vec3& _coordinateVector, const glm::vec2& _textureVector, const glm::vec3& _normalVector)
-	: coordinateVector(_coordinateVector), textureVector(_textureVector), normalVector(_normalVector),
-	hasTextureVector(true), hasNormalVector(true) {}
-objPoint::objPoint(const glm::vec3&_coordinateVector)
-	: coordinateVector(_coordinateVector), textureVector(NULL), normalVector(NULL),
-	hasTextureVector(false), hasNormalVector(false) {}
-objPoint::objPoint(const glm::vec3&_coordinateVector, const glm::vec2&_textureVector)
-	: coordinateVector(_coordinateVector), textureVector(_textureVector), normalVector(NULL),
-	hasTextureVector(true), hasNormalVector(false) {}
-objPoint::objPoint(const glm::vec3&_coordinateVector, const glm::vec3&_normalVector):
-	coordinateVector(_coordinateVector), textureVector(NULL), normalVector(_normalVector),
-	hasTextureVector(false), hasNormalVector(true) {}
-*/
-
-objPoint::objPoint(const int i, const glm::vec2& _textureVector, const glm::vec3& _normalVector)
-	: id(i), textureVector(_textureVector), normalVector(_normalVector),
-	hasTextureVector(true), hasNormalVector(true) {}
-objPoint::objPoint(const int i)
-	: id(i), textureVector(NULL), normalVector(NULL),
-	hasTextureVector(false), hasNormalVector(false) {}
-objPoint::objPoint(const int i, const glm::vec2&_textureVector)
-	: id(i), textureVector(_textureVector), normalVector(NULL),
-	hasTextureVector(true), hasNormalVector(false) {}
-objPoint::objPoint(const int i, const glm::vec3&_normalVector):
-	id(i), textureVector(NULL), normalVector(_normalVector),
-	hasTextureVector(false), hasNormalVector(true) {}
+// 标号0代表空
+objPoint::objPoint(int _id,int _tid,int _nid)
+	: id(_id), tid(_tid), nid(_nid){}
 
 bool objPoint::isTextureVector() const{
-	return hasTextureVector;
+	return tid;
 }
 
 bool objPoint::isNormalVector() const{
-	return hasNormalVector;
-}
-
-/*
-glm::vec3 objPoint::getCoordinateVector() const {
-	return coordinateVector;
-}
-*/
-
-glm::vec2 objPoint::getTextureVector() const {
-	return textureVector;
-}
-
-glm::vec3 objPoint::getNormalVector() const {
-	return normalVector;
+	return nid;
 }
 
 objTriangle::objTriangle(){}
@@ -76,3 +36,6 @@ objLine::objLine(const objPoint& _p1, const objPoint& _p2){
 	points[1] = _p2;
 }	
 
+void objPoly::add(const objPoint &o){
+	points.push_back(o);
+}

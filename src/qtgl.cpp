@@ -23,8 +23,8 @@ QtGL::QtGL(QWidget *parent):QOpenGLWidget(parent){
 
 void QtGL::initializeGL(){
 
-    TEX_ID = LoadTexture("s.png");
-    Model md = loadObj("wolverine_obj.obj");
+    TEX_ID = LoadTexture("model//s.png");
+    Model md = loadObj("model//wolverine_obj.obj");
 	models.push_back(md);
 	Model cu = GetCube(2,2,2);
 	models.push_back(cu);
@@ -143,7 +143,6 @@ void QtGL::SetLight(){
 void QtGL::KeyDeleteDown(){
 	if (SELECTED_POINT){
 		int id = SELECTED_POINT->id;
-		//glm::vec3 u = SELECTED_MODEL->vs[SELECTED_POINT->id];
 		vector<objPoly> &t = SELECTED_MODEL->ps; // vec<多边形>
 		bool changed = false;
 		for (auto o = t.begin();o != t.end();++o){
@@ -151,6 +150,7 @@ void QtGL::KeyDeleteDown(){
 			for (auto v = p.begin();v != p.end();++v){
 				if (v->id == id){
 					v = p.erase(v);
+					cout << "+" << p.size() << endl;
 					changed = true;
 					if (v == p.end())break;
 				}
@@ -178,7 +178,7 @@ void QtGL::mousePressEvent(QMouseEvent *event){
 				for (Model &md : models){
 					for (objPoly &p : md.ps){
 						for (objPoint &v : p.points){
-							glm::vec3 c = md.vs[v.id];
+							glm::vec3 c = md.GetVertex(v.id);
 							double sx,sy,sz;
 							gluProject(c.x,c.y,c.z,modelview,projection,viewport,&sx,&sy,&sz);
 							double dx = sx - x;
@@ -214,7 +214,7 @@ void QtGL::mouseMoveEvent(QMouseEvent *event){
 		CAM_OLDMY = y;
 	}else if (MOUSE_BUTTON == Qt::LeftButton){
 		if (SELECTED_POINT){
-			glm::vec3 &v = SELECTED_MODEL->vs[SELECTED_POINT->id];
+			glm::vec3 &v = SELECTED_MODEL->GetVertex(SELECTED_POINT->id);
 			double sx,sy,sz;
 			gluProject(v.x,v.y,v.z,modelview,projection,viewport,&sx,&sy,&sz);
 			double object_x = 0,object_y = 0,object_z = 0;     //3D坐标

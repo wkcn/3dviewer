@@ -84,10 +84,10 @@ void DrawGround(){
 
 void AddRect(Model &md, int a, int b,int c, int d){
 	objPoly p;
-	p.points.push_back(objPoint(a, glm::vec2(0,0)));
-	p.points.push_back(objPoint(b, glm::vec2(1,0)));
-	p.points.push_back(objPoint(c, glm::vec2(1,1)));
-	p.points.push_back(objPoint(d, glm::vec2(0,1)));
+	p.add(objPoint(a, 1));
+	p.add(objPoint(b, 2));
+	p.add(objPoint(c, 3));
+	p.add(objPoint(d, 4));
 	md.ps.push_back(p);
 }
 
@@ -106,15 +106,20 @@ Model GetCube(double x, double y, double z){
 	md.vs.push_back(glm::vec3(-hx,hy,-hz));
 	md.vs.push_back(glm::vec3(-hx,-hy,-hz));
 	md.vs.push_back(glm::vec3(hx,-hy,-hz));
+	//====
+	md.vt.push_back(glm::vec2(0,0));
+	md.vt.push_back(glm::vec2(1,0));
+	md.vt.push_back(glm::vec2(1,1));
+	md.vt.push_back(glm::vec2(0,1));
 	// 面, 上下左右前后
-	AddRect(md, 0,3,2,1);
-	AddRect(md, 4,5,6,7);
-
-	AddRect(md, 1,2,6,5);
-	AddRect(md, 3,0,4,7);
+	AddRect(md, 1,4,3,2);
+	AddRect(md, 5,6,7,8);
 
 	AddRect(md, 2,3,7,6);
-	AddRect(md, 0,1,5,4);
+	AddRect(md, 4,1,5,8);
+
+	AddRect(md, 3,4,8,7);
+	AddRect(md, 1,2,6,5);
 	md.Rebuild();
 	return md;
 }

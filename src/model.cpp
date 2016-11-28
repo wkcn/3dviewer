@@ -42,6 +42,9 @@ void Model::Draw(){
 
 }
 
+glm::vec3& Model::GetVertex(int id){return vs[id - 1];}
+glm::vec3& Model::GetVN(int id){return vn[id - 1];}
+glm::vec2& Model::GetVT(int id){return vt[id - 1];}
 
 void Model::DrawLines(){
 	glLineWidth(1);
@@ -87,14 +90,14 @@ void Model::DrawPoints(){
 void Model::DrawObjPoint(const objPoint &p){
 	//cout << cv.x << "-" << cv.y << "-" << cv.z << endl;
 	if (p.isTextureVector()){
-		glm::vec2 tv = p.getTextureVector();
+		glm::vec2 tv = GetVT(p.tid); 
 		glTexCoord2f(tv.x, tv.y);
 	}
 	if (p.isNormalVector()){
-		glm::vec3 nv = p.getNormalVector();
+		glm::vec3 nv = GetVN(p.nid); 
 		glNormal3f(nv.x, nv.y, nv.z);
 	}
-	glm::vec3 cv = vs[p.id]; //p.getCoordinateVector();
+	glm::vec3 cv = GetVertex(p.id); //p.getCoordinateVector();
 	glVertex3f(cv.x, cv.y, cv.z);
 }
 

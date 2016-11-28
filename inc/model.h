@@ -13,15 +13,15 @@ class Model{
 		void DrawLines();
 		void DrawPoints();
 		void Rebuild();
+		glm::vec3& GetVertex(int id);
+		glm::vec3& GetVN(int id);
+		glm::vec2& GetVT(int id);
 	public:
-		/*
-		std::vector<objTriangle> ts;
-		std::vector<objRect> rs;
-		*/
 		string name;
-		//std::vector<objLine> ls;
 		std::vector<objPoly> ps; // 多边形集合
 		std::vector<glm::vec3> vs; // 顶点集合
+		std::vector<glm::vec3> vn; // 法线集合
+		std::vector<glm::vec2> vt; // 贴图顶点集合
 		int triangleNum;
 		int rectNum;
 	private:

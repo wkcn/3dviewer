@@ -1,6 +1,6 @@
 #include "inc/loadobj.h"
 
-objPoint GetVSTN(std::stringstream &file, std::vector<glm::vec3> &vs, std::vector<glm::vec2> &vt, std::vector<glm::vec3> &vn){
+objPoint GetVSTN(std::stringstream &file){
 	std::string s;
 	file >> s;
 	int par[3] = {0,0,0};
@@ -25,13 +25,7 @@ objPoint GetVSTN(std::stringstream &file, std::vector<glm::vec3> &vs, std::vecto
 	sscanf(buf.c_str(), "%d", &t);
 	par[p++] = t;
 
-	//glm::vec3 cv;
-	glm::vec2 tv;
-	glm::vec3 nv;
-	//if (par[0])cv = vs[par[0] - 1];
-	if (par[1])tv = vt[par[1] - 1];
-	if (par[2])nv = vn[par[2] - 1];
-	return objPoint(par[0] - 1,tv,nv);
+	return objPoint(par[0],par[1],par[2]);
 }
 
 Model loadObj(std::string _filename) {
@@ -43,8 +37,8 @@ Model loadObj(std::string _filename) {
 	std::string operatorCh;
 	Model md;
 	std::vector<glm::vec3> &vs = md.vs;
-	std::vector<glm::vec3> vn;
-	std::vector<glm::vec2> vt;
+	std::vector<glm::vec3> &vn = md.vn;
+	std::vector<glm::vec2> &vt = md.vt;
 	std::vector<objPoly> triangles;
 	std::vector<objPoly> rects;
 	std::vector<objPoly> others;
@@ -73,7 +67,7 @@ Model loadObj(std::string _filename) {
 			ss << buf;
 			objPoly op;
 			while (!ss.eof()){
-				objPoint p = GetVSTN(ss, vs, vt, vn);
+				objPoint p = GetVSTN(ss);
 				op.points.push_back(p);
 			}
 			switch(op.points.size()){

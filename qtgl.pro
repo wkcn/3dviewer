@@ -13,23 +13,8 @@ QMAKE_LFLAGS += -lGLU
 TARGET = qtgl
 TEMPLATE = app
 
-HEADERS += \
-    inc/loadobj.h \
-    inc/mainwindow.h \
-    inc/model.h \
-    inc/objshape.h \
-    inc/qtgl.h \
-    inc/shape.h
+HEADERS += inc/*.h
 
-SOURCES += \
-    src/loadobj.cpp \
-    src/main.cpp \
-    src/mainwindow.cpp \
-    src/model.cpp \
-    src/objshape.cpp \
-    src/qtgl.cpp \
-    src/shape.cpp
+SOURCES += src/*.cpp
 
-FORMS += \
-    ui/mainwindow.ui \
-    ui/parbar.ui
+FORMS += ui/*.ui
