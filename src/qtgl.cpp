@@ -26,6 +26,8 @@ void QtGL::initializeGL(){
 	TEX_ID = LoadTexture("model/s.png");
 	Model md = loadObj("model/wolverine_obj.obj");
 	models.push_back(md);
+	Model cu = GetCube(2,2,2);
+	models.push_back(cu);
 
 	//打开2D贴图状态
 	glEnable(GL_TEXTURE_2D);
@@ -47,7 +49,7 @@ void QtGL::initializeGL(){
 	glHint(GL_FOG_HINT, GL_NICEST);
 
 	// 环境光
-	GLfloat light_a[4] = {0.2,0.2,0.2,1.0};
+	GLfloat light_a[4] = {0.4,0.4,0.4,1.0};
 	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, light_a);
 	glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_FALSE);
     //glLightModeli(GL_LIGHT_MODEL_COLOR_CONTROL, GL_SEPARATE_SPECULAR_COLOR);
@@ -81,7 +83,7 @@ void QtGL::paintGL(){
 
 
 	glPushMatrix();
-	glTranslatef(30,0,20);
+	glTranslatef(1,0,1);
 	SetLight();
 	glPopMatrix();
 	// 线框模型
@@ -124,7 +126,7 @@ void QtGL::resizeGL(int w, int h){
 
 void QtGL::SetLight(){
 	const GLfloat am = 0.0f;
-	const GLfloat l = 0.01f;
+	const GLfloat l = 0.5f;
 	GLfloat light_position[] = {0,0,-1,0.0f};
 	GLfloat light_ambient[] = {am, am, am, 1.0f};
 	GLfloat light_diffuse[] = {l,l,l,l};

@@ -27,7 +27,7 @@ public:
 	*/
 	objPoint(const int, const glm::vec2&, const glm::vec3&);
 	objPoint(const int);
-	objPoint(const int, const glm::vec2&);
+	objPoint(const int,const glm::vec2&);
 	objPoint(const int, const glm::vec3&);
 	// Return whether the point has texture vector information or not
 	bool isTextureVector() const;
