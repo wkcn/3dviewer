@@ -1,5 +1,5 @@
-﻿
-#include "qtgl.h"
+﻿#include "qtgl.h"
+#include <cfloat>
 #include <iostream>
 using namespace std;
 
@@ -178,7 +178,7 @@ void QtGL::mousePressEvent(QMouseEvent *event){
     if (MOUSE_BUTTON == Qt::LeftButton || MOUSE_BUTTON == Qt::RightButton){
 		if (MOUSE_BUTTON == Qt::LeftButton){
 			double best = MIN_SELECTED_PIXEL * MIN_SELECTED_PIXEL;
-			double bestz = -1000;
+			double bestz = DBL_MAX;
 			if (!SELECTED_POINT){
 				for (Model &md : models){
 					for (objPoly &p : md.ps){
@@ -189,7 +189,8 @@ void QtGL::mousePressEvent(QMouseEvent *event){
 							double dx = sx - x;
 							double dy = sy - (viewport[3] - y);
 							double f = dx * dx + dy * dy;
-							if (f < best || ((f - best) < CROSS_PIXEL && sz > bestz)){
+							// 越靠近屏幕z越小?
+							if (f < best ||( ((f - best) < CROSS_PIXEL && sz < bestz))){
 								best = f;
 								bestz = sz;
 								SELECTED_POINT = &v;

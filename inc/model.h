@@ -1,10 +1,12 @@
 ﻿#ifndef _MODEL_H_
 #define _MODEL_H_
 
+#ifdef Q_OS_WIN32
 #include <Windows.h>
-#include <gl/glut.h>
-#include <gl/GLU.h>
-#include <gl/GL.h>
+#include <GL/glut.h>
+#endif
+#include <GL/glu.h>
+#include <GL/gl.h>
 #include "objshape.h"
 #include <string>
 using namespace std;

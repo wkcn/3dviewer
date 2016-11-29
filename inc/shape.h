@@ -2,10 +2,12 @@
 #define _SHAPE_H_
 
 
+#ifdef Q_OS_WIN32
 #include <Windows.h>
-#include <gl/glut.h>
-#include <gl/GLU.h>
-#include <gl/GL.h>
+#endif
+#include <GL/glut.h>
+#include <GL/glu.h>
+#include <GL/gl.h>
 
 #include <iostream>
 #include <string>

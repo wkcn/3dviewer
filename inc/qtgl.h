@@ -1,10 +1,12 @@
 ﻿#ifndef QTGL_H
 #define QTGL_H
 
+#ifdef Q_OS_WIN32
 #include <Windows.h>
-#include <gl/glut.h>
-#include <gl/GLU.h>
-#include <gl/GL.h>
+#include <GL/glut.h>
+#endif
+#include <GL/glu.h>
+#include <GL/gl.h>
 #include <QOpenGLWidget>
 #include <QMouseEvent>
 #include <QWheelEvent>

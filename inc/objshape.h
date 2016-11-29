@@ -1,8 +1,8 @@
 ﻿#ifndef _OBJ_SHAPE_H_
 #define _OBJ_SHAPE_H_
 
-#include <glm\vec2.hpp>
-#include <glm\vec3.hpp>
+#include <glm/vec2.hpp>
+#include <glm/vec3.hpp>
 #include <vector>
 
 class objPoint {
