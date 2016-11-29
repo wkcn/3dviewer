@@ -2,7 +2,7 @@
 #define _SHAPE_H_
 
 
-#ifdef Q_OS_WIN32
+#ifndef OS_LINUX
 #include <Windows.h>
 #endif
 #include <GL/glut.h>
@@ -11,13 +11,17 @@
 
 #include <iostream>
 #include <string>
+#include <cmath>
 #include "model.h"
 using namespace std;
 
 
+const double PI = acos(-1);
 GLuint LoadTexture(const string filename);
 void DrawAxis();
 void DrawGround();
 Model GetCube(double x, double y, double z);
+Model GetCone(double r, double h, int n);
+Model GetBall(double r, int cn, int hn);
 
 #endif

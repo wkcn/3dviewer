@@ -1,5 +1,9 @@
 ﻿#include "model.h"
 
+Model::Model(){
+	name = "undefined";
+}	
+
 void Model::Draw(){
 	glColor4ub(156, 156, 170, 255);
 	/*

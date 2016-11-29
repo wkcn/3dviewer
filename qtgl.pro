@@ -13,6 +13,7 @@ TARGET = qtgl
 TEMPLATE = app
 
 unix{
+QMAKE_CXXFLAGS += -DOS_LINUX
 QMAKE_LFLAGS += -lGLU
 HEADERS += inc/*.h
 
@@ -45,7 +46,3 @@ SOURCES += \
 FORMS += \
     ui/mainwindow.ui
 }
-
-HEADERS +=
-
-SOURCES +=

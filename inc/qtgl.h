@@ -1,10 +1,10 @@
 ﻿#ifndef QTGL_H
 #define QTGL_H
 
-#ifdef Q_OS_WIN32
+#ifndef OS_LINUX
 #include <Windows.h>
-#include <GL/glut.h>
 #endif
+#include <GL/glut.h>
 #include <GL/glu.h>
 #include <GL/gl.h>
 #include <QOpenGLWidget>
@@ -39,6 +39,8 @@ public:
 	void mouseReleaseEvent(QMouseEvent *event) override;
 	void wheelEvent(QWheelEvent *event) override;
 	void keyPressEvent(QKeyEvent *event) override;
+public:
+	void SetViewMode(VIEW_MODE i);
 private:
 	void SetLight();
 	void KeyDeleteDown();
@@ -46,8 +48,9 @@ private:
 	double modelview[16];
 	double projection[16];
 	int viewport[4];
-private:
+public:
 	vector<Model> models;
+private:
 	GLuint TEX_ID;
 	VIEW_MODE view_mode = TEX_MODE;
 

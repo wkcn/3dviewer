@@ -2,7 +2,9 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QDesktopWidget>
 #include "qtgl.h"
+#include "parbar.h"
 
 namespace Ui {
 class MainWindow;
@@ -23,6 +25,7 @@ protected:
     void keyPressEvent(QKeyEvent *event) override;
 private:
     Ui::MainWindow *ui;
+	ParBar *bar;
     QtGL *gl;
 };
 

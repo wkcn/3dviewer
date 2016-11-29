@@ -1,5 +1,4 @@
-﻿
-#include "shape.h"
+﻿#include "shape.h"
 #include <QImage>
 
 // 注: 贴图有可能反了
@@ -98,15 +97,15 @@ Model GetCube(double x, double y, double z){
 	double hy = y / 2;
 	double hz = z / 2;
 	// 从上到下, 按象限顺序
-	md.vs.push_back(glm::vec3(hx,hy,hz));
-	md.vs.push_back(glm::vec3(-hx,hy,hz));
-	md.vs.push_back(glm::vec3(-hx,-hy,hz));
-	md.vs.push_back(glm::vec3(hx,-hy,hz));
+	md.vs.push_back(glm::vec3(hx,hy,z));
+	md.vs.push_back(glm::vec3(-hx,hy,z));
+	md.vs.push_back(glm::vec3(-hx,-hy,z));
+	md.vs.push_back(glm::vec3(hx,-hy,z));
 	//----
-	md.vs.push_back(glm::vec3(hx,hy,-hz));
-	md.vs.push_back(glm::vec3(-hx,hy,-hz));
-	md.vs.push_back(glm::vec3(-hx,-hy,-hz));
-	md.vs.push_back(glm::vec3(hx,-hy,-hz));
+	md.vs.push_back(glm::vec3(hx,hy,0));
+	md.vs.push_back(glm::vec3(-hx,hy,0));
+	md.vs.push_back(glm::vec3(-hx,-hy,0));
+	md.vs.push_back(glm::vec3(hx,-hy,0));
 	//====
 	md.vt.push_back(glm::vec2(0,0));
 	md.vt.push_back(glm::vec2(1,0));
@@ -123,4 +122,47 @@ Model GetCube(double x, double y, double z){
 	AddRect(md, 1,2,6,5);
 	md.Rebuild();
 	return md;
+}
+
+Model GetCone(double r, double h, int n){
+	Model md;
+	double a = 2 * PI / n; 
+	objPoly circle;
+	for (int i = 0;i < n;++i){
+		double e = a * i;
+		md.vs.push_back(glm::vec3(r * cos(e), r * sin(e), 0));
+		circle.points.push_back(objPoint(i));
+	}
+	md.ps.push_back(circle);
+
+	md.vs.push_back(glm::vec3(0,0,h));
+	// 侧面
+	for (int i = 0;i < n - 1;++i){
+		objPoly t;
+		t.points.push_back(objPoint(i + 1));
+		t.points.push_back(objPoint(i + 2));
+		t.points.push_back(objPoint(n+1));
+		md.ps.push_back(t);
+	}
+	objPoly t;
+	t.points.push_back(objPoint(n));
+	t.points.push_back(objPoint(1));
+	t.points.push_back(objPoint(n+1));
+	md.ps.push_back(t);
+	md.Rebuild();
+	return md;
+}
+
+Model GetBall(double r, int cn, int hn){
+	Model md;
+	double hd = 2 * r / hn;
+	double a = 2 * PI / cn;
+	for (double h = -r; h <= r;h += hd){
+		for (int i = 0;i < cn;++i){
+			double e = a * i;
+			double w = r - abs(h);
+			double q = sqrt(r * r - w * w);
+			md.vs.push_back(glm::vec3(q * cos(e), q * sin(e), h));
+		}
+	}
 }

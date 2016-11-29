@@ -170,7 +170,7 @@ void QtGL::KeyDeleteDown(){
 }
 
 void QtGL::mousePressEvent(QMouseEvent *event){
-    QPoint p = event->pos() - this->pos();
+    QPoint p = event->pos();
     int x = p.x();
 	int y = p.y();
 	MOUSE_BUTTON = event->button();
@@ -209,7 +209,7 @@ void QtGL::mousePressEvent(QMouseEvent *event){
 }
 
 void QtGL::mouseMoveEvent(QMouseEvent *event){
-    QPoint p = event->pos() - this->pos();
+    QPoint p = event->pos();
 	int x = p.x();
 	int y = p.y();
 
@@ -257,6 +257,7 @@ void QtGL::wheelEvent(QWheelEvent *event){
 }
 
 void QtGL::keyPressEvent(QKeyEvent *event){
+	cout << int(event->key()) << endl;
 	switch (event->key()) {
 	case Qt::Key_Plus:
 	case Qt::Key_Equal:
@@ -286,4 +287,9 @@ void QtGL::keyPressEvent(QKeyEvent *event){
 	//event->accept();
 	QWidget::keyPressEvent(event);
 
+}
+
+void QtGL::SetViewMode(VIEW_MODE i){
+	view_mode = i;
+	update();
 }
