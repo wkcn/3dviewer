@@ -95,7 +95,7 @@ Model GetCube(double x, double y, double z){
 	Model md;
 	double hx = x / 2;
 	double hy = y / 2;
-	double hz = z / 2;
+	//double hz = z / 2;
 	// 从上到下, 按象限顺序
 	md.vs.push_back(glm::vec3(hx,hy,z));
 	md.vs.push_back(glm::vec3(-hx,hy,z));
@@ -157,7 +157,8 @@ Model GetBall(double r, int cn, int hn){
 	Model md;
 	double hd = 2 * r / hn;
 	double a = 2 * PI / cn;
-	for (double h = -r; h <= r;h += hd){
+	for (int k = 0;k < hn;++k){
+		double h = -r + hd * k;
 		for (int i = 0;i < cn;++i){
 			double e = a * i;
 			double w = r - abs(h);
@@ -165,4 +166,11 @@ Model GetBall(double r, int cn, int hn){
 			md.vs.push_back(glm::vec3(q * cos(e), q * sin(e), h));
 		}
 	}
+	for (int k = 1;k < hn - 1;++k){
+		objPoly p;
+		for (int i = 0; i < cn - 1;++i){
+			//p.points,push_back(objPoint())
+		}
+	}
+	return md;
 }
