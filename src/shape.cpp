@@ -153,24 +153,82 @@ Model GetCone(double r, double h, int n){
 	return md;
 }
 
+Model GetLoudou(double r, int cn, int hn){
+	Model md;
+	double hd = 2 * r / hn;
+	double a = 2 * PI / cn;
+	for (int k = 0;k < hn;++k){
+		double h = -r + hd * k;
+		double w = r - abs(h);
+		double q = sqrt(r * r - w * w);
+		for (int i = 0;i < cn;++i){
+			double e = a * i;
+			md.vs.push_back(glm::vec3(q * cos(e), q * sin(e), h));
+		}
+	}
+	for (int k = 1;k < hn;++k){
+		for (int i = 0; i < cn - 1;++i){
+			objPoly p;
+			p.points.push_back(objPoint(k * cn + i + 1));
+			p.points.push_back(objPoint(k * cn + i + 2));
+			p.points.push_back(objPoint((k-1) * cn + i + 2));
+			p.points.push_back(objPoint((k-1) * cn + i + 1));
+			md.ps.push_back(p);
+		}
+		objPoly p;
+		p.points.push_back(objPoint(k * cn + cn - 1 + 1));
+		p.points.push_back(objPoint(k * cn + cn - 1 + 2));
+		p.points.push_back(objPoint((k-1) * cn + 0 + 2));
+		p.points.push_back(objPoint((k-1) * cn + 0 + 1));
+		md.ps.push_back(p);
+	}
+	objPoly p, p2;
+	for (int i = 0;i < cn;++i){
+		p.points.push_back(objPoint(i + 1));
+		p2.points.push_back(objPoint((hn - 1) * cn + i + 1));
+	}
+	md.ps.push_back(p);
+	md.ps.push_back(p2);
+	md.Rebuild();
+	return md;
+}
+
 Model GetBall(double r, int cn, int hn){
 	Model md;
 	double hd = 2 * r / hn;
 	double a = 2 * PI / cn;
 	for (int k = 0;k < hn;++k){
 		double h = -r + hd * k;
+		double w = abs(h);
+		double q = sqrt(r * r - w * w);
 		for (int i = 0;i < cn;++i){
 			double e = a * i;
-			double w = r - abs(h);
-			double q = sqrt(r * r - w * w);
 			md.vs.push_back(glm::vec3(q * cos(e), q * sin(e), h));
 		}
 	}
-	for (int k = 1;k < hn - 1;++k){
-		objPoly p;
+	for (int k = 1;k < hn;++k){
 		for (int i = 0; i < cn - 1;++i){
-			//p.points,push_back(objPoint())
+			objPoly p;
+			p.points.push_back(objPoint(k * cn + i + 1));
+			p.points.push_back(objPoint(k * cn + i + 2));
+			p.points.push_back(objPoint((k-1) * cn + i + 2));
+			p.points.push_back(objPoint((k-1) * cn + i + 1));
+			md.ps.push_back(p);
 		}
+		objPoly p;
+		p.points.push_back(objPoint(k * cn + cn - 1 + 1));
+		p.points.push_back(objPoint(k * cn + cn - 1 + 2));
+		p.points.push_back(objPoint((k-1) * cn + 0 + 2));
+		p.points.push_back(objPoint((k-1) * cn + 0 + 1));
+		md.ps.push_back(p);
 	}
+	objPoly p, p2;
+	for (int i = 0;i < cn;++i){
+		p.points.push_back(objPoint(i + 1));
+		p2.points.push_back(objPoint((hn - 1) * cn + i + 1));
+	}
+	md.ps.push_back(p);
+	md.ps.push_back(p2);
+	md.Rebuild();
 	return md;
 }

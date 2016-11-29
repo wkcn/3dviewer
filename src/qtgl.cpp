@@ -33,7 +33,8 @@ void QtGL::initializeGL(){
     TEX_ID = LoadTexture("model//s.png");
     Model md = loadObj("model//wolverine_obj.obj");
 	models.push_back(md);
-	Model cu = GetCube(2,2,2);
+	//Model cu = GetCube(2,2,2);
+	Model cu = GetBall(1, 100, 100);
 	models.push_back(cu);
 
 	//打开2D贴图状态
