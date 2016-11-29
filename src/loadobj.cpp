@@ -1,3 +1,4 @@
+﻿
 #include "loadobj.h"
 
 objPoint GetVSTN(std::stringstream &file){

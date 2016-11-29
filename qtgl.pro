@@ -44,5 +44,8 @@ SOURCES += \
 
 FORMS += \
     ui/mainwindow.ui
-    ui/parbar.ui
 }
+
+HEADERS +=
+
+SOURCES +=

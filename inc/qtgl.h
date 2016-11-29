@@ -1,4 +1,4 @@
-#ifndef QTGL_H
+ï»¿#ifndef QTGL_H
 #define QTGL_H
 
 #include <Windows.h>
@@ -31,7 +31,7 @@ public:
     void initializeGL();
     void resizeGL(int w, int h);
     void paintGL();
-protected:
+public:
 	void mousePressEvent(QMouseEvent *event) override;
 	void mouseMoveEvent(QMouseEvent *event) override;
 	void mouseReleaseEvent(QMouseEvent *event) override;
@@ -49,14 +49,14 @@ private:
 	GLuint TEX_ID;
 	VIEW_MODE view_mode = TEX_MODE;
 
-	GLfloat CAM_X;										//Í¼ÏñÆ½ÒÆ·ÖÁ¿
+	GLfloat CAM_X;										//å›¾åƒå¹³ç§»åˆ†é‡
 	GLfloat CAM_Z;
 	GLfloat CAM_Y;
-	GLfloat CAM_TX;										//ÊÓÍ¼´óĞ¡£¬¿ØÖÆËõ·Å
+	GLfloat CAM_TX;										//è§†å›¾å¤§å°ï¼Œæ§åˆ¶ç¼©æ”¾
 	GLfloat CAM_TY;
 	GLfloat CAM_TZ;
-	GLfloat CAM_OLDMY, CAM_OLDMX;									//Êó±ê°´ÏÂµÄÎ»ÖÃ£¨x,y)
-    float CAM_DELTAX, CAM_DELTAY;									//ÊÍ·Åºó£¬xºÍyÒÆ¶¯·ÖÁ¿
+	GLfloat CAM_OLDMY, CAM_OLDMX;									//é¼ æ ‡æŒ‰ä¸‹çš„ä½ç½®ï¼ˆx,y)
+    float CAM_DELTAX, CAM_DELTAY;									//é‡Šæ”¾åï¼Œxå’Œyç§»åŠ¨åˆ†é‡
 
 	objPoint *SELECTED_POINT;
 	objPoly *SELECTED_POLY;

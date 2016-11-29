@@ -6,32 +6,361 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>836</height>
+    <width>1100</width>
+    <height>800</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>3DViewer</string>
   </property>
-  <widget class="QWidget" name="centralWidget"/>
-  <widget class="QMenuBar" name="menuBar">
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QTabWidget" name="tabWidget">
+    <property name="geometry">
+     <rect>
+      <x>809</x>
+      <y>220</y>
+      <width>278</width>
+      <height>551</height>
+     </rect>
+    </property>
+    <property name="currentIndex">
+     <number>0</number>
+    </property>
+    <widget class="QWidget" name="tab">
+     <attribute name="title">
+      <string>模型</string>
+     </attribute>
+     <widget class="QListWidget" name="listWidgetM">
+      <property name="geometry">
+       <rect>
+        <x>9</x>
+        <y>9</y>
+        <width>256</width>
+        <height>301</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btnDel">
+      <property name="geometry">
+       <rect>
+        <x>150</x>
+        <y>430</y>
+        <width>104</width>
+        <height>32</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>删除(&amp;D)</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btnAdd">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>430</y>
+        <width>104</width>
+        <height>32</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>添加(&amp;A)</string>
+      </property>
+     </widget>
+     <widget class="QRadioButton" name="hided">
+      <property name="geometry">
+       <rect>
+        <x>150</x>
+        <y>360</y>
+        <width>127</width>
+        <height>28</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>显示模型</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit">
+      <property name="geometry">
+       <rect>
+        <x>102</x>
+        <y>320</y>
+        <width>151</width>
+        <height>28</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_10">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>320</y>
+        <width>83</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>名称：</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tab_2">
+     <attribute name="title">
+      <string>形状</string>
+     </attribute>
+     <widget class="QWidget" name="layoutWidget">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>70</y>
+        <width>231</width>
+        <height>101</height>
+       </rect>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_3">
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_5">
+         <property name="text">
+          <string>dx:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLineEdit" name="lineEditDX"/>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_6">
+         <property name="text">
+          <string>dy:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QLineEdit" name="lineEditDY"/>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="label_7">
+         <property name="text">
+          <string>dz:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QLineEdit" name="lineEditDZ"/>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QPushButton" name="btnAddShape">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>190</y>
+        <width>104</width>
+        <height>32</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>添加(&amp;A)</string>
+      </property>
+     </widget>
+     <widget class="QWidget" name="layoutWidget">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>20</y>
+        <width>211</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <item>
+        <widget class="QLabel" name="shapeLabel">
+         <property name="text">
+          <string>形状：</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="comboBoxShape"/>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tab_3">
+     <attribute name="title">
+      <string>光照</string>
+     </attribute>
+     <widget class="QPushButton" name="btnSetLight">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>60</y>
+        <width>104</width>
+        <height>32</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>PushButton</string>
+      </property>
+     </widget>
+     <widget class="QWidget" name="layoutWidget">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>20</y>
+        <width>144</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_7">
+       <item>
+        <widget class="QLabel" name="label_9">
+         <property name="text">
+          <string>参数:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="comboBoxLight"/>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="layoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>819</x>
+      <y>60</y>
+      <width>189</width>
+      <height>140</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_3">
+       <item>
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>X:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="lineEditX"/>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_4">
+       <item>
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string>Y:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="lineEditY"/>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_5">
+       <item>
+        <widget class="QLabel" name="label_4">
+         <property name="text">
+          <string>Z:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="lineEditZ"/>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_6">
+       <item>
+        <widget class="QLabel" name="label_8">
+         <property name="text">
+          <string>W:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="lineEditZ_2"/>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QComboBox" name="comboBox">
+    <property name="geometry">
+     <rect>
+      <x>909</x>
+      <y>21</y>
+      <width>121</width>
+      <height>28</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>820</x>
+      <y>21</y>
+      <width>78</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>显示模式:</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
-     <height>32</height>
+     <width>1100</width>
+     <height>23</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menu_F">
+   <widget class="QMenu" name="menu_S">
+    <property name="geometry">
+     <rect>
+      <x>449</x>
+      <y>104</y>
+      <width>120</width>
+      <height>72</height>
+     </rect>
+    </property>
     <property name="title">
      <string>文件(&amp;F)</string>
     </property>
+    <addaction name="action_O"/>
    </widget>
-   <addaction name="menu_F"/>
+   <widget class="QMenu" name="menu_P">
+    <property name="title">
+     <string>参数(&amp;P)</string>
+    </property>
+   </widget>
+   <addaction name="menu_S"/>
+   <addaction name="menu_P"/>
   </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="action_O">
+   <property name="text">
+    <string>打开(&amp;O)...</string>
+   </property>
+  </action>
+  <action name="action_L">
+   <property name="text">
+    <string>光照(&amp;L)</string>
+   </property>
+  </action>
  </widget>
- <layoutdefault spacing="6" margin="11"/>
  <resources/>
  <connections/>
 </ui>

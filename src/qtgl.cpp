@@ -1,13 +1,18 @@
+Ôªø
 #include "qtgl.h"
 #include <iostream>
 using namespace std;
 
 QtGL::QtGL(QWidget *parent):QOpenGLWidget(parent){
+    QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    setSizePolicy(sizePolicy);
+    setMinimumSize(QSize(800, 800));
+    setMaximumSize(QSize(800, 800));
 	view_mode = TEX_MODE;
-	CAM_X = 0.0f;										//ÕºœÒ∆Ω“∆∑÷¡ø
+	CAM_X = 0.0f;										//ÂõæÂÉèÂπ≥ÁßªÂàÜÈáè
 	CAM_Z = 0.0f;
 	CAM_Y = 0.0f;
-	CAM_TX = 1.0f;										// ”Õº¥Û–°£¨øÿ÷∆Àı∑≈
+	CAM_TX = 1.0f;										//ËßÜÂõæÂ§ßÂ∞èÔºåÊéßÂà∂Áº©Êîæ
 	CAM_TY = 1.0f;
 	CAM_TZ = 1.0f;
     CAM_DELTAX = 0;
@@ -31,14 +36,14 @@ void QtGL::initializeGL(){
 	Model cu = GetCube(2,2,2);
 	models.push_back(cu);
 
-	//¥Úø™2DÃ˘Õº◊¥Ã¨
+	//ÊâìÂºÄ2DË¥¥ÂõæÁä∂ÊÄÅ
 	glEnable(GL_TEXTURE_2D);
-	//ªÏ…´
+	//Ê∑∑Ëâ≤
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glShadeModel(GL_SMOOTH);
 
-	//øπæ‚≥›
+	//ÊäóÈîØÈΩø
 	glEnable(GL_POINT_SMOOTH);
 	glHint(GL_POINT_SMOOTH_HINT, GL_NICEST);
 
@@ -50,7 +55,7 @@ void QtGL::initializeGL(){
 
 	glHint(GL_FOG_HINT, GL_NICEST);
 
-	// ª∑æ≥π‚
+	// ÁéØÂ¢ÉÂÖâ
 	GLfloat light_a[4] = {0.4,0.4,0.4,1.0};
 	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, light_a);
 	glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_FALSE);
@@ -69,13 +74,13 @@ void QtGL::paintGL(){
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	glRotatef(CAM_DELTAX, 0.0, 1.0, 0.0);					//x÷·–˝◊™
-	glRotatef(CAM_DELTAY, 1.0, 0.0, 0.0);					//y÷·–˝◊™
+	glRotatef(CAM_DELTAX, 0.0, 1.0, 0.0);					//xËΩ¥ÊóãËΩ¨
+	glRotatef(CAM_DELTAY, 1.0, 0.0, 0.0);					//yËΩ¥ÊóãËΩ¨
 	glTranslatef(CAM_X, CAM_Y, CAM_Z);
 	glScalef(CAM_TX, CAM_TY, CAM_TZ);
 
 
-	// ∏¸–¬æÿ’Û
+	// Êõ¥Êñ∞Áü©Èòµ
 	glGetDoublev(GL_MODELVIEW_MATRIX, modelview);
 	glGetDoublev(GL_PROJECTION_MATRIX, projection);
 	glGetIntegerv(GL_VIEWPORT, viewport);
@@ -88,10 +93,10 @@ void QtGL::paintGL(){
 	glTranslatef(1,0,1);
 	SetLight();
 	glPopMatrix();
-	// œﬂøÚƒ£–Õ
+	// Á∫øÊ°ÜÊ®°Âûã
 	//md.DrawLines();
 	
-	// √Êƒ£–Õ
+	// Èù¢Ê®°Âûã
 	
 	for (Model &md : models){
 		switch (view_mode){
@@ -135,9 +140,9 @@ void QtGL::SetLight(){
 	GLfloat light_specular[] = {l,l,l,l};
 	GLuint lid = GL_LIGHT0;
 	glLightfv(lid, GL_POSITION, light_position);
-	glLightfv(lid, GL_AMBIENT, light_ambient); // ◊Ó÷’π‚œﬂ
-	glLightfv(lid, GL_DIFFUSE, light_diffuse); // ¬˛∑¥…‰
-	glLightfv(lid, GL_SPECULAR, light_specular); // æµ√Ê∑¥…‰
+	glLightfv(lid, GL_AMBIENT, light_ambient); // ÊúÄÁªàÂÖâÁ∫ø
+	glLightfv(lid, GL_DIFFUSE, light_diffuse); // Êº´ÂèçÂ∞Ñ
+	glLightfv(lid, GL_SPECULAR, light_specular); // ÈïúÈù¢ÂèçÂ∞Ñ
 	glEnable(lid);
 	//glEnable(GL_LIGHTING);
 }
@@ -145,7 +150,7 @@ void QtGL::SetLight(){
 void QtGL::KeyDeleteDown(){
 	if (SELECTED_POINT){
 		int id = SELECTED_POINT->id;
-		vector<objPoly> &t = SELECTED_MODEL->ps; // vec<∂‡±ﬂ–Œ>
+		vector<objPoly> &t = SELECTED_MODEL->ps; // vec<Â§öËæπÂΩ¢>
 		bool changed = false;
 		for (auto o = t.begin();o != t.end();++o){
 			auto &p = o->points;
@@ -165,8 +170,8 @@ void QtGL::KeyDeleteDown(){
 }
 
 void QtGL::mousePressEvent(QMouseEvent *event){
-	QPoint p = event->pos();
-	int x = p.x();
+    QPoint p = event->pos() - this->pos();
+    int x = p.x();
 	int y = p.y();
 	MOUSE_BUTTON = event->button();
     CAM_OLDMX = x; CAM_OLDMY = y;
@@ -203,7 +208,7 @@ void QtGL::mousePressEvent(QMouseEvent *event){
 }
 
 void QtGL::mouseMoveEvent(QMouseEvent *event){
-	QPoint p = event->pos();
+    QPoint p = event->pos() - this->pos();
 	int x = p.x();
 	int y = p.y();
 
@@ -217,7 +222,7 @@ void QtGL::mouseMoveEvent(QMouseEvent *event){
 			glm::vec3 &v = SELECTED_MODEL->GetVertex(SELECTED_POINT->id);
 			double sx,sy,sz;
 			gluProject(v.x,v.y,v.z,modelview,projection,viewport,&sx,&sy,&sz);
-			double object_x = 0,object_y = 0,object_z = 0;     //3D◊¯±Í
+			double object_x = 0,object_y = 0,object_z = 0;     //3DÂùêÊ†á
 
 			float winX=(float)x;
 			float winY=(float)viewport[3]-(float)y;

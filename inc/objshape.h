@@ -1,4 +1,4 @@
-#ifndef _OBJ_SHAPE_H_
+ï»¿#ifndef _OBJ_SHAPE_H_
 #define _OBJ_SHAPE_H_
 
 #include <glm\vec2.hpp>
@@ -7,7 +7,7 @@
 
 class objPoint {
 public:
-	int id; // ¸ÄÓÃ¼ÇÂ¼¶¥µãIDµÄ·½Ê½
+	int id; // æ”¹ç”¨è®°å½•é¡¶ç‚¹IDçš„æ–¹å¼
 	int tid;
 	int nid;
 	// Coordinate vector of a point in (x, y, z)
