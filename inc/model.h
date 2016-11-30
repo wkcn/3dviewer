@@ -9,6 +9,7 @@
 #include <GL/gl.h>
 #include "objshape.h"
 #include <string>
+#include <fstream>
 #include <glm/mat4x4.hpp>
 using namespace std;
 
@@ -19,9 +20,13 @@ class Model{
 		void DrawLines();
 		void DrawPoints();
 		void Rebuild();
+		glm::vec3 GetVertexReal(int id);
 		glm::vec3& GetVertex(int id);
 		glm::vec3& GetVN(int id);
 		glm::vec2& GetVT(int id);
+		void SetVertexPos(int id, double x, double y, double z);
+		void MatMapVertices();
+		void Save(const string filename);
 	public:
 		string name;
 		std::vector<objPoly> ps; // 多边形集合

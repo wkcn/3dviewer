@@ -25,7 +25,6 @@ QtGL::QtGL(QWidget *parent):QOpenGLWidget(parent){
 	WINDOW_HEIGHT = 800;
 	WINDOW_WIDTH = 800;
 	setFocusPolicy(Qt::StrongFocus);
-
 }
 
 void QtGL::initializeGL(){
@@ -184,7 +183,7 @@ void QtGL::mousePressEvent(QMouseEvent *event){
 				for (Model &md : models){
 					for (objPoly &p : md.ps){
 						for (objPoint &v : p.points){
-							glm::vec3 c = md.GetVertex(v.id);
+							glm::vec3 c = md.GetVertexReal(v.id);
 							double sx,sy,sz;
 							gluProject(c.x,c.y,c.z,modelview,projection,viewport,&sx,&sy,&sz);
 							double dx = sx - x;
@@ -221,7 +220,7 @@ void QtGL::mouseMoveEvent(QMouseEvent *event){
         CAM_OLDMY = y;
     }else if (MOUSE_BUTTON == Qt::LeftButton){
 		if (SELECTED_POINT){
-			glm::vec3 &v = SELECTED_MODEL->GetVertex(SELECTED_POINT->id);
+			glm::vec3 v = SELECTED_MODEL->GetVertexReal(SELECTED_POINT->id);
 			double sx,sy,sz;
 			gluProject(v.x,v.y,v.z,modelview,projection,viewport,&sx,&sy,&sz);
 			double object_x = 0,object_y = 0,object_z = 0;     //3D坐标
@@ -230,7 +229,8 @@ void QtGL::mouseMoveEvent(QMouseEvent *event){
 			float winY=(float)viewport[3]-(float)y;
 			gluUnProject((GLdouble)winX,(GLdouble)winY,(GLdouble)sz,modelview,projection,viewport,&object_x,&object_y,&object_z);
 
-			v = glm::vec3(object_x, object_y, object_z);
+			//v = glm::vec3(object_x, object_y, object_z);
+			SELECTED_MODEL->SetVertexPos(SELECTED_POINT->id, object_x, object_y, object_z);
 
 		}
 	}

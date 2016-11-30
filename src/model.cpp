@@ -1,6 +1,6 @@
 ﻿#include "model.h"
 
-Model::Model(){
+Model::Model():mat(1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1){
 	name = "undefined";
 }	
 
@@ -47,8 +47,20 @@ void Model::Draw(){
 }
 
 glm::vec3& Model::GetVertex(int id){return vs[id - 1];}
+glm::vec3 Model::GetVertexReal(int id){
+	glm::vec3 &ov = vs[id - 1];
+	glm::vec4 cv = mat * glm::vec4(ov.x, ov.y, ov.z, 1);	
+	return glm::vec3(cv.x, cv.y, cv.z);
+}
 glm::vec3& Model::GetVN(int id){return vn[id - 1];}
 glm::vec2& Model::GetVT(int id){return vt[id - 1];}
+
+void Model::SetVertexPos(int id, double x, double y, double z){
+	glm::mat4 mati = glm::inverse(mat);
+	glm::vec4 v(x, y, z, 1);
+	glm::vec4 t = mati * v;
+	vs[id - 1] = glm::vec3(t.x, t.y, t.z); 
+}
 
 void Model::DrawLines(){
 	glLineWidth(1);
@@ -101,7 +113,8 @@ void Model::DrawObjPoint(const objPoint &p){
 		glm::vec3 nv = GetVN(p.nid); 
 		glNormal3f(nv.x, nv.y, nv.z);
 	}
-	glm::vec3 cv = GetVertex(p.id); //p.getCoordinateVector();
+	glm::vec3 ov = GetVertex(p.id); //p.getCoordinateVector()
+	glm::vec4 cv = mat * glm::vec4(ov.x, ov.y, ov.z, 1);	
 	glVertex3f(cv.x, cv.y, cv.z);
 }
 
@@ -136,4 +149,44 @@ void Model::Rebuild(){
 		ps[k++] = p;
 	}
 
+}
+
+void Model::Save(const string filename){
+	ofstream fout(filename.c_str());
+	for (glm::vec3 &v : vs){
+		fout << "v " << v.x << ' ' << v.y << ' ' << v.z << endl;
+	}
+	fout << "# " << vs.size() << "vertices" << endl;
+
+	for (glm::vec2 &v : vt){
+		fout << "vt " << v.x << ' ' << v.y << endl;
+	}
+	fout << "# " << vt.size() << "texture vertices" << endl;
+ 
+	for (glm::vec3 &v : vn){
+		fout << "vn " << v.x << ' ' << v.y << ' ' << v.z << endl;
+	}
+	fout << "# " << vs.size() << "vertices normals" << endl;
+	for (objPoly &p : ps){
+		fout << "f ";
+		for (objPoint &o : p.points){
+			fout << o.id;
+			if (o.tid || o.nid){
+				fout << '/';
+				if (o.tid)fout << o.tid;
+				fout << '/';
+				if (o.nid)fout << o.nid;
+			}
+			fout << ' ';
+		}
+		fout << endl;
+	}
+	fout.close();
+}
+
+void Model::MatMapVertices(){
+	for (int i = 1;i <= vs.size();++i){
+		vs[i - 1] = GetVertexReal(i);
+	}
+	mat = glm::mat4(1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1);
 }
