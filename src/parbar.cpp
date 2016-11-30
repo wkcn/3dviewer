@@ -57,8 +57,16 @@ ParBar::ParBar(QWidget *parent) :
 
     connect(ui->btnAdd, SIGNAL(clicked(bool)), this, SLOT(OpenFile(bool)));
     connect(ui->btnDel, SIGNAL(clicked(bool)), this, SLOT(DeleteModel(bool)));
+    connect(ui->headLight, SIGNAL(clicked()), this, SLOT(HeadLight()));
+    connect(ui->foutyFiveLight, SIGNAL(clicked()), this, SLOT(FortyFiveLight()));
+    connect(ui->bottomLight, SIGNAL(clicked()), this, SLOT(ButtomLight()));
+    connect(ui->environmentLight, SIGNAL(clicked()), this, SLOT(EnvironmentLight()));
 
 }
+void ParBar::ButtomLight(){};
+void ParBar::HeadLight(){};
+void ParBar::FortyFiveLight(){};
+void ParBar::EnvironmentLight(){};
 
 ParBar::~ParBar(){
     delete ui;

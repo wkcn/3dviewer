@@ -43,6 +43,10 @@ private slots:
     void DeleteModel(bool);
     void UpdateMousePos(glm::vec3);
     void SelectModelID(int);
+    void ButtomLight();
+    void HeadLight();
+    void FortyFiveLight();
+    void EnvironmentLight();
 };
 
 #endif
