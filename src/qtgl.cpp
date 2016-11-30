@@ -56,11 +56,6 @@ void QtGL::initializeGL(){
 	glHint(GL_POLYGON_SMOOTH_HINT, GL_NICEST);
 
 	glHint(GL_FOG_HINT, GL_NICEST);
-
-	// 环境光
-    GLfloat light_a[4] = {0.4f,0.4f,0.4f,1.0f};
-	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, light_a);
-	glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_FALSE);
     //glLightModeli(GL_LIGHT_MODEL_COLOR_CONTROL, GL_SEPARATE_SPECULAR_COLOR);
 
 	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -148,8 +143,9 @@ void QtGL::resizeGL(int w, int h){
 
 
 void QtGL::SetLight(){
-    const GLfloat AmbientLight[4]={1,1,1,1};
-    glLightfv(GL_LIGHT0,GL_AMBIENT, AmbientLight);
+    glLightfv(GL_LIGHT0,GL_DIFFUSE, DiffuseLight);
+    glLightfv(GL_LIGHT0,GL_POSITION, LightPostion);
+    glLightfv(GL_LIGHT0,GL_AMBIENT, EnvironmentLight);
     glEnable(GL_LIGHT0);
     glEnable(GL_LIGHTING);
 }
