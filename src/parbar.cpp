@@ -16,7 +16,6 @@ ParBar::ParBar(QWidget *parent) :
     ui->comboBox->addItem("线模式");
     ui->comboBox->addItem("点模式");
 	connect(ui->comboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(SelectViewMode(int)));
-	connect(ui->comboBox_fix, SIGNAL(currentIndexChanged(int)), this, SLOT(SelectFixMode(int)));
 
 	ui->lineEditX->setValidator(new QDoubleValidator(-1000, 1000, 4, this));
 	ui->lineEditY->setValidator(new QDoubleValidator(-1000, 1000, 4, this));
@@ -47,12 +46,17 @@ ParBar::ParBar(QWidget *parent) :
 			matEdit[r][c] = new QLineEdit(ui->widget_mat); 
 			matEdit[r][c]->setGeometry(QRect(r * 50,c * 50,48,48));
 			matEdit[r][c]->setValidator(new QDoubleValidator(-1000, 1000, 4, this));
-			QString s;
+            matEdit[r][c]->setFocusPolicy(Qt::NoFocus);
+            QString s;
 			s.setNum(int(r == c));
 			matEdit[r][c]->setText(s);
 		}
 	}
-	connect(ui->btn_ichange, SIGNAL(clicked()), this, SLOT(IChange()));
+
+
+    connect(ui->comboBox_fix, SIGNAL(currentIndexChanged(int)), this, SLOT(SelectFixMode(int)));
+
+    connect(ui->btn_ichange, SIGNAL(clicked()), this, SLOT(IChange()));
 	connect(ui->btn_change, SIGNAL(clicked()), this, SLOT(Change()));
 	connect(ui->btn_fix_apply, SIGNAL(clicked()), this, SLOT(FixApply()));
 
@@ -160,7 +164,13 @@ void ParBar::FixApply(){
 	size_t mid = ui->listWidgetM->currentRow();
 	if (mid < gl->models.size()){
 		gl->models[mid].MatMapVertices();
-		UpdateFixPar();
+        for (int r = 0; r < 4;++r){
+            for (int c = 0;c < 4;++c){
+                QString s;
+                s.setNum(gl->models[mid].mat[r][c]);
+                matEdit[r][c]->setText(s);
+            }
+        }
 	}
 }
 void ParBar::SelectModel(int i){
@@ -182,13 +192,15 @@ void ParBar::SelectModel(int i){
 void ParBar::UpdateFixPar(){
 	size_t mid = ui->listWidgetM->currentRow();
 	if (mid >= gl->models.size())return;
-	for (int r = 0; r < 4;++r){
-		for (int c = 0;c < 4;++c){
-			QString s;
-			s.setNum(gl->models[mid].mat[r][c]);
-			matEdit[r][c]->setText(s);
-		}
-	}
+    if (ui->comboBox_fix->currentIndex() != 3){
+        for (int r = 0; r < 4;++r){
+            for (int c = 0;c < 4;++c){
+                QString s;
+                s.setNum(gl->models[mid].mat[r][c]);
+                matEdit[r][c]->setText(s);
+            }
+        }
+    }
 }
 
 void ParBar::SelectFixMode(int i){
@@ -217,6 +229,19 @@ void ParBar::SelectFixMode(int i){
     case 4:
         break;
 	}
+    if (i <= 2){
+        for (int r = 0; r < 4;++r){
+            for (int c = 0;c < 4;++c){
+                matEdit[r][c]->setFocusPolicy(Qt::NoFocus);
+            }
+        }
+    }else{
+        for (int r = 0; r < 4;++r){
+            for (int c = 0;c < 4;++c){
+                matEdit[r][c]->setFocusPolicy(Qt::StrongFocus);
+            }
+        }
+    }
     if (i != 4)
         ui->btn_change->setText("正变换(&C)");
     else
