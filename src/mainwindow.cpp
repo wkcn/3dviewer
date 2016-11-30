@@ -5,7 +5,6 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),gl(new QtGL(this)), bar(new ParBar(this))
 {
-    cout << "se" << endl;
     ui->setupUi(this);
     gl->resize(800,800);
     gl->move(0,36);
@@ -18,7 +17,6 @@ MainWindow::MainWindow(QWidget *parent) :
 	int x = (deskWidth - 1200) / 2;
 	int y = (deskHeight - 836) / 2;
 
-    cout << "go" << endl;
 	move(x,y);
 	bar->SetGL(gl);
     bar->show();

@@ -2,18 +2,15 @@
 #include "objshape.h"
 
 
-objPoint::objPoint(int _id, int _tid, int _nid){
-    id = _id;
-    tid = _tid;
-    nid = _nid;
+objPoint::objPoint(int _id, int _tid, int _nid):id(_id),tid(_tid),nid(_nid){
 }
 
 bool objPoint::isTextureVector() const{
-    return tid;
+    return tid != 0;
 }
 
 bool objPoint::isNormalVector() const{
-	return nid;
+    return nid != 0;
 }
 
 objTriangle::objTriangle(){}
