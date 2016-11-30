@@ -4,6 +4,7 @@
 
 #ifndef OS_LINUX
 #include <Windows.h>
+#pragma execution_character_set("utf-8")
 #endif
 #include <GL/glut.h>
 #include <GL/glu.h>

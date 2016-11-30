@@ -1,6 +1,9 @@
 ﻿#ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#ifndef OS_LINUX
+#pragma execution_character_set("utf-8")
+#endif
 #include <QMainWindow>
 #include <QDesktopWidget>
 #include "qtgl.h"

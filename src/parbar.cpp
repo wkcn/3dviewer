@@ -1,4 +1,4 @@
-#include "parbar.h"
+﻿#include "parbar.h"
 #include "ui_parbar.h"
 #include <iostream>
 #include <glm/glm.hpp>
@@ -7,14 +7,13 @@ using namespace std;
 
 ParBar::ParBar(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::ParBar)
 {
     ui->setupUi(this);
-
-	ui->comboBox->addItem("纹理模式", TEX_MODE);
-	ui->comboBox->addItem("面模式", FACE_MODE);
-	ui->comboBox->addItem("线模式", LINE_MODE);
-	ui->comboBox->addItem("点模式", POINT_MODE);
+    ui->comboBox->addItem("纹理模式");
+    ui->comboBox->addItem("面模式");
+    ui->comboBox->addItem("线模式");
+    ui->comboBox->addItem("点模式");
 	connect(ui->comboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(SelectViewMode(int)));
 	connect(ui->comboBox_fix, SIGNAL(currentIndexChanged(int)), this, SLOT(SelectFixMode(int)));
 

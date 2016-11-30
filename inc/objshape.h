@@ -1,6 +1,9 @@
 ﻿#ifndef _OBJ_SHAPE_H_
 #define _OBJ_SHAPE_H_
 
+#ifndef OS_LINUX
+#pragma execution_character_set("utf-8")
+#endif
 #include <glm/vec2.hpp>
 #include <glm/vec3.hpp>
 #include <vector>

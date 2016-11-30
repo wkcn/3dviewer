@@ -1,12 +1,15 @@
-#ifndef PARBAR_H
+﻿#ifndef PARBAR_H
 #define PARBAR_H
 
+#ifndef OS_LINUX
+#pragma execution_character_set("utf-8")
+#endif
 #include <QMainWindow>
 #include <QTableWidgetItem>
 #include "qtgl.h"
 
 namespace Ui {
-class MainWindow;
+class ParBar;
 }
 
 class ParBar : public QMainWindow
@@ -14,7 +17,7 @@ class ParBar : public QMainWindow
     Q_OBJECT
 
 public:
-    Ui::MainWindow *ui;
+    Ui::ParBar *ui;
     explicit ParBar(QWidget *parent = 0);
     ~ParBar();
 public:

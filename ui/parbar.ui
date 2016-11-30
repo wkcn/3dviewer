@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>MainWindow</class>
- <widget class="QMainWindow" name="MainWindow">
+ <class>ParBar</class>
+ <widget class="QMainWindow" name="ParBar">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -433,7 +433,7 @@
      <x>0</x>
      <y>0</y>
      <width>300</width>
-     <height>32</height>
+     <height>23</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_S">
@@ -441,8 +441,8 @@
      <rect>
       <x>449</x>
       <y>104</y>
-      <width>124</width>
-      <height>86</height>
+      <width>120</width>
+      <height>72</height>
      </rect>
     </property>
     <property name="title">
