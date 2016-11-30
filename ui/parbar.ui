@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>3</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
@@ -189,40 +189,57 @@
      <attribute name="title">
       <string>光照</string>
      </attribute>
-     <widget class="QPushButton" name="btnSetLight">
+     <widget class="QPushButton" name="bottomLight">
       <property name="geometry">
        <rect>
-        <x>20</x>
+        <x>10</x>
+        <y>20</y>
+        <width>104</width>
+        <height>32</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>底部光照</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="headLight">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
         <y>60</y>
         <width>104</width>
         <height>32</height>
        </rect>
       </property>
       <property name="text">
-       <string>PushButton</string>
+       <string> 上部光照</string>
       </property>
      </widget>
-     <widget class="QWidget" name="layoutWidget">
+     <widget class="QPushButton" name="foutyFiveLight">
       <property name="geometry">
        <rect>
-        <x>20</x>
-        <y>20</y>
-        <width>144</width>
-        <height>30</height>
+        <x>10</x>
+        <y>100</y>
+        <width>104</width>
+        <height>32</height>
        </rect>
       </property>
-      <layout class="QHBoxLayout" name="horizontalLayout_7">
-       <item>
-        <widget class="QLabel" name="label_9">
-         <property name="text">
-          <string>参数:</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QComboBox" name="comboBoxLight"/>
-       </item>
-      </layout>
+      <property name="text">
+       <string>  斜45度光照</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="environmentLight">
+      <property name="geometry">
+       <rect>
+        <x>140</x>
+        <y>60</y>
+        <width>104</width>
+        <height>32</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string> 全局光照</string>
+      </property>
      </widget>
     </widget>
     <widget class="QWidget" name="tab_4">
@@ -426,37 +443,6 @@
      <bool>true</bool>
     </property>
    </widget>
-  </widget>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>300</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <widget class="QMenu" name="menu_S">
-    <property name="geometry">
-     <rect>
-      <x>449</x>
-      <y>104</y>
-      <width>120</width>
-      <height>72</height>
-     </rect>
-    </property>
-    <property name="title">
-     <string>文件(&amp;F)</string>
-    </property>
-    <addaction name="action_O"/>
-   </widget>
-   <widget class="QMenu" name="menu_P">
-    <property name="title">
-     <string>参数(&amp;P)</string>
-    </property>
-   </widget>
-   <addaction name="menu_S"/>
-   <addaction name="menu_P"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="action_O">

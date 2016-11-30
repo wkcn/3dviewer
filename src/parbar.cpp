@@ -53,7 +53,17 @@ ParBar::ParBar(QWidget *parent) :
 	connect(ui->btn_ichange, SIGNAL(clicked()), this, SLOT(IChange()));
 	connect(ui->btn_change, SIGNAL(clicked()), this, SLOT(Change()));
 	connect(ui->btn_fix_apply, SIGNAL(clicked()), this, SLOT(FixApply()));
+
+    connect(ui->headLight, SIGNAL(clicked()), this, SLOT(HeadLight()));
+    connect(ui->foutyFiveLight, SIGNAL(clicked()), this, SLOT(FortyFiveLight()));
+    connect(ui->bottomLight, SIGNAL(clicked()), this, SLOT(ButtomLight()));
+    connect(ui->environmentLight, SIGNAL(clicked()), this, SLOT(EnvironmentLight()));
+
 }
+void ParBar::ButtomLight(){};
+void ParBar::HeadLight(){};
+void ParBar::FortyFiveLight(){};
+void ParBar::EnvironmentLight(){};
 
 ParBar::~ParBar(){
     delete ui;

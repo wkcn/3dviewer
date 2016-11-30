@@ -38,6 +38,10 @@ private slots:
 	void IChange();
 	void Change();
 	void FixApply();
+    void ButtomLight();
+    void HeadLight();
+    void FortyFiveLight();
+    void EnvironmentLight();
 };
 
 #endif

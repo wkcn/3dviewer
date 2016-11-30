@@ -138,19 +138,10 @@ void QtGL::resizeGL(int w, int h){
 
 
 void QtGL::SetLight(){
-	const GLfloat am = 0.0f;
-	const GLfloat l = 0.5f;
-	GLfloat light_position[] = {0,0,-1,0.0f};
-	GLfloat light_ambient[] = {am, am, am, 1.0f};
-	GLfloat light_diffuse[] = {l,l,l,l};
-	GLfloat light_specular[] = {l,l,l,l};
-	GLuint lid = GL_LIGHT0;
-	glLightfv(lid, GL_POSITION, light_position);
-	glLightfv(lid, GL_AMBIENT, light_ambient); // 最终光线
-	glLightfv(lid, GL_DIFFUSE, light_diffuse); // 漫反射
-	glLightfv(lid, GL_SPECULAR, light_specular); // 镜面反射
-	glEnable(lid);
-	//glEnable(GL_LIGHTING);
+    const GLfloat AmbientLight[4]={1,1,1,1};
+    glLightfv(GL_LIGHT0,GL_AMBIENT, AmbientLight);
+    glEnable(GL_LIGHT0);
+    glEnable(GL_LIGHTING);
 }
 
 void QtGL::KeyDeleteDown(){
