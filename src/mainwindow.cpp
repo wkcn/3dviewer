@@ -5,23 +5,26 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),gl(new QtGL(this)), bar(new ParBar(this))
 {
-    ui->setupUi(this);
-    gl->resize(800,800);
-    gl->move(0,36);
-    setCentralWidget(gl);
 
 	QDesktopWidget *desktopWidgt = QApplication::desktop();
     QRect deskRect = desktopWidgt->availableGeometry();
     int deskWidth = deskRect.width();
     int deskHeight = deskRect.height();
-	int x = (deskWidth - 1200) / 2;
-	int y = (deskHeight - 836) / 2;
+    int w = deskHeight - 192;
+    int x = (deskWidth - w - 300) / 2;
+    int y = (deskHeight - w - 36) / 2;
+
+    ui->setupUi(this);
+    resize(w, w + 36);
+    gl->resize(w,w);
+    gl->move(0,36);
+    setCentralWidget(gl);
 
     connect(ui->action_O, SIGNAL(triggered(bool)), this, SLOT(OpenFile(bool)));
 	move(x,y);
 	bar->SetGL(gl);
     bar->show();
-	bar->move(x+800,y);
+    bar->move(x+w, y);
 
 
 

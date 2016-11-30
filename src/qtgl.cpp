@@ -22,8 +22,9 @@ QtGL::QtGL(QWidget *parent):QOpenGLWidget(parent){
 	SELECTED_POLY = 0;
 	SELECTED_MODEL = 0;
 	MOUSE_BUTTON = 0;
-	WINDOW_HEIGHT = 800;
-	WINDOW_WIDTH = 800;
+    QRect s = this->geometry();
+    WINDOW_HEIGHT = s.height();
+    WINDOW_WIDTH = s.width();
 	setFocusPolicy(Qt::StrongFocus);
 }
 
@@ -102,7 +103,6 @@ void QtGL::paintGL(){
 
 
 	glPushMatrix();
-	glTranslatef(1,0,1);
 	SetLight();
 	glPopMatrix();
 	// 线框模型
