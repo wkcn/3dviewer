@@ -93,6 +93,7 @@ void AddRect(Model &md, int a, int b,int c, int d){
 
 Model GetCube(double x, double y, double z){
 	Model md;
+	md.name = "立方体";
 	double hx = x / 2;
 	double hy = y / 2;
 	//double hz = z / 2;
@@ -126,6 +127,7 @@ Model GetCube(double x, double y, double z){
 
 Model GetCone(double r, double h, int n){
 	Model md;
+	md.name = "圆锥";
 	double a = 2 * PI / n; 
 	objPoly circle;
 	for (int i = 0;i < n;++i){
@@ -155,6 +157,7 @@ Model GetCone(double r, double h, int n){
 
 Model GetLoudou(double r, int cn, int hn){
 	Model md;
+	md.name = "漏斗";
 	double hd = 2 * r / hn;
 	double a = 2 * PI / cn;
 	for (int k = 0;k < hn;++k){
@@ -196,6 +199,7 @@ Model GetLoudou(double r, int cn, int hn){
 
 Model GetBall(double r, int cn, int hn){
 	Model md;
+	md.name = "球";
 	double hd = 2 * r / hn;
 	double a = 2 * PI / cn;
 	for (int k = 0;k < hn;++k){

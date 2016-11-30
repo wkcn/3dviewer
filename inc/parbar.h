@@ -19,13 +19,22 @@ public:
     ~ParBar();
 public:
 	void SetGL(QtGL*);
+private:
 	void UpdatePar();
+	void UpdateFixPar();
+	glm::mat4 GetChangeMat(int kind);
 private:
 	QtGL *gl;
+	QLineEdit *matEdit[4][4];
 
 private slots:
+	void SelectModel(int);
 	void SelectViewMode(int);
+	void SelectFixMode(int);
 	void AddShape();
+	void IChange();
+	void Change();
+	void FixApply();
 };
 
 #endif

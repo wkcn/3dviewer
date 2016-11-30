@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>3</number>
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
@@ -225,11 +225,101 @@
       </layout>
      </widget>
     </widget>
+    <widget class="QWidget" name="tab_4">
+     <attribute name="title">
+      <string>修改</string>
+     </attribute>
+     <widget class="QWidget" name="widget_mat" native="true">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>50</y>
+        <width>200</width>
+        <height>200</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_fix_name">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>251</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QComboBox" name="comboBox_fix">
+      <property name="geometry">
+       <rect>
+        <x>130</x>
+        <y>270</y>
+        <width>93</width>
+        <height>28</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_11">
+      <property name="geometry">
+       <rect>
+        <x>40</x>
+        <y>270</y>
+        <width>83</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>修改类型:</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btn_fix_apply">
+      <property name="geometry">
+       <rect>
+        <x>143</x>
+        <y>350</y>
+        <width>91</width>
+        <height>32</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>应用(&amp;A)</string>
+      </property>
+     </widget>
+     <widget class="QWidget" name="layoutWidget">
+      <property name="geometry">
+       <rect>
+        <x>40</x>
+        <y>310</y>
+        <width>192</width>
+        <height>34</height>
+       </rect>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QPushButton" name="btn_ichange">
+         <property name="text">
+          <string>反变换(&amp;I)</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btn_change">
+         <property name="text">
+          <string>正变换(&amp;C)</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
    </widget>
    <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
-      <x>29</x>
+      <x>80</x>
       <y>60</y>
       <width>189</width>
       <height>140</height>
@@ -315,6 +405,25 @@
     </property>
     <property name="text">
      <string>显示模式:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_12">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>60</y>
+      <width>31</width>
+      <height>151</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>通用参数输入</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+    </property>
+    <property name="wordWrap">
+     <bool>true</bool>
     </property>
    </widget>
   </widget>
