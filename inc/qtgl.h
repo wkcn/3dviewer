@@ -52,8 +52,14 @@ private:
 	int viewport[4];
 public:
 	vector<Model> models;
+    objPoint *SELECTED_POINT;
+    objPoly *SELECTED_POLY;
+    Model *SELECTED_MODEL;
+signals:
+    void UpdateMousePosS(glm::vec3);
+    void SelectModelID(int);
 private:
-	GLuint TEX_ID;
+    GLuint TEX_ID;
 	VIEW_MODE view_mode = TEX_MODE;
 
 	GLfloat CAM_X;										//图像平移分量
@@ -65,9 +71,6 @@ private:
 	GLfloat CAM_OLDMY, CAM_OLDMX;									//鼠标按下的位置（x,y)
     float CAM_DELTAX, CAM_DELTAY;									//释放后，x和y移动分量
 
-	objPoint *SELECTED_POINT;
-	objPoly *SELECTED_POLY;
-	Model *SELECTED_MODEL;
 	int MOUSE_BUTTON;
 	int WINDOW_HEIGHT;
 	int WINDOW_WIDTH;

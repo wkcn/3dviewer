@@ -33,8 +33,8 @@ void QtGL::initializeGL(){
     //Model md = loadObj("model//wolverine_obj.obj");
     //models.push_back(md);
 	//Model cu = GetCube(2,2,2);
-	Model cu = GetBall(1, 100, 100);
-	models.push_back(cu);
+    //Model cu = GetBall(1, 100, 100);
+    //models.push_back(cu);
 
 	//打开2D贴图状态
 	glEnable(GL_TEXTURE_2D);
@@ -57,7 +57,7 @@ void QtGL::initializeGL(){
 	glHint(GL_FOG_HINT, GL_NICEST);
 
 	// 环境光
-	GLfloat light_a[4] = {0.4,0.4,0.4,1.0};
+    GLfloat light_a[4] = {0.4f,0.4f,0.4f,1.0f};
 	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, light_a);
 	glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_FALSE);
     //glLightModeli(GL_LIGHT_MODEL_COLOR_CONTROL, GL_SEPARATE_SPECULAR_COLOR);
@@ -71,8 +71,14 @@ void QtGL::initializeGL(){
 }
 
 void QtGL::addModel(QString filename){
-    Model md = loadObj(filename.toStdString());
+    string name = filename.toStdString();
+    int first = filename.lastIndexOf ("/"); //从后面查找"/"位置
+    if (first == -1)first = filename.lastIndexOf("\\");
+    QString title = filename.right (filename.length ()-first-1); //从右边截取
+    Model md = loadObj(name);
+    md.name = title.toStdString();
     models.push_back(md);
+    update();
 }
 
 void QtGL::paintGL(){
@@ -105,7 +111,9 @@ void QtGL::paintGL(){
 	// 面模型
 	
 	for (Model &md : models){
-		switch (view_mode){
+        if (&md == SELECTED_MODEL)glColor3ub(255,255,255);
+        else glColor3ub(255,0,255);
+        switch (view_mode){
 			case TEX_MODE:
 				glBindTexture(GL_TEXTURE_2D, TEX_ID);
 			case FACE_MODE:
@@ -207,8 +215,10 @@ void QtGL::mousePressEvent(QMouseEvent *event){
 					}
 				}
 			}
-
-			cout << SELECTED_POINT << endl;
+            if (SELECTED_POINT){
+                emit UpdateMousePosS(SELECTED_MODEL->GetVertexReal(SELECTED_POINT->id));
+                emit SelectModelID(SELECTED_MODEL->id);
+            }
 		}
 	}
 	event->accept();
@@ -218,7 +228,6 @@ void QtGL::mouseMoveEvent(QMouseEvent *event){
     QPoint p = event->pos();
 	int x = p.x();
 	int y = p.y();
-
 	if (MOUSE_BUTTON == Qt::RightButton){
         CAM_DELTAX += 360.0 * (x - CAM_OLDMX) / 600.0;
         CAM_DELTAY += 360.0 * (y - CAM_OLDMY) / 600.0;
@@ -237,6 +246,7 @@ void QtGL::mouseMoveEvent(QMouseEvent *event){
 
 			//v = glm::vec3(object_x, object_y, object_z);
 			SELECTED_MODEL->SetVertexPos(SELECTED_POINT->id, object_x, object_y, object_z);
+            emit UpdateMousePosS(SELECTED_MODEL->GetVertexReal(SELECTED_POINT->id));
 
 		}
 	}

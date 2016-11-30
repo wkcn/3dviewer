@@ -1,7 +1,10 @@
 ﻿#include "model.h"
 
+int MODEL_ID = 1;
+
 Model::Model():mat(1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1){
-	name = "undefined";
+    name = "undefined";
+    id = MODEL_ID++;
 }	
 
 void Model::Draw(){
@@ -64,7 +67,6 @@ void Model::SetVertexPos(int id, double x, double y, double z){
 
 void Model::DrawLines(){
 	glLineWidth(1);
-	glColor3ub(255, 0, 0);
 	/*
 	glBegin(GL_LINES);
 	for (const objLine &t : ls){
@@ -85,7 +87,6 @@ void Model::DrawLines(){
 
 void Model::DrawPoints(){
 	glPointSize(3);
-	glColor3ub(255, 0, 0);
 	glBegin(GL_POINTS);
 	/*
 	for (const objLine &t : ls){

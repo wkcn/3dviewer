@@ -29,6 +29,7 @@ class Model{
 		void MatMapVertices();
 		void Save(const string filename);
 	public:
+        int id;
 		string name;
 		std::vector<objPoly> ps; // 多边形集合
 		std::vector<glm::vec3> vs; // 顶点集合

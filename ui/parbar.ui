@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>300</width>
-    <height>836</height>
+    <height>800</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>3</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
@@ -426,37 +426,19 @@
      <bool>true</bool>
     </property>
    </widget>
-  </widget>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>300</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <widget class="QMenu" name="menu_S">
+   <widget class="QLabel" name="label_pos">
     <property name="geometry">
      <rect>
-      <x>449</x>
-      <y>104</y>
-      <width>120</width>
-      <height>72</height>
+      <x>20</x>
+      <y>780</y>
+      <width>251</width>
+      <height>21</height>
      </rect>
     </property>
-    <property name="title">
-     <string>文件(&amp;F)</string>
-    </property>
-    <addaction name="action_O"/>
-   </widget>
-   <widget class="QMenu" name="menu_P">
-    <property name="title">
-     <string>参数(&amp;P)</string>
+    <property name="text">
+     <string/>
     </property>
    </widget>
-   <addaction name="menu_S"/>
-   <addaction name="menu_P"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="action_O">

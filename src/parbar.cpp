@@ -54,6 +54,10 @@ ParBar::ParBar(QWidget *parent) :
 	connect(ui->btn_ichange, SIGNAL(clicked()), this, SLOT(IChange()));
 	connect(ui->btn_change, SIGNAL(clicked()), this, SLOT(Change()));
 	connect(ui->btn_fix_apply, SIGNAL(clicked()), this, SLOT(FixApply()));
+
+    connect(ui->btnAdd, SIGNAL(clicked(bool)), this, SLOT(OpenFile(bool)));
+    connect(ui->btnDel, SIGNAL(clicked(bool)), this, SLOT(DeleteModel(bool)));
+
 }
 
 ParBar::~ParBar(){
@@ -62,6 +66,8 @@ ParBar::~ParBar(){
 
 void ParBar::SetGL(QtGL *_gl){
 	gl = _gl;
+    connect(gl, SIGNAL(UpdateMousePosS(glm::vec3)), this, SLOT(UpdateMousePos(glm::vec3)));
+    connect(gl, SIGNAL(SelectModelID(int)), this, SLOT(SelectModelID(int)));
 }
 
 void ParBar::SelectViewMode(int i){
@@ -150,9 +156,11 @@ void ParBar::SelectModel(int i){
 	if (mid >= gl->models.size())return;
 	if (gl -> models.size() > 0){
 		if (i >= int(gl->models.size()))i = 0;
-		QString s = QString("选择模型: %1(%2)").arg(QString::fromStdString(gl->models[i].name)).arg(i);
+        QString s = QString("选择模型: %1(%2)").arg(QString::fromStdString(gl->models[i].name)).arg(gl->models[i].id);
 		ui->label_fix_name->setText(s);
 		UpdateFixPar();
+        gl->SELECTED_MODEL = &gl->models[mid];
+        gl->update();
 	}
 }
 
@@ -200,4 +208,40 @@ void ParBar::SelectFixMode(int i){
         ui->btn_change->setText("设置(&S)");
     ui->btn_ichange->setEnabled(i != 4);
 
+}
+
+void ParBar::OpenFile(bool){
+    QString filename = QFileDialog::getOpenFileName(this, "Select a *.obj file", ".", "*.obj");
+    if (filename.size()){
+        double x = ui->lineEditX->text().toDouble();
+        double y = ui->lineEditY->text().toDouble();
+        double z = ui->lineEditZ->text().toDouble();
+        gl->addModel(filename);
+        Model &md = *(gl->models.end() - 1);
+        md.mat = glm::translate(md.mat, glm::vec3(x,y,z));
+        UpdatePar();
+    }
+}
+
+void ParBar::DeleteModel(bool){
+    size_t mid = ui->listWidgetM->currentRow();
+    if (mid >= gl->models.size())return;
+    gl->models.erase(gl->models.begin() + mid);
+    UpdatePar();
+    gl->update();
+}
+
+void ParBar::UpdateMousePos(glm::vec3 v){
+    char tmp[128];
+    sprintf(tmp, "顶点坐标：%lf, %lf, %lf", v.x, v.y, v.z);
+    ui->label_pos->setText(tmp);
+}
+
+void ParBar::SelectModelID(int id){
+    for (int i = 0;i < gl->models.size();++i){
+        if (gl->models[i].id == id){
+            ui->listWidgetM->setCurrentRow(i);
+            break;
+        }
+    }
 }

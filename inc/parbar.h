@@ -6,6 +6,7 @@
 #endif
 #include <QMainWindow>
 #include <QTableWidgetItem>
+#include <QFileDialog>
 #include "qtgl.h"
 
 namespace Ui {
@@ -22,10 +23,10 @@ public:
     ~ParBar();
 public:
 	void SetGL(QtGL*);
-private:
 	void UpdatePar();
 	void UpdateFixPar();
-	glm::mat4 GetChangeMat(int kind);
+private:
+    glm::mat4 GetChangeMat(int kind);
 private:
 	QtGL *gl;
 	QLineEdit *matEdit[4][4];
@@ -38,6 +39,10 @@ private slots:
 	void IChange();
 	void Change();
 	void FixApply();
+    void OpenFile(bool);
+    void DeleteModel(bool);
+    void UpdateMousePos(glm::vec3);
+    void SelectModelID(int);
 };
 
 #endif
