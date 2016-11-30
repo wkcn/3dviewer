@@ -111,7 +111,8 @@ void QtGL::paintGL(){
 	// 面模型
 	
 	for (Model &md : models){
-        if (&md == SELECTED_MODEL)glColor3ub(255,255,255);
+        if (!md.viewed)continue;
+        if (&md != SELECTED_MODEL)glColor3ub(255,255,255);
         else glColor3ub(255,0,255);
         switch (view_mode){
 			case TEX_MODE:

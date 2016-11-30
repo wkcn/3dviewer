@@ -5,6 +5,7 @@ int MODEL_ID = 1;
 Model::Model():mat(1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1){
     name = "undefined";
     id = MODEL_ID++;
+    viewed = true;
 }	
 
 void Model::Draw(){

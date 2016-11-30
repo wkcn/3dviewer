@@ -66,7 +66,7 @@
        <string>添加(&amp;A)</string>
       </property>
      </widget>
-     <widget class="QRadioButton" name="hided">
+     <widget class="QRadioButton" name="radio_hided">
       <property name="geometry">
        <rect>
         <x>150</x>
@@ -79,7 +79,7 @@
        <string>显示模型</string>
       </property>
      </widget>
-     <widget class="QLineEdit" name="lineEdit">
+     <widget class="QLineEdit" name="md_name">
       <property name="geometry">
        <rect>
         <x>102</x>

@@ -31,6 +31,7 @@ class Model{
 	public:
         int id;
 		string name;
+        bool viewed;
 		std::vector<objPoly> ps; // 多边形集合
 		std::vector<glm::vec3> vs; // 顶点集合
 		std::vector<glm::vec3> vn; // 法线集合

@@ -47,6 +47,8 @@ private slots:
     void HeadLight();
     void FortyFiveLight();
     void EnvironmentLight();
+    void OnModelHided(bool);
+    void OnModelChangeName();
 };
 
 #endif

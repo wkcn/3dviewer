@@ -62,6 +62,9 @@ ParBar::ParBar(QWidget *parent) :
     connect(ui->bottomLight, SIGNAL(clicked()), this, SLOT(ButtomLight()));
     connect(ui->environmentLight, SIGNAL(clicked()), this, SLOT(EnvironmentLight()));
 
+    connect(ui->radio_hided, SIGNAL(clicked(bool)), this, SLOT(OnModelHided(bool)));
+    connect(ui->md_name, SIGNAL(editingFinished()), this, SLOT(OnModelChangeName()));
+
 }
 void ParBar::ButtomLight(){};
 void ParBar::HeadLight(){};
@@ -162,12 +165,15 @@ void ParBar::FixApply(){
 void ParBar::SelectModel(int i){
 	size_t mid = ui->listWidgetM->currentRow();
 	if (mid >= gl->models.size())return;
-	if (gl -> models.size() > 0){
+    if (gl -> models.size() > 0){
 		if (i >= int(gl->models.size()))i = 0;
-        QString s = QString("选择模型: %1(%2)").arg(QString::fromStdString(gl->models[i].name)).arg(gl->models[i].id);
+        Model &md = gl->models[i];
+        QString s = QString("选择模型: %1(%2)").arg(QString::fromStdString(md.name)).arg(md.id);
 		ui->label_fix_name->setText(s);
+        ui->radio_hided->setChecked(md.viewed);
+        ui->md_name->setText(QString::fromStdString(md.name));
 		UpdateFixPar();
-        gl->SELECTED_MODEL = &gl->models[mid];
+        gl->SELECTED_MODEL = &md;
         gl->update();
 	}
 }
@@ -252,4 +258,20 @@ void ParBar::SelectModelID(int id){
             break;
         }
     }
+}
+
+void ParBar::OnModelHided(bool viewed){
+    size_t mid = ui->listWidgetM->currentRow();
+    if (mid >= gl->models.size())return;
+    Model &md = gl->models[mid];
+    md.viewed = viewed;
+    gl->update();
+}
+
+void ParBar::OnModelChangeName(){
+    size_t mid = ui->listWidgetM->currentRow();
+    if (mid >= gl->models.size())return;
+    gl->models[mid].name = ui->md_name->text().toStdString();
+    UpdatePar();
+    ui->listWidgetM->setCurrentRow(mid);
 }
