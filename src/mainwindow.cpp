@@ -10,7 +10,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QRect deskRect = desktopWidgt->availableGeometry();
     int deskWidth = deskRect.width();
     int deskHeight = deskRect.height();
-    int w = deskHeight - 192;
+    int w = deskHeight - 256;
     int x = (deskWidth - w - 300) / 2;
     int y = (deskHeight - w - 36) / 2;
 
