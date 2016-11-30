@@ -24,6 +24,7 @@ class Model{
 		void Rebuild();
 		glm::vec3 GetVertexReal(int id);
 		glm::vec3& GetVertex(int id);
+        glm::vec3 GetVNReal(int id);
 		glm::vec3& GetVN(int id);
 		glm::vec2& GetVT(int id);
 		void SetVertexPos(int id, double x, double y, double z);
@@ -35,6 +36,7 @@ class Model{
 		string name;
         string tex_name;
         bool viewed;
+        bool texed;
 		std::vector<objPoly> ps; // 多边形集合
 		std::vector<glm::vec3> vs; // 顶点集合
 		std::vector<glm::vec3> vn; // 法线集合

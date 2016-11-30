@@ -278,3 +278,37 @@ Model GetBall(double r, int cn, int hn){
 }
 
 
+
+Model GetPodetium(double r, double h, int n){
+    Model md;
+    md.name = "柱体";
+    double a = 2 * PI / n;
+    objPoly circle1, circle2;
+    for (int i = 0;i < n;++i){
+        double e = a * i;
+        md.vs.push_back(glm::vec3(r * cos(e), r * sin(e), h));//上顶点
+        md.vs.push_back(glm::vec3(r * cos(e), r * sin(e), 0));//下顶点
+        circle1.points.push_back(objPoint(2 * i + 1));
+        circle2.points.push_back(objPoint(2 * i + 2));
+    }
+    md.ps.push_back(circle1);
+    md.ps.push_back(circle2);
+    //md.vs.push_back(glm::vec3(0,0,h));
+    // 侧面
+    for (int i = 0;i < n - 1;++i){
+        objPoly t;
+        t.points.push_back(objPoint(2 * i + 1));//逆时针
+        t.points.push_back(objPoint(2 * i + 2));
+        t.points.push_back(objPoint(2 * i + 4));
+        t.points.push_back(objPoint(2 * i + 3));
+        md.ps.push_back(t);
+    }
+    /*objPoly t;
+    t.points.push_back(objPoint(2 * n - 2));//收尾相连矩形
+    t.points.push_back(objPoint(2 * n - 1));
+    t.points.push_back(objPoint(2));
+    t.points.push_back(objPoint(1));
+    md.ps.push_back(t);*/
+    md.Rebuild();
+    return md;
+}

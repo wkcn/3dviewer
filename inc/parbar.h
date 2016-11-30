@@ -27,6 +27,7 @@ public:
 	void UpdateFixPar();
 private:
     glm::mat4 GetChangeMat(int kind);
+    void AddShape(Model &);
 private:
 	QtGL *gl;
 	QLineEdit *matEdit[4][4];
@@ -35,7 +36,6 @@ private slots:
 	void SelectModel(int);
 	void SelectViewMode(int);
 	void SelectFixMode(int);
-	void AddShape();
 	void IChange();
 	void Change();
 	void FixApply();
@@ -48,9 +48,21 @@ private slots:
     void FortyFiveLight();
     void EnvironmentLight();
     void OnModelHided(bool);
+    void OnModelTex(bool);
     void OnModelChangeName();
     void on_btn_save_clicked();
     void on_btn_tex_clicked();
+    // add shape
+    void pushButton1();
+    void pushButton2();
+    void pushButton3();
+    void pushButton4();
+    void pushButton5();
+    void pushButton6();
+    void pushButton7();
+    void pushButton8();
+    void pushButton9();
+    void pushButton10();
 };
 
 #endif

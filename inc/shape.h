@@ -25,5 +25,5 @@ Model GetCube(double x, double y, double z);
 Model GetCone(double r, double h, int n);
 Model GetLoudou(double r, int cn, int hn);
 Model GetBall(double r, int cn, int hn);
-
+Model GetPodetium(double r, double h, int n);
 #endif

@@ -8,10 +8,11 @@ Model::Model():mat(1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1){
     name = "undefined";
     id = Model::MODEL_ID++;
     viewed = true;
+    texed = true;
 }	
 
 void Model::BindTexture(){
-    if (!tex_name.empty()){
+    if (!tex_name.empty() && texed){
         if (!Model::STR2TEX.count(tex_name)){
             Model::STR2TEX[tex_name] = LoadTexture(tex_name);
         }
@@ -71,6 +72,12 @@ glm::vec3 Model::GetVertexReal(int id){
 	glm::vec4 cv = mat * glm::vec4(ov.x, ov.y, ov.z, 1);	
 	return glm::vec3(cv.x, cv.y, cv.z);
 }
+glm::vec3 Model::GetVNReal(int id){
+    glm::vec3 &ov = vn[id - 1];
+    glm::vec4 cv = mat * glm::vec4(ov.x, ov.y, ov.z, 0);
+    return glm::vec3(cv.x, cv.y, cv.z);
+}
+
 glm::vec3& Model::GetVN(int id){return vn[id - 1];}
 glm::vec2& Model::GetVT(int id){return vt[id - 1];}
 
@@ -127,7 +134,7 @@ void Model::DrawObjPoint(const objPoint &p){
         glTexCoord2f(tv.x, tv.y);
 	}
     if (p.isNormalVector()){
-		glm::vec3 nv = GetVN(p.nid); 
+        glm::vec3 nv = GetVNReal(p.nid);
 		glNormal3f(nv.x, nv.y, nv.z);
 	}
     glm::vec3 ov = GetVertex(p.id); //p.getCoordinateVector()
@@ -205,5 +212,8 @@ void Model::MatMapVertices(){
 	for (int i = 1;i <= vs.size();++i){
 		vs[i - 1] = GetVertexReal(i);
 	}
-	mat = glm::mat4(1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1);
+    for (int i = 1;i <= vn.size();++i){
+        vn[i - 1] = GetVNReal(i);
+    }
+    mat = glm::mat4(1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1);
 }

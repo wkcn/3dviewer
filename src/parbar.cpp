@@ -28,9 +28,6 @@ ParBar::ParBar(QWidget *parent) :
 	ui->lineEditZ->setText(s);
 	ui->lineEditW->setText(s);
 
-	ui->comboBoxShape->addItem("正方形");
-	ui->comboBoxShape->addItem("圆锥");
-	connect(ui->btnAddShape, SIGNAL(clicked()), this, SLOT(AddShape()));
 
 	connect(ui->listWidgetM, SIGNAL(currentRowChanged(int)), this, SLOT(SelectModel(int)));  
 
@@ -67,8 +64,22 @@ ParBar::ParBar(QWidget *parent) :
     connect(ui->bottomLight, SIGNAL(clicked()), this, SLOT(ButtomLight()));
     connect(ui->environmentLight, SIGNAL(clicked()), this, SLOT(EnvironmentLight()));
 
-    connect(ui->radio_hided, SIGNAL(clicked(bool)), this, SLOT(OnModelHided(bool)));
+    connect(ui->checkBox_md, SIGNAL(clicked(bool)), this, SLOT(OnModelHided(bool)));
+    connect(ui->checkBox_tex, SIGNAL(clicked(bool)), this, SLOT(OnModelTex(bool)));
     connect(ui->md_name, SIGNAL(editingFinished()), this, SLOT(OnModelChangeName()));
+
+    // 添加形状
+    //模型 pushButton
+    connect(ui->pushButton_1, SIGNAL(clicked()), this, SLOT(pushButton1()));
+    connect(ui->pushButton_2, SIGNAL(clicked()), this, SLOT(pushButton2()));
+    connect(ui->pushButton_3, SIGNAL(clicked()), this, SLOT(pushButton3()));
+    connect(ui->pushButton_4, SIGNAL(clicked()), this, SLOT(pushButton4()));
+    connect(ui->pushButton_5, SIGNAL(clicked()), this, SLOT(pushButton5()));
+    connect(ui->pushButton_6, SIGNAL(clicked()), this, SLOT(pushButton6()));
+    connect(ui->pushButton_7, SIGNAL(clicked()), this, SLOT(pushButton7()));
+    connect(ui->pushButton_8, SIGNAL(clicked()), this, SLOT(pushButton8()));
+    connect(ui->pushButton_9, SIGNAL(clicked()), this, SLOT(pushButton9()));
+    connect(ui->pushButton_10, SIGNAL(clicked()), this, SLOT(pushButton10()));
 
 }
 void ParBar::ButtomLight(){};
@@ -101,9 +112,6 @@ void ParBar::UpdatePar(){
 	}
 }
 
-void ParBar::AddShape(){
-	UpdatePar();
-}
 
 glm::mat4 ParBar::GetChangeMat(int kind){
 	double x = ui->lineEditX->text().toDouble(); 
@@ -181,7 +189,8 @@ void ParBar::SelectModel(int i){
         Model &md = gl->models[i];
         QString s = QString("选择模型: %1(%2)").arg(QString::fromStdString(md.name)).arg(md.id);
 		ui->label_fix_name->setText(s);
-        ui->radio_hided->setChecked(md.viewed);
+        ui->checkBox_md->setChecked(md.viewed);
+        ui->checkBox_tex->setChecked(md.texed);
         ui->md_name->setText(QString::fromStdString(md.name));
 		UpdateFixPar();
         gl->SELECTED_MODEL = &md;
@@ -253,13 +262,9 @@ void ParBar::SelectFixMode(int i){
 void ParBar::OpenFile(bool){
     QString filename = QFileDialog::getOpenFileName(this, "Select a *.obj file", ".", "*.obj");
     if (filename.size()){
-        double x = ui->lineEditX->text().toDouble();
-        double y = ui->lineEditY->text().toDouble();
-        double z = ui->lineEditZ->text().toDouble();
         gl->addModel(filename);
         Model &md = *(gl->models.end() - 1);
-        md.mat = glm::translate(md.mat, glm::vec3(x,y,z));
-        UpdatePar();
+        AddShape(md);
     }
 }
 
@@ -294,6 +299,14 @@ void ParBar::OnModelHided(bool viewed){
     gl->update();
 }
 
+void ParBar::OnModelTex(bool viewed){
+    size_t mid = ui->listWidgetM->currentRow();
+    if (mid >= gl->models.size())return;
+    Model &md = gl->models[mid];
+    md.texed = viewed;
+    gl->update();
+}
+
 void ParBar::OnModelChangeName(){
     size_t mid = ui->listWidgetM->currentRow();
     if (mid >= gl->models.size())return;
@@ -320,5 +333,80 @@ void ParBar::on_btn_tex_clicked(){
     }
     QString filename = QFileDialog::getOpenFileName(this, "Select a picture file", ".", "Images (*.png *.bmp *.jpg *.tif *.GIF )");
     gl->models[mid].tex_name = filename.toStdString();
+    gl->update();
+}
+
+//正方体
+void ParBar::pushButton1(){
+    Model md = GetCube(2, 2, 2);
+    gl->models.push_back(md);
+    AddShape(*(gl->models.end() - 1));
+}
+//三棱锥
+void ParBar::pushButton2(){
+    Model md = GetCone(1, 2, 3);
+    md.name = "三棱锥";
+    gl->models.push_back(md);
+    AddShape(*(gl->models.end() - 1));
+}
+//四棱锥
+void ParBar::pushButton3(){
+    Model md = GetCone(1, 2, 4);
+    md.name = "四棱锥";
+    gl->models.push_back(md);
+
+    AddShape(*(gl->models.end() - 1));
+}
+//三棱柱
+void ParBar::pushButton4(){
+    Model md = GetPodetium(1, 2, 3);
+    md.name = "三棱柱";
+    gl->models.push_back(md);
+    AddShape(*(gl->models.end() - 1));
+}
+//六棱柱
+void ParBar::pushButton5(){
+    Model md = GetPodetium(1, 2, 6);
+    md.name = "六棱柱";
+    gl->models.push_back(md);
+    AddShape(*(gl->models.end() - 1));
+}
+//球体
+void ParBar::pushButton6(){
+    Model md = GetBall(1, 100, 100);
+    gl->models.push_back(md);
+    AddShape(*(gl->models.end() - 1));
+}
+//圆锥体
+void ParBar::pushButton7(){
+    Model md = GetCone(1, 2, 100);
+    gl->models.push_back(md);
+    AddShape(*(gl->models.end() - 1));
+}
+//圆柱体
+void ParBar::pushButton8(){
+    Model md = GetPodetium(1, 2, 100);
+    gl->models.push_back(md);
+    AddShape(*(gl->models.end() - 1));
+}
+//长方体
+void ParBar::pushButton9(){
+    Model md = GetPodetium(2, 2, 3);
+    gl->models.push_back(md);
+    AddShape(*(gl->models.end() - 1));
+}
+
+void ParBar::pushButton10(){
+    Model md = GetLoudou(1, 100, 100);
+    gl->models.push_back(md);
+    AddShape(*(gl->models.end() - 1));
+}
+
+void ParBar::AddShape(Model &md){
+    double x = ui->lineEditX->text().toDouble();
+    double y = ui->lineEditY->text().toDouble();
+    double z = ui->lineEditZ->text().toDouble();
+    md.mat = glm::translate(md.mat, glm::vec3(x,y,z));
+    UpdatePar();
     gl->update();
 }
