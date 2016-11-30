@@ -102,6 +102,32 @@
        <string>名称：</string>
       </property>
      </widget>
+     <widget class="QPushButton" name="btn_tex">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>350</y>
+        <width>75</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>修改纹理(&amp;T)</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btn_save">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>380</y>
+        <width>75</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>保存模型(&amp;S)</string>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="tab_2">
      <attribute name="title">

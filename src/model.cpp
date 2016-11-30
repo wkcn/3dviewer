@@ -1,12 +1,25 @@
 ﻿#include "model.h"
+#include "shape.h"
 
-int MODEL_ID = 1;
+int Model::MODEL_ID = 1;
+map<string, int> Model::STR2TEX;
 
 Model::Model():mat(1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1){
     name = "undefined";
-    id = MODEL_ID++;
+    id = Model::MODEL_ID++;
     viewed = true;
 }	
+
+void Model::BindTexture(){
+    if (!tex_name.empty()){
+        if (!Model::STR2TEX.count(tex_name)){
+            Model::STR2TEX[tex_name] = LoadTexture(tex_name);
+        }
+        glBindTexture(GL_TEXTURE_2D, Model::STR2TEX[tex_name]);
+    }else{
+        glBindTexture(GL_TEXTURE_2D, 0);
+    }
+}
 
 void Model::Draw(){
 	glColor4ub(156, 156, 170, 255);
@@ -50,7 +63,9 @@ void Model::Draw(){
 
 }
 
-glm::vec3& Model::GetVertex(int id){return vs[id - 1];}
+glm::vec3& Model::GetVertex(int id){
+    return vs[id - 1];
+}
 glm::vec3 Model::GetVertexReal(int id){
 	glm::vec3 &ov = vs[id - 1];
 	glm::vec4 cv = mat * glm::vec4(ov.x, ov.y, ov.z, 1);	
@@ -107,19 +122,17 @@ void Model::DrawPoints(){
 #include <iostream>
 using namespace std;
 void Model::DrawObjPoint(const objPoint &p){
-	//cout << cv.x << "-" << cv.y << "-" << cv.z << endl;
-	if (p.isTextureVector()){
-        //cout << p.tid << "==" << vt.size() << endl;
+    if (p.isTextureVector()){
         glm::vec2 tv = GetVT(p.tid);
         glTexCoord2f(tv.x, tv.y);
 	}
-	if (p.isNormalVector()){
+    if (p.isNormalVector()){
 		glm::vec3 nv = GetVN(p.nid); 
 		glNormal3f(nv.x, nv.y, nv.z);
 	}
-	glm::vec3 ov = GetVertex(p.id); //p.getCoordinateVector()
-	glm::vec4 cv = mat * glm::vec4(ov.x, ov.y, ov.z, 1);	
-	glVertex3f(cv.x, cv.y, cv.z);
+    glm::vec3 ov = GetVertex(p.id); //p.getCoordinateVector()
+    glm::vec4 cv = mat * glm::vec4(ov.x, ov.y, ov.z, 1);
+    glVertex3f(cv.x, cv.y, cv.z);
 }
 
 void Model::Rebuild(){

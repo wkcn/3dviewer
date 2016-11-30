@@ -49,6 +49,8 @@ private slots:
     void EnvironmentLight();
     void OnModelHided(bool);
     void OnModelChangeName();
+    void on_btn_save_clicked();
+    void on_btn_tex_clicked();
 };
 
 #endif

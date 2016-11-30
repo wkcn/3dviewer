@@ -1,9 +1,7 @@
 ﻿
 #include "loadobj.h"
 
-objPoint GetVSTN(std::stringstream &file){
-	std::string s;
-	file >> s;
+objPoint GetVSTN(std::string &s){
 	int par[3] = {0,0,0};
 	int p = 0;
 	std::string buf;
@@ -68,9 +66,24 @@ Model loadObj(std::string _filename) {
 			ss << buf;
 			objPoly op;
 			while (!ss.eof()){
-				objPoint p = GetVSTN(ss);
-				op.points.push_back(p);
+                std::string buf;
+                ss >> buf;
+                if (buf.size()){
+                    objPoint p = GetVSTN(buf);
+                    op.points.push_back(p);
+                }
 			}
+            // Check
+            bool err = false;
+            for (objPoint &p : op.points){
+                if (p.id > vs.size() || p.tid > vt.size() || p.nid > vn.size()){
+                    err = true;
+                    cout << "Error: " << p.id << "/" << p.tid << "/" << p.nid;
+                    cout << "[" << vs.size() << ", " << vt.size() << ", " << vn.size() << "]" << endl;
+                    break;
+                }
+            }
+            if (err)continue;
 			switch(op.points.size()){
 			case 3:
 				triangles.push_back(op);
@@ -89,8 +102,10 @@ Model loadObj(std::string _filename) {
 			md.ls.push_back(objLine(vs[a-1], vs[b-1]));
 		}
 		*/
-		if (operatorCh != "v" && operatorCh != "vn" && operatorCh != "vt" && operatorCh != "f")
-			std::getline(file, operatorCh);
+        if (operatorCh != "v" && operatorCh != "vn" && operatorCh != "vt" && operatorCh != "f"){
+            std::string h = "\n";
+            std::getline(file, h);//operatorCh);
+        }
 	}
 
 	md.triangleNum = triangles.size();
@@ -105,7 +120,7 @@ Model loadObj(std::string _filename) {
 	}
 	for (objPoly &p : others){
 		md.ps[k++] = p;
-	}
+    }
 	return md; 
 }
 

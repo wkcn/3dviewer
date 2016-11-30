@@ -3,6 +3,7 @@
 #include <iostream>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <QMessageBox>
 using namespace std;
 
 ParBar::ParBar(QWidget *parent) :
@@ -274,4 +275,25 @@ void ParBar::OnModelChangeName(){
     gl->models[mid].name = ui->md_name->text().toStdString();
     UpdatePar();
     ui->listWidgetM->setCurrentRow(mid);
+}
+
+void ParBar::on_btn_save_clicked(){
+    size_t mid = ui->listWidgetM->currentRow();
+    if (mid >= gl->models.size()){
+        QMessageBox::information(this,"提示","请选择一个模型");
+        return;
+    }
+    QString filename = QFileDialog::getSaveFileName(this, "Save to a *.obj file", ".", "*.obj");
+    gl->models[mid].Save(filename.toStdString());
+}
+
+void ParBar::on_btn_tex_clicked(){
+    size_t mid = ui->listWidgetM->currentRow();
+    if (mid >= gl->models.size()){
+        QMessageBox::information(this,"提示","请选择一个模型");
+        return;
+    }
+    QString filename = QFileDialog::getOpenFileName(this, "Select a picture file", ".", "Images (*.png *.bmp *.jpg *.tif *.GIF )");
+    gl->models[mid].tex_name = filename.toStdString();
+    gl->update();
 }

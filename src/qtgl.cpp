@@ -29,7 +29,7 @@ QtGL::QtGL(QWidget *parent):QOpenGLWidget(parent){
 
 void QtGL::initializeGL(){
 
-    TEX_ID = LoadTexture("model//s.png");
+    //TEX_ID = LoadTexture("model//s.png");
     //Model md = loadObj("model//wolverine_obj.obj");
     //models.push_back(md);
 	//Model cu = GetCube(2,2,2);
@@ -116,7 +116,8 @@ void QtGL::paintGL(){
         else glColor3ub(255,0,255);
         switch (view_mode){
 			case TEX_MODE:
-				glBindTexture(GL_TEXTURE_2D, TEX_ID);
+                md.BindTexture();
+                //glBindTexture(GL_TEXTURE_2D, TEX_ID);
 			case FACE_MODE:
 				md.Draw();
 				break;
