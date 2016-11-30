@@ -34,6 +34,7 @@ public:
     void initializeGL();
     void resizeGL(int w, int h);
     void paintGL();
+    void addModel(QString filename);
 public:
 	void mousePressEvent(QMouseEvent *event) override;
 	void mouseMoveEvent(QMouseEvent *event) override;
