@@ -4,10 +4,10 @@
 using namespace std;
 
 QtGL::QtGL(QWidget *parent):QOpenGLWidget(parent){
-    QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    setSizePolicy(sizePolicy);
-    setMinimumSize(QSize(800, 800));
-    setMaximumSize(QSize(800, 800));
+    //QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    //setSizePolicy(sizePolicy);
+    //setMinimumSize(QSize(800, 800));
+    //setMaximumSize(QSize(800, 800));
 	view_mode = TEX_MODE;
 	CAM_X = 0.0f;										//图像平移分量
 	CAM_Z = 0.0f;
@@ -32,7 +32,7 @@ void QtGL::initializeGL(){
     //TEX_ID = LoadTexture("model//s.png");
     //Model md = loadObj("model//wolverine_obj.obj");
     //models.push_back(md);
-	//Model cu = GetCube(2,2,2);
+    //Model cu = GetCone(1,2,3);
     //Model cu = GetBall(1, 100, 100);
     //models.push_back(cu);
 
@@ -303,3 +303,8 @@ void QtGL::SetViewMode(VIEW_MODE i){
 	view_mode = i;
 	update();
 }
+
+//void QtGL::resizeEvent(QResizeEvent *event){
+    //QSize s = event->size();
+    //resizeGL(s.width(), s.height());
+//}

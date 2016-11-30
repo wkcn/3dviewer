@@ -39,12 +39,3 @@ void MainWindow::OpenFile(bool){
         bar->UpdatePar();
     }
 }
-
-
-void MainWindow::mousePressEvent(QMouseEvent *event){
-    gl->mousePressEvent(event);
-}
-void MainWindow::mouseMoveEvent(QMouseEvent *event){gl->mouseMoveEvent(event);}
-void MainWindow::mouseReleaseEvent(QMouseEvent *event){gl->mouseReleaseEvent(event);}
-void MainWindow::wheelEvent(QWheelEvent *event){gl->wheelEvent(event);}
-void MainWindow::keyPressEvent(QKeyEvent *event){gl->keyPressEvent(event);}

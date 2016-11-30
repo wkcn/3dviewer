@@ -133,7 +133,7 @@ Model GetCone(double r, double h, int n){
 	for (int i = 0;i < n;++i){
 		double e = a * i;
 		md.vs.push_back(glm::vec3(r * cos(e), r * sin(e), 0));
-		circle.points.push_back(objPoint(i));
+        circle.points.push_back(objPoint(i+1));
 	}
 	md.ps.push_back(circle);
 
