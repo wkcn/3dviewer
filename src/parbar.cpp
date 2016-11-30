@@ -37,7 +37,8 @@ ParBar::ParBar(QWidget *parent) :
 	ui->comboBox_fix->addItem("平移");
 	ui->comboBox_fix->addItem("旋转");
 	ui->comboBox_fix->addItem("放缩");
-	ui->comboBox_fix->addItem("矩阵");
+    ui->comboBox_fix->addItem("变换矩阵");
+    ui->comboBox_fix->addItem("局部矩阵设置");
 	// 生成4x4矩阵
 	ui->label_fix_name->setText("未选择模型");
 	for (int r = 0;r < 4;++r){
@@ -101,6 +102,7 @@ glm::mat4 ParBar::GetChangeMat(int kind){
 		case 2:
 			mat = glm::scale(glm::mat4(1.0),glm::vec3(x, y, z));
 			break;
+        // 矩阵
 		case 3:
 			for (int r = 0;r < 4;++r){
 				for (int c = 0;c < 4;++c){
@@ -122,8 +124,17 @@ void ParBar::IChange(){
 void ParBar::Change(){
 	size_t mid = ui->listWidgetM->currentRow();
 	if (mid >= gl->models.size())return;
-	glm::mat4 &mat = gl->models[mid].mat; 
-	mat = mat * GetChangeMat(ui->comboBox_fix->currentIndex());
+    glm::mat4 &mat = gl->models[mid].mat;
+    int kind = ui->comboBox_fix->currentIndex();
+    if (kind == 4){
+        for (int r = 0;r < 4;++r){
+            for (int c = 0;c < 4;++c){
+                mat[r][c] = matEdit[r][c]->text().toDouble();
+            }
+        }
+    }else{
+        mat = mat * GetChangeMat(kind);
+    }
 	UpdateFixPar();
 	gl->update();
 }
@@ -159,10 +170,10 @@ void ParBar::UpdateFixPar(){
 
 void ParBar::SelectFixMode(int i){
 	ui->lineEditW->setText("0");
-	switch(i){
+    switch(i){
 	case 0:
 	case 1:
-		ui->lineEditX->setText("0");
+        ui->lineEditX->setText("0");
 		ui->lineEditY->setText("0");
 		ui->lineEditZ->setText("0");
 		break;
@@ -171,6 +182,22 @@ void ParBar::SelectFixMode(int i){
 		ui->lineEditY->setText("1");
 		ui->lineEditZ->setText("1");
 		break;
+    case 3:
+        for (int r = 0;r < 4;++r){
+            for (int c = 0;c < 4;++c){
+                QString s;
+                s.setNum(int(r == c));
+                matEdit[r][c]->setText(s);
+            }
+        }
+        break;
+    case 4:
+        break;
 	}
+    if (i != 4)
+        ui->btn_change->setText("正变换(&C)");
+    else
+        ui->btn_change->setText("设置(&S)");
+    ui->btn_ichange->setEnabled(i != 4);
 
 }
