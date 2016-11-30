@@ -12,11 +12,11 @@ QtGL::QtGL(QWidget *parent):QOpenGLWidget(parent){
 	CAM_X = 0.0f;										//图像平移分量
 	CAM_Z = 0.0f;
 	CAM_Y = 0.0f;
-	CAM_TX = 1.0f;										//视图大小，控制缩放
-	CAM_TY = 1.0f;
-	CAM_TZ = 1.0f;
-    CAM_DELTAX = 0;
-    CAM_DELTAY = 0;
+    CAM_TX = 0.4540f;										//视图大小，控制缩放
+    CAM_TY = 0.4540f;
+    CAM_TZ = 0.4540f;
+    CAM_DELTAX = 37.2;
+    CAM_DELTAY = -49.2;
 
 	SELECTED_POINT = 0;
 	SELECTED_POLY = 0;

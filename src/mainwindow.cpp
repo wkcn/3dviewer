@@ -36,7 +36,7 @@ MainWindow::~MainWindow(){
 }
 
 void MainWindow::OpenFile(bool){
-    QString filename = QFileDialog::getOpenFileName(this, "Select a *.obj file", ".", "*.obj");
+    QString filename = QFileDialog::getOpenFileName(this, "Select a *.obj file", "", "*.obj");
     if (filename.size()){
         gl->addModel(filename);
         bar->UpdatePar();

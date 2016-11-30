@@ -103,6 +103,7 @@ void ParBar::ButtomLight(){
     gl->LightPostion[2] = 2;
     gl->LightPostion[3] = 1;
 
+    gl->update();
 }
 void ParBar::HeadLight(){
 
@@ -121,6 +122,7 @@ void ParBar::HeadLight(){
     gl->LightPostion[2] = -2;
     gl->LightPostion[3] = 1;
 
+    gl->update();
 };
 void ParBar::FortyFiveLight(){
 
@@ -138,6 +140,7 @@ void ParBar::FortyFiveLight(){
     gl->LightPostion[1] = 2;
     gl->LightPostion[2] = 2;
     gl->LightPostion[3] = 1;
+    gl->update();
 };
 void ParBar::EnvironmentLight(){
 
@@ -155,6 +158,7 @@ void ParBar::EnvironmentLight(){
     gl->LightPostion[1] = 2;
     gl->LightPostion[2] = 2;
     gl->LightPostion[3] = 1;
+    gl->update();
 };
 
 void ParBar::yellowLight(){
@@ -162,6 +166,7 @@ void ParBar::yellowLight(){
     gl->DiffuseLight[1] = 1;
     gl->DiffuseLight[2] = 1;
     gl->DiffuseLight[2] = 0;
+    gl->update();
 }
 
 
@@ -171,6 +176,7 @@ void ParBar::redLight(){
     gl->DiffuseLight[2] = 1;
     gl->DiffuseLight[1] = 0;
     gl->DiffuseLight[2] = 0;
+    gl->update();
 }
 
 
@@ -180,6 +186,7 @@ void ParBar::blueLight(){
     gl->DiffuseLight[2] = 1;
     gl->DiffuseLight[0] = 0;
     gl->DiffuseLight[1] = 0;
+    gl->update();
 }
 
 
@@ -187,6 +194,7 @@ void ParBar::whiteLight(){
     gl->DiffuseLight[0] = 1;
     gl->DiffuseLight[1] = 1;
     gl->DiffuseLight[2] = 1;
+    gl->update();
 }
 
 ParBar::~ParBar(){
@@ -362,7 +370,7 @@ void ParBar::SelectFixMode(int i){
 }
 
 void ParBar::OpenFile(bool){
-    QString filename = QFileDialog::getOpenFileName(this, "Select a *.obj file", ".", "*.obj");
+    QString filename = QFileDialog::getOpenFileName(this, "Select a *.obj file", "", "*.obj");
     if (filename.size()){
         gl->addModel(filename);
         Model &md = *(gl->models.end() - 1);
@@ -423,7 +431,7 @@ void ParBar::on_btn_save_clicked(){
         QMessageBox::information(this,"提示","请选择一个模型");
         return;
     }
-    QString filename = QFileDialog::getSaveFileName(this, "Save to a *.obj file", ".", "*.obj");
+    QString filename = QFileDialog::getSaveFileName(this, "Save to a *.obj file", "", "*.obj");
     gl->models[mid].Save(filename.toStdString());
 }
 
@@ -433,7 +441,7 @@ void ParBar::on_btn_tex_clicked(){
         QMessageBox::information(this,"提示","请选择一个模型");
         return;
     }
-    QString filename = QFileDialog::getOpenFileName(this, "Select a picture file", ".", "Images (*.png *.bmp *.jpg *.tif *.GIF )");
+    QString filename = QFileDialog::getOpenFileName(this, "Select a picture file", "", "Images (*.png *.bmp *.jpg *.tif *.GIF )");
     gl->models[mid].tex_name = filename.toStdString();
     gl->update();
 }
