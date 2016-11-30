@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
@@ -294,24 +294,11 @@
        <string>底部光照</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="headLight">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>60</y>
-        <width>104</width>
-        <height>32</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string> 上部光照</string>
-      </property>
-     </widget>
      <widget class="QPushButton" name="foutyFiveLight">
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>100</y>
+        <y>70</y>
         <width>104</width>
         <height>32</height>
        </rect>
@@ -323,14 +310,66 @@
      <widget class="QPushButton" name="environmentLight">
       <property name="geometry">
        <rect>
-        <x>140</x>
-        <y>60</y>
+        <x>10</x>
+        <y>120</y>
         <width>104</width>
         <height>32</height>
        </rect>
       </property>
       <property name="text">
        <string> 全局光照</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="redLight">
+      <property name="geometry">
+       <rect>
+        <x>160</x>
+        <y>20</y>
+        <width>80</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string> 红色光</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="blueLight">
+      <property name="geometry">
+       <rect>
+        <x>160</x>
+        <y>50</y>
+        <width>80</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string> 蓝色光</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="yellowLight">
+      <property name="geometry">
+       <rect>
+        <x>160</x>
+        <y>80</y>
+        <width>80</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>  黄色光</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="whiteLight">
+      <property name="geometry">
+       <rect>
+        <x>160</x>
+        <y>110</y>
+        <width>80</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string> 白光</string>
       </property>
      </widget>
     </widget>

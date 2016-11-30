@@ -56,6 +56,9 @@ public:
     objPoint *SELECTED_POINT;
     objPoly *SELECTED_POLY;
     Model *SELECTED_MODEL;
+    GLfloat DiffuseLight[4] {0,0,0,0};
+    GLfloat LightPostion[4] {1,1,1,1};
+    GLfloat EnvironmentLight[4] {1,1,1,1};
 signals:
     void UpdateMousePosS(glm::vec3);
     void SelectModelID(int);

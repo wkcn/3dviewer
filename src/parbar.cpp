@@ -59,10 +59,15 @@ ParBar::ParBar(QWidget *parent) :
 
     connect(ui->btnAdd, SIGNAL(clicked(bool)), this, SLOT(OpenFile(bool)));
     connect(ui->btnDel, SIGNAL(clicked(bool)), this, SLOT(DeleteModel(bool)));
-    connect(ui->headLight, SIGNAL(clicked()), this, SLOT(HeadLight()));
     connect(ui->foutyFiveLight, SIGNAL(clicked()), this, SLOT(FortyFiveLight()));
     connect(ui->bottomLight, SIGNAL(clicked()), this, SLOT(ButtomLight()));
     connect(ui->environmentLight, SIGNAL(clicked()), this, SLOT(EnvironmentLight()));
+
+
+    connect(ui->blueLight, SIGNAL(clicked()), this, SLOT(blueLight()));
+    connect(ui->whiteLight, SIGNAL(clicked()), this, SLOT(whiteLight()));
+    connect(ui->redLight, SIGNAL(clicked()), this, SLOT(redLight()));
+    connect(ui->yellowLight, SIGNAL(clicked()), this, SLOT(yellowLight()));
 
     connect(ui->checkBox_md, SIGNAL(clicked(bool)), this, SLOT(OnModelHided(bool)));
     connect(ui->checkBox_tex, SIGNAL(clicked(bool)), this, SLOT(OnModelTex(bool)));
@@ -82,10 +87,107 @@ ParBar::ParBar(QWidget *parent) :
     connect(ui->pushButton_10, SIGNAL(clicked()), this, SLOT(pushButton10()));
 
 }
-void ParBar::ButtomLight(){};
-void ParBar::HeadLight(){};
-void ParBar::FortyFiveLight(){};
-void ParBar::EnvironmentLight(){};
+void ParBar::ButtomLight(){
+    gl->EnvironmentLight[0] = 0;
+    gl->EnvironmentLight[1] = 0;
+    gl->EnvironmentLight[2] = 0;
+    gl->EnvironmentLight[3] = 0;
+
+    gl->DiffuseLight[0] = 1;
+    gl->DiffuseLight[1] = 1;
+    gl->DiffuseLight[2] = 1;
+    gl->DiffuseLight[3] = 1;
+
+    gl->LightPostion[0] = 0;
+    gl->LightPostion[1] = 0;
+    gl->LightPostion[2] = 2;
+    gl->LightPostion[3] = 1;
+
+}
+void ParBar::HeadLight(){
+
+    gl->EnvironmentLight[0] = 0;
+    gl->EnvironmentLight[1] = 0;
+    gl->EnvironmentLight[2] = 0;
+    gl->EnvironmentLight[3] = 0;
+
+    gl->DiffuseLight[0] = 1;
+    gl->DiffuseLight[1] = 1;
+    gl->DiffuseLight[2] = 1;
+    gl->DiffuseLight[3] = 1;
+
+    gl->LightPostion[0] = 0;
+    gl->LightPostion[1] = 0;
+    gl->LightPostion[2] = -2;
+    gl->LightPostion[3] = 1;
+
+};
+void ParBar::FortyFiveLight(){
+
+    gl->EnvironmentLight[0] = 0;
+    gl->EnvironmentLight[1] = 0;
+    gl->EnvironmentLight[2] = 0;
+    gl->EnvironmentLight[3] = 0;
+
+    gl->DiffuseLight[0] = 1;
+    gl->DiffuseLight[1] = 1;
+    gl->DiffuseLight[2] = 1;
+    gl->DiffuseLight[3] = 1;
+
+    gl->LightPostion[0] = 2;
+    gl->LightPostion[1] = 2;
+    gl->LightPostion[2] = 2;
+    gl->LightPostion[3] = 1;
+};
+void ParBar::EnvironmentLight(){
+
+    gl->EnvironmentLight[0] = 1;
+    gl->EnvironmentLight[1] = 1;
+    gl->EnvironmentLight[2] = 1;
+    gl->EnvironmentLight[3] = 1;
+
+    gl->DiffuseLight[0] = 0;
+    gl->DiffuseLight[1] = 0;
+    gl->DiffuseLight[2] = 0;
+    gl->DiffuseLight[3] = 0;
+
+    gl->LightPostion[0] = 2;
+    gl->LightPostion[1] = 2;
+    gl->LightPostion[2] = 2;
+    gl->LightPostion[3] = 1;
+};
+
+void ParBar::yellowLight(){
+    gl->DiffuseLight[0] = 1;
+    gl->DiffuseLight[1] = 1;
+    gl->DiffuseLight[2] = 1;
+    gl->DiffuseLight[2] = 0;
+}
+
+
+void ParBar::redLight(){
+    gl->DiffuseLight[0] = 1;
+    gl->DiffuseLight[1] = 1;
+    gl->DiffuseLight[2] = 1;
+    gl->DiffuseLight[1] = 0;
+    gl->DiffuseLight[2] = 0;
+}
+
+
+void ParBar::blueLight(){
+    gl->DiffuseLight[0] = 1;
+    gl->DiffuseLight[1] = 1;
+    gl->DiffuseLight[2] = 1;
+    gl->DiffuseLight[0] = 0;
+    gl->DiffuseLight[1] = 0;
+}
+
+
+void ParBar::whiteLight(){
+    gl->DiffuseLight[0] = 1;
+    gl->DiffuseLight[1] = 1;
+    gl->DiffuseLight[2] = 1;
+}
 
 ParBar::~ParBar(){
     delete ui;
