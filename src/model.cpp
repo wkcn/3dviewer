@@ -102,12 +102,14 @@ void Model::DrawPoints(){
 	glEnd();
 }
 
-
+#include <iostream>
+using namespace std;
 void Model::DrawObjPoint(const objPoint &p){
 	//cout << cv.x << "-" << cv.y << "-" << cv.z << endl;
 	if (p.isTextureVector()){
-		glm::vec2 tv = GetVT(p.tid); 
-		glTexCoord2f(tv.x, tv.y);
+        //cout << p.tid << "==" << vt.size() << endl;
+        glm::vec2 tv = GetVT(p.tid);
+        glTexCoord2f(tv.x, tv.y);
 	}
 	if (p.isNormalVector()){
 		glm::vec3 nv = GetVN(p.nid); 

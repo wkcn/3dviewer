@@ -29,7 +29,7 @@ QtGL::QtGL(QWidget *parent):QOpenGLWidget(parent){
 
 void QtGL::initializeGL(){
 
-    TEX_ID = 0;//LoadTexture("model//s.png");
+    TEX_ID = LoadTexture("model//s.png");
     //Model md = loadObj("model//wolverine_obj.obj");
     //models.push_back(md);
 	//Model cu = GetCube(2,2,2);
@@ -38,6 +38,7 @@ void QtGL::initializeGL(){
 
 	//打开2D贴图状态
 	glEnable(GL_TEXTURE_2D);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	//混色
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
