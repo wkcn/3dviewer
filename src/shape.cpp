@@ -133,23 +133,25 @@ Model GetCone(double r, double h, int n){
 	for (int i = 0;i < n;++i){
 		double e = a * i;
 		md.vs.push_back(glm::vec3(r * cos(e), r * sin(e), 0));
-        circle.points.push_back(objPoint(i+1));
+        md.vt.push_back(glm::vec2(i * 1.0 / n, 0));
+        circle.points.push_back(objPoint(i+1, i+1));
 	}
 	md.ps.push_back(circle);
 
 	md.vs.push_back(glm::vec3(0,0,h));
+    md.vt.push_back(glm::vec2(0, 1.0));
 	// 侧面
 	for (int i = 0;i < n - 1;++i){
 		objPoly t;
-		t.points.push_back(objPoint(i + 1));
-		t.points.push_back(objPoint(i + 2));
-		t.points.push_back(objPoint(n+1));
+        t.points.push_back(objPoint(i + 1, i + 1));
+        t.points.push_back(objPoint(i + 2, i + 2));
+        t.points.push_back(objPoint(n+1, n + 1));
 		md.ps.push_back(t);
 	}
 	objPoly t;
-	t.points.push_back(objPoint(n));
-	t.points.push_back(objPoint(1));
-	t.points.push_back(objPoint(n+1));
+    t.points.push_back(objPoint(n,n));
+    t.points.push_back(objPoint(1,1));
+    t.points.push_back(objPoint(n+1,n+1));
 	md.ps.push_back(t);
 	md.Rebuild();
 	return md;
