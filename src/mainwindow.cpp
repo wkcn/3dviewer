@@ -17,16 +17,25 @@ MainWindow::MainWindow(QWidget *parent) :
 	int x = (deskWidth - 1200) / 2;
 	int y = (deskHeight - 836) / 2;
 
+    connect(ui->action_O, SIGNAL(triggered(bool)), this, SLOT(OpenFile(bool)));
 	move(x,y);
 	bar->SetGL(gl);
     bar->show();
 	bar->move(x+800,y);
+
+
 
 }
 
 MainWindow::~MainWindow(){
     delete gl;
     delete ui;
+}
+
+void MainWindow::OpenFile(bool){
+    QString filename = QFileDialog::getOpenFileName(this, "Select a *.obj file", ".", "*.obj");
+    if (filename.size())
+    gl->addModel(filename);
 }
 
 

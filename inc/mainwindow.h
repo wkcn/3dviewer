@@ -8,6 +8,7 @@
 #include <QDesktopWidget>
 #include "qtgl.h"
 #include "parbar.h"
+#include <QFileDialog>
 
 namespace Ui {
 class MainWindow;
@@ -20,6 +21,7 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+
 protected:
     void mousePressEvent(QMouseEvent *event) override;
     void mouseMoveEvent(QMouseEvent *event) override;
@@ -30,6 +32,8 @@ private:
     Ui::MainWindow *ui;
 	ParBar *bar;
     QtGL *gl;
+public slots:
+    void OpenFile(bool);
 };
 
 #endif // MAINWINDOW_H

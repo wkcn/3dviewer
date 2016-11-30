@@ -70,6 +70,11 @@ void QtGL::initializeGL(){
 	glEnable(GL_LIGHTING);
 }
 
+void QtGL::addModel(QString filename){
+    Model md = loadObj(filename.toStdString());
+    models.push_back(md);
+}
+
 void QtGL::paintGL(){
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
