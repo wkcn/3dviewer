@@ -1,8 +1,7 @@
+﻿
 #include "loadobj.h"
 
-objPoint GetVSTN(std::stringstream &file, std::vector<glm::vec3> &vs, std::vector<glm::vec2> &vt, std::vector<glm::vec3> &vn){
-	std::string s;
-	file >> s;
+objPoint GetVSTN(std::string &s){
 	int par[3] = {0,0,0};
 	int p = 0;
 	std::string buf;
@@ -25,26 +24,25 @@ objPoint GetVSTN(std::stringstream &file, std::vector<glm::vec3> &vs, std::vecto
 	sscanf(buf.c_str(), "%d", &t);
 	par[p++] = t;
 
-	glm::vec3 cv;
-	glm::vec2 tv;
-	glm::vec3 nv;
-	if (par[0])cv = vs[par[0] - 1];
-	if (par[1])tv = vt[par[1] - 1];
-	if (par[2])nv = vn[par[2] - 1];
-	return objPoint(cv,tv,nv);
+	return objPoint(par[0],par[1],par[2]);
 }
 
 Model loadObj(std::string _filename) {
 	std::ifstream file(_filename);
+	if (file.fail()){
+		std::cout << "Read " << _filename << " Error :-(" << std::endl;
+		return Model();
+	}
 	std::string operatorCh;
-	char tempCh;
-	std::vector<glm::vec3> vs;
-	std::vector<glm::vec3> vn;
-	std::vector<glm::vec2> vt;
-	Model result;
+	Model md;
+	std::vector<glm::vec3> &vs = md.vs;
+	std::vector<glm::vec3> &vn = md.vn;
+	std::vector<glm::vec2> &vt = md.vt;
+	std::vector<objPoly> triangles;
+	std::vector<objPoly> rects;
+	std::vector<objPoly> others;
 	double x, y, z;
 	double u, v;
-	int vs1, vn1, vt1, vs2, vn2, vt2, vs3, vn3, vt3;
 	while (!file.eof()) {
 		file >> operatorCh;
 		if (file.eof())break;
@@ -66,37 +64,63 @@ Model loadObj(std::string _filename) {
 			std::getline(file, buf);
 			std::stringstream ss;
 			ss << buf;
-			objPoint point1 = GetVSTN(ss, vs, vt, vn);
-			objPoint point2 = GetVSTN(ss, vs, vt, vn);
-			objPoint point3 = GetVSTN(ss, vs, vt, vn);
-			if (!ss.eof()){
-				objPoint point4 = GetVSTN(ss, vs, vt, vn);
-				if (ss.eof()){
-					result.rs.push_back(objRect(point1, point2, point3, point4));
-				}else{
-					objPoly op;
-					op.points.push_back(point1);
-					op.points.push_back(point2);
-					op.points.push_back(point3);
-					op.points.push_back(point4);
-					while (!ss.eof()){
-						objPoint p = GetVSTN(ss, vs, vt, vn);
-						op.points.push_back(p);
-					}
-					result.ps.push_back(op);
-				}
-			}else{
-				result.ts.push_back(objTriangle(point1, point2, point3));
-			} 
-		}
+			objPoly op;
+			while (!ss.eof()){
+                std::string buf;
+                ss >> buf;
+                if (buf.size()){
+                    objPoint p = GetVSTN(buf);
+                    op.points.push_back(p);
+                }
+			}
+            // Check
+            bool err = false;
+            for (objPoint &p : op.points){
+                if (p.id > vs.size() || p.tid > vt.size() || p.nid > vn.size()){
+                    err = true;
+                    cout << "Error: " << p.id << "/" << p.tid << "/" << p.nid;
+                    cout << "[" << vs.size() << ", " << vt.size() << ", " << vn.size() << "]" << endl;
+                    break;
+                }
+            }
+            if (err)continue;
+			switch(op.points.size()){
+			case 3:
+				triangles.push_back(op);
+				break;
+			case 4:
+				rects.push_back(op);
+				break;
+			default:
+				others.push_back(op);
+			}
+		}	
+		/*
 		if (operatorCh == "l"){
 			int a,b;
 			file >> a >> b;
-			result.ls.push_back(objLine(vs[a-1], vs[b-1]));
+			md.ls.push_back(objLine(vs[a-1], vs[b-1]));
 		}
-		if (operatorCh != "v" && operatorCh != "vn" && operatorCh != "vt" && operatorCh != "f")
-			std::getline(file, operatorCh);
+		*/
+        if (operatorCh != "v" && operatorCh != "vn" && operatorCh != "vt" && operatorCh != "f"){
+            std::string h = "\n";
+            std::getline(file, h);//operatorCh);
+        }
 	}
-	return result;
+
+	md.triangleNum = triangles.size();
+	md.rectNum = rects.size();
+	md.ps.resize(triangles.size() + rects.size() + others.size());
+	int k = 0;
+	for (objPoly &p : triangles){
+		md.ps[k++] = p;
+	}
+	for (objPoly &p : rects){
+		md.ps[k++] = p;
+	}
+	for (objPoly &p : others){
+		md.ps[k++] = p;
+    }
+	return md; 
 }
 
