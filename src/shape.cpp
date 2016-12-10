@@ -68,7 +68,7 @@ void DrawAxis(){
 void DrawGround(){
 	glLineWidth(2);
 	const int K = 5;
-	glColor3ub(127,127,127);
+    glColor3ub(127,127,127);
 	glBegin(GL_LINES);
 	for (int x = -K; x <= K;++x){
 		glVertex3f(x,-K,0);
@@ -78,7 +78,7 @@ void DrawGround(){
 		glVertex3f(-K,y,0);
 		glVertex3f(K,y,0);
 	}
-	glEnd();
+    glEnd();
 	glLineWidth(0);
 }
 
