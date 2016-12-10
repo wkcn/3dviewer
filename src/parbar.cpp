@@ -15,6 +15,7 @@ ParBar::ParBar(QWidget *parent) :
     ui->comboBox->addItem("面模式");
     ui->comboBox->addItem("线模式");
     ui->comboBox->addItem("点模式");
+    ui->comboBox->addItem("水晶质感");
 	connect(ui->comboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(SelectViewMode(int)));
 
 	ui->lineEditX->setValidator(new QDoubleValidator(-1000, 1000, 4, this));
@@ -27,6 +28,8 @@ ParBar::ParBar(QWidget *parent) :
 	ui->lineEditY->setText(s);
 	ui->lineEditZ->setText(s);
 	ui->lineEditW->setText(s);
+
+    ui->AxisViewed->setChecked(true);
 
 
 	connect(ui->listWidgetM, SIGNAL(currentRowChanged(int)), this, SLOT(SelectModel(int)));  
@@ -85,6 +88,8 @@ ParBar::ParBar(QWidget *parent) :
     connect(ui->pushButton_8, SIGNAL(clicked()), this, SLOT(pushButton8()));
     connect(ui->pushButton_9, SIGNAL(clicked()), this, SLOT(pushButton9()));
     connect(ui->pushButton_10, SIGNAL(clicked()), this, SLOT(pushButton10()));
+
+    connect(ui->AxisViewed, SIGNAL(clicked(bool)), this, SLOT(on_AxisViewed_clicked(bool)));
 
 }
 void ParBar::ButtomLight(){
@@ -501,7 +506,7 @@ void ParBar::pushButton8(){
 }
 //长方体
 void ParBar::pushButton9(){
-    Model md = GetPodetium(2, 2, 3);
+    Model md = GetCube(2, 2, 3);
     gl->models.push_back(md);
     AddShape(*(gl->models.end() - 1));
 }
@@ -518,5 +523,11 @@ void ParBar::AddShape(Model &md){
     double z = ui->lineEditZ->text().toDouble();
     md.mat = glm::translate(md.mat, glm::vec3(x,y,z));
     UpdatePar();
+    gl->update();
+}
+
+
+void ParBar::on_AxisViewed_clicked(bool checked){
+    gl->AxisViewed = checked;
     gl->update();
 }

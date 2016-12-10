@@ -114,13 +114,13 @@ Model GetCube(double x, double y, double z){
 	md.vt.push_back(glm::vec2(0,1));
 	// 面, 上下左右前后
 	AddRect(md, 1,4,3,2);
-	AddRect(md, 5,6,7,8);
+    AddRect(md, 6,7,8,5);
 
-	AddRect(md, 2,3,7,6);
-	AddRect(md, 4,1,5,8);
+    AddRect(md, 6,7,3,2);
+    AddRect(md, 1,4,8,5);
 
-	AddRect(md, 3,4,8,7);
-	AddRect(md, 1,2,6,5);
+    AddRect(md, 8,4,3,7);
+    AddRect(md, 1,5,6,2);
 	md.Rebuild();
 	return md;
 }

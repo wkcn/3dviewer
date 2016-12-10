@@ -67,6 +67,7 @@ private slots:
     void pushButton8();
     void pushButton9();
     void pushButton10();
+    void on_AxisViewed_clicked(bool checked);
 };
 
 #endif

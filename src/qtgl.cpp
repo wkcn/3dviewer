@@ -93,8 +93,10 @@ void QtGL::paintGL(){
 	glGetDoublev(GL_PROJECTION_MATRIX, projection);
 	glGetIntegerv(GL_VIEWPORT, viewport);
 
-	DrawGround();
-	DrawAxis();
+    if (AxisViewed){
+        DrawGround();
+        DrawAxis();
+    }
 
 
 	glPushMatrix();
@@ -109,8 +111,19 @@ void QtGL::paintGL(){
         if (!md.viewed)continue;
         if (&md != SELECTED_MODEL)glColor3ub(255,255,255);
         else glColor3ub(255,0,255);
+        if (view_mode == CRYSTAL_MODE){
+            // 水晶质感
+            glTexGeni(GL_S,GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
+            glTexGeni(GL_T,GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
+            glEnable(GL_TEXTURE_GEN_S);
+            glEnable(GL_TEXTURE_GEN_T);
+        }else{
+            glDisable(GL_TEXTURE_GEN_S);
+            glDisable(GL_TEXTURE_GEN_T);
+        }
         switch (view_mode){
 			case TEX_MODE:
+            case CRYSTAL_MODE:
                 md.BindTexture();
                 //glBindTexture(GL_TEXTURE_2D, TEX_ID);
 			case FACE_MODE:
@@ -282,7 +295,7 @@ void QtGL::keyPressEvent(QKeyEvent *event){
 		KeyDeleteDown();
 		break;
 	case Qt::Key_Up:
-		CAM_Y += 0.1;update();break;
+        CAM_Y -= 0.1;update();break;
 	case Qt::Key_Down:
 		CAM_Y += 0.1;update();break;
 	case Qt::Key_Left:

@@ -23,7 +23,7 @@
 using namespace std;
 
 enum VIEW_MODE{
-	TEX_MODE, FACE_MODE, LINE_MODE, POINT_MODE
+    TEX_MODE, FACE_MODE, LINE_MODE, POINT_MODE, CRYSTAL_MODE
 };
 
 
@@ -59,6 +59,7 @@ public:
     GLfloat DiffuseLight[4] {0,0,0,0};
     GLfloat LightPostion[4] {1,1,1,1};
     GLfloat EnvironmentLight[4] {1,1,1,1};
+    bool AxisViewed = true;
 signals:
     void UpdateMousePosS(glm::vec3);
     void SelectModelID(int);
