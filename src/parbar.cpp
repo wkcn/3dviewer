@@ -16,6 +16,7 @@ ParBar::ParBar(QWidget *parent) :
     ui->comboBox->addItem("线模式");
     ui->comboBox->addItem("点模式");
     ui->comboBox->addItem("水晶质感");
+    ui->comboBox->addItem("材质模式");
 	connect(ui->comboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(SelectViewMode(int)));
 
 	ui->lineEditX->setValidator(new QDoubleValidator(-1000, 1000, 4, this));

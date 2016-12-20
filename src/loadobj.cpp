@@ -28,6 +28,14 @@ objPoint GetVSTN(std::string &s){
 }
 
 Model loadObj(std::string _filename) {
+	int end_i = _filename.size() - 1;
+	for (;end_i >= 0;--end_i){
+		char c = _filename[end_i];
+		if (c == '\\' || c == '/')break;
+	}
+	if (end_i < 0)end_i = _filename.size() - 1; 
+	std::string path = _filename.substr(0, end_i + 1); 
+	cout << "Load Obj " << _filename << endl;
 	std::ifstream file(_filename);
 	if (file.fail()){
 		std::cout << "Read " << _filename << " Error :-(" << std::endl;
@@ -35,6 +43,7 @@ Model loadObj(std::string _filename) {
 	}
 	std::string operatorCh;
 	Model md;
+	md.path = path;
 	std::vector<glm::vec3> &vs = md.vs;
 	std::vector<glm::vec3> &vn = md.vn;
 	std::vector<glm::vec2> &vt = md.vt;
@@ -43,6 +52,7 @@ Model loadObj(std::string _filename) {
 	std::vector<objPoly> others;
 	double x, y, z;
 	double u, v;
+	string mtl_name;
 	while (!file.eof()) {
 		file >> operatorCh;
 		if (file.eof())break;
@@ -69,6 +79,7 @@ Model loadObj(std::string _filename) {
                     objPoint p = GetVSTN(buf);
                     op.points.push_back(p);
                 }
+				op.mtl = mtl_name;
 			}
             // Check
             bool err = false;
@@ -92,13 +103,12 @@ Model loadObj(std::string _filename) {
 				others.push_back(op);
 			}
 		}else if (operatorCh == "usemtl"){
-			string mtl_name;
 			file >> mtl_name;
-			cout << mtl_name << endl;
+			//cout << mtl_name << endl;
 		}else if (operatorCh == "mtllib"){
 			string mtllib;
 			file >> mtllib;
-			cout << mtllib << endl;
+			read_mtl(path + mtllib, md.mtls);
 		}else{	
             std::string h = "\n";
             std::getline(file, h);//operatorCh);
@@ -118,6 +128,7 @@ Model loadObj(std::string _filename) {
 	for (objPoly &p : others){
 		md.ps[k++] = p;
     }
+	cout << "Load Obj File " << _filename << " Success :-)" << endl;
 	return md; 
 }
 

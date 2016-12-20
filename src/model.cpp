@@ -22,6 +22,17 @@ void Model::BindTexture(){
     }
 }
 
+void Model::BindTexture(string tex_name){
+	if (tex_name.empty()){
+		glBindTexture(GL_TEXTURE_2D, 0);
+	}else{
+		if (!Model::STR2TEX.count(tex_name)){
+			Model::STR2TEX[tex_name] = LoadTexture(tex_name);
+		}
+		glBindTexture(GL_TEXTURE_2D, Model::STR2TEX[tex_name]);
+	}
+}
+
 void Model::Draw(){
 	glColor4ub(156, 156, 170, 255);
 	/*
@@ -60,6 +71,71 @@ void Model::Draw(){
 			DrawObjPoint(p);
 		}
 		glEnd();
+	}
+
+}
+
+void Model::BindMTL(string mtl_name){
+	if (mtls.count(mtl_name)){
+		MTL &mtl = mtls[mtl_name];
+		BindTexture(path + mtl.map_Ka);	
+	}else{
+		glBindTexture(GL_TEXTURE_2D, 0);
+	}
+}
+
+void Model::DrawMTL(){
+	map<string, vector<objPoly> > st; 
+	map<string, vector<objPoly> > sr; 
+	map<string, vector<objPoly> > sp; 
+
+	int k = 0;
+	int endk = triangleNum;
+	for (;k < endk;++k){
+		objPoly &t = ps[k];
+		st[t.mtl].push_back(t);
+	}
+	endk += rectNum;
+	for (;k < endk;++k){
+		objPoly &t = ps[k];
+		sr[t.mtl].push_back(t);
+	}
+	endk = ps.size();
+	for (;k < endk;++k){
+		objPoly &t = ps[k];
+		sp[t.mtl].push_back(t);
+	}
+
+	// 材质渲染
+	for (auto &m : st){
+		BindMTL(m.first);
+		glBegin(GL_TRIANGLES);
+		for (objPoly &t : m.second){
+			for (int i = 0; i < 3;++i)
+				DrawObjPoint(t.points[i]);
+		}
+		glEnd();
+	}
+
+	for (auto &m : sr){
+		BindMTL(m.first);
+		glBegin(GL_QUADS);
+		for (objPoly &t : m.second){
+			for (int i = 0; i < 4;++i)
+				DrawObjPoint(t.points[i]);
+		}
+		glEnd();
+	}
+
+	for (auto &m : sp){
+		BindMTL(m.first);
+		for (objPoly &t : m.second){
+			glBegin(GL_POLYGON);
+			for (const objPoint &p : t.points){
+				DrawObjPoint(p);
+			}
+			glEnd();
+		}
 	}
 
 }
@@ -209,10 +285,10 @@ void Model::Save(const string filename){
 }
 
 void Model::MatMapVertices(){
-	for (int i = 1;i <= vs.size();++i){
+	for (size_t i = 1;i <= vs.size();++i){
 		vs[i - 1] = GetVertexReal(i);
 	}
-    for (int i = 1;i <= vn.size();++i){
+    for (size_t i = 1;i <= vn.size();++i){
         vn[i - 1] = GetVNReal(i);
     }
     mat = glm::mat4(1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1);

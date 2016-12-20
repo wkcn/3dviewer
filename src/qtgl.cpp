@@ -135,6 +135,9 @@ void QtGL::paintGL(){
 			case POINT_MODE:
 				md.DrawPoints();
 				break;
+			case MTL_MODE:
+				md.DrawMTL();
+				break;
 		};
 	}
 	glBindTexture(GL_TEXTURE_2D, 0);
