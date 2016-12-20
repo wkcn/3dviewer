@@ -84,7 +84,7 @@ Model loadObj(std::string _filename) {
             // Check
             bool err = false;
             for (objPoint &p : op.points){
-                if (p.id > vs.size() || p.tid > vt.size() || p.nid > vn.size()){
+                if (p.id > int(vs.size()) || p.tid > int(vt.size()) || p.nid > int(vn.size())){
                     err = true;
                     cout << "Error: " << p.id << "/" << p.tid << "/" << p.nid;
                     cout << "[" << vs.size() << ", " << vt.size() << ", " << vn.size() << "]" << endl;

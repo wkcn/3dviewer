@@ -405,7 +405,7 @@ void ParBar::UpdateMousePos(glm::vec3 v){
 }
 
 void ParBar::SelectModelID(int id){
-    for (int i = 0;i < gl->models.size();++i){
+    for (size_t i = 0;i < gl->models.size();++i){
         if (gl->models[i].id == id){
             ui->listWidgetM->setCurrentRow(i);
             break;

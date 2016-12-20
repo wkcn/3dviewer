@@ -41,8 +41,7 @@ void DrawAxis(){
 	glEnd();
 	glLineWidth(1);
 	
-	double base = 0.05, height = 0.10;
-	int slices = 10, stacks = 10;
+    double height = 0.10;
 	glColor3ub(255, 0, 0);
     glPushMatrix();  
     glTranslatef(1.0f - height,0.0f,0.0f);  

@@ -79,13 +79,17 @@ void Model::BindMTL(string mtl_name){
 	if (mtls.count(mtl_name)){
 		MTL &mtl = mtls[mtl_name];
 		BindTexture(path + mtl.map_Ka);	
+        glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, mtl.Ka);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, mtl.Kd);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, mtl.Ks);
 	}else{
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 }
 
 void Model::DrawMTL(){
-	map<string, vector<objPoly> > st; 
+    glColor4ub(156, 156, 170, 255);
+    map<string, vector<objPoly> > st;
 	map<string, vector<objPoly> > sr; 
 	map<string, vector<objPoly> > sp; 
 

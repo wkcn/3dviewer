@@ -11,6 +11,7 @@ using namespace std;
 
 struct MTL{
 	string map_Ka;
+    float Ka[4], Kd[4], Ks[4];
 };
 
 void read_mtl(string filename, map<string, MTL> &mtls);
