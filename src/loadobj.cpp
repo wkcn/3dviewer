@@ -49,16 +49,13 @@ Model loadObj(std::string _filename) {
 		if (operatorCh == "v") {
 			file >> x >> y >> z;
 			vs.push_back(glm::vec3(x, y, z));
-		}
-		if (operatorCh == "vn") {
+		}else if (operatorCh == "vn") {
 			file >> x >> y >> z;
 			vn.push_back(glm::vec3(x, y, z));
-		}
-		if (operatorCh == "vt") {
+		}else if (operatorCh == "vt") {
 			file >> u >> v;
 			vt.push_back(glm::vec2(u, v));
-		}
-		if (operatorCh == "f") {
+		}else if (operatorCh == "f") {
 			// s/t/n
 			std::string buf;
 			std::getline(file, buf);
@@ -94,15 +91,15 @@ Model loadObj(std::string _filename) {
 			default:
 				others.push_back(op);
 			}
-		}	
-		/*
-		if (operatorCh == "l"){
-			int a,b;
-			file >> a >> b;
-			md.ls.push_back(objLine(vs[a-1], vs[b-1]));
-		}
-		*/
-        if (operatorCh != "v" && operatorCh != "vn" && operatorCh != "vt" && operatorCh != "f"){
+		}else if (operatorCh == "usemtl"){
+			string mtl_name;
+			file >> mtl_name;
+			cout << mtl_name << endl;
+		}else if (operatorCh == "mtllib"){
+			string mtllib;
+			file >> mtllib;
+			cout << mtllib << endl;
+		}else{	
             std::string h = "\n";
             std::getline(file, h);//operatorCh);
         }
