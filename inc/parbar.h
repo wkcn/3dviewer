@@ -7,6 +7,7 @@
 #include <QMainWindow>
 #include <QTableWidgetItem>
 #include <QFileDialog>
+#include <QTimer>
 #include "qtgl.h"
 
 namespace Ui {
@@ -31,6 +32,7 @@ private:
 private:
 	QtGL *gl;
 	QLineEdit *matEdit[4][4];
+    QTimer timer;
 
 private slots:
 	void SelectModel(int);
@@ -67,6 +69,9 @@ private slots:
     void pushButton8();
     void pushButton9();
     void pushButton10();
+    void on_AxisViewed_clicked(bool checked);
+    void on_horizontalSlider_valueChanged(int value);
+    void on_Timer();
 };
 
 #endif

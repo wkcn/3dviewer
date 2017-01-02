@@ -41,8 +41,7 @@ void DrawAxis(){
 	glEnd();
 	glLineWidth(1);
 	
-	double base = 0.05, height = 0.10;
-	int slices = 10, stacks = 10;
+    double height = 0.10;
 	glColor3ub(255, 0, 0);
     glPushMatrix();  
     glTranslatef(1.0f - height,0.0f,0.0f);  
@@ -68,7 +67,7 @@ void DrawAxis(){
 void DrawGround(){
 	glLineWidth(2);
 	const int K = 5;
-	glColor3ub(127,127,127);
+    glColor3ub(127,127,127);
 	glBegin(GL_LINES);
 	for (int x = -K; x <= K;++x){
 		glVertex3f(x,-K,0);
@@ -78,7 +77,7 @@ void DrawGround(){
 		glVertex3f(-K,y,0);
 		glVertex3f(K,y,0);
 	}
-	glEnd();
+    glEnd();
 	glLineWidth(0);
 }
 
@@ -114,13 +113,13 @@ Model GetCube(double x, double y, double z){
 	md.vt.push_back(glm::vec2(0,1));
 	// 面, 上下左右前后
 	AddRect(md, 1,4,3,2);
-	AddRect(md, 5,6,7,8);
+    AddRect(md, 6,7,8,5);
 
-	AddRect(md, 2,3,7,6);
-	AddRect(md, 4,1,5,8);
+    AddRect(md, 6,7,3,2);
+    AddRect(md, 1,4,8,5);
 
-	AddRect(md, 3,4,8,7);
-	AddRect(md, 1,2,6,5);
+    AddRect(md, 8,4,3,7);
+    AddRect(md, 1,5,6,2);
 	md.Rebuild();
 	return md;
 }

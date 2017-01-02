@@ -58,10 +58,10 @@ void QtGL::initializeGL(){
 	glHint(GL_FOG_HINT, GL_NICEST);
     //glLightModeli(GL_LIGHT_MODEL_COLOR_CONTROL, GL_SEPARATE_SPECULAR_COLOR);
 
-	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
 
-	glEnable(GL_COLOR_MATERIAL);
+    glEnable(GL_COLOR_MATERIAL);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_LIGHTING);
 }
@@ -93,8 +93,10 @@ void QtGL::paintGL(){
 	glGetDoublev(GL_PROJECTION_MATRIX, projection);
 	glGetIntegerv(GL_VIEWPORT, viewport);
 
-	DrawGround();
-	DrawAxis();
+    if (AxisViewed){
+        DrawGround();
+        DrawAxis();
+    }
 
 
 	glPushMatrix();
@@ -109,8 +111,19 @@ void QtGL::paintGL(){
         if (!md.viewed)continue;
         if (&md != SELECTED_MODEL)glColor3ub(255,255,255);
         else glColor3ub(255,0,255);
+        if (view_mode == CRYSTAL_MODE){
+            // 水晶质感
+            glTexGeni(GL_S,GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
+            glTexGeni(GL_T,GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
+            glEnable(GL_TEXTURE_GEN_S);
+            glEnable(GL_TEXTURE_GEN_T);
+        }else{
+            glDisable(GL_TEXTURE_GEN_S);
+            glDisable(GL_TEXTURE_GEN_T);
+        }
         switch (view_mode){
 			case TEX_MODE:
+            case CRYSTAL_MODE:
                 md.BindTexture();
                 //glBindTexture(GL_TEXTURE_2D, TEX_ID);
 			case FACE_MODE:
@@ -121,6 +134,9 @@ void QtGL::paintGL(){
 				break;
 			case POINT_MODE:
 				md.DrawPoints();
+				break;
+			case MTL_MODE:
+				md.DrawMTL();
 				break;
 		};
 	}
@@ -282,7 +298,7 @@ void QtGL::keyPressEvent(QKeyEvent *event){
 		KeyDeleteDown();
 		break;
 	case Qt::Key_Up:
-		CAM_Y += 0.1;update();break;
+        CAM_Y -= 0.1;update();break;
 	case Qt::Key_Down:
 		CAM_Y += 0.1;update();break;
 	case Qt::Key_Left:

@@ -7,6 +7,7 @@
 #include <glm/vec2.hpp>
 #include <glm/vec3.hpp>
 #include <vector>
+#include <string>
 
 class objPoint {
 public:
@@ -60,6 +61,7 @@ public:
 
 class objPoly {
 public:
+	std::string mtl;
 	std::vector<objPoint> points;
 public:
 	void add(const objPoint &);

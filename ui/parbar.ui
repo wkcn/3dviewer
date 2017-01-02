@@ -462,6 +462,32 @@
        </item>
       </layout>
      </widget>
+     <widget class="QSlider" name="horizontalSlider">
+      <property name="geometry">
+       <rect>
+        <x>70</x>
+        <y>460</y>
+        <width>181</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_5">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>460</y>
+        <width>54</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>动画：</string>
+      </property>
+     </widget>
     </widget>
    </widget>
    <widget class="QWidget" name="layoutWidget">
@@ -536,7 +562,7 @@
     <property name="geometry">
      <rect>
       <x>119</x>
-      <y>21</y>
+      <y>10</y>
       <width>121</width>
       <height>28</height>
      </rect>
@@ -546,7 +572,7 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>21</y>
+      <y>10</y>
       <width>78</width>
       <height>22</height>
      </rect>
@@ -585,6 +611,19 @@
     </property>
     <property name="text">
      <string/>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="AxisViewed">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>20</y>
+      <width>101</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>显示坐标系</string>
     </property>
    </widget>
   </widget>

@@ -15,6 +15,8 @@ ParBar::ParBar(QWidget *parent) :
     ui->comboBox->addItem("面模式");
     ui->comboBox->addItem("线模式");
     ui->comboBox->addItem("点模式");
+    ui->comboBox->addItem("水晶质感");
+    ui->comboBox->addItem("材质模式");
 	connect(ui->comboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(SelectViewMode(int)));
 
 	ui->lineEditX->setValidator(new QDoubleValidator(-1000, 1000, 4, this));
@@ -27,6 +29,8 @@ ParBar::ParBar(QWidget *parent) :
 	ui->lineEditY->setText(s);
 	ui->lineEditZ->setText(s);
 	ui->lineEditW->setText(s);
+
+    ui->AxisViewed->setChecked(true);
 
 
 	connect(ui->listWidgetM, SIGNAL(currentRowChanged(int)), this, SLOT(SelectModel(int)));  
@@ -86,7 +90,15 @@ ParBar::ParBar(QWidget *parent) :
     connect(ui->pushButton_9, SIGNAL(clicked()), this, SLOT(pushButton9()));
     connect(ui->pushButton_10, SIGNAL(clicked()), this, SLOT(pushButton10()));
 
+    connect(ui->AxisViewed, SIGNAL(clicked(bool)), this, SLOT(on_AxisViewed_clicked(bool)));
+    connect(&timer, SIGNAL(timeout()), this, SLOT(on_Timer()));
+
 }
+
+void ParBar::on_Timer(){
+    Change();
+}
+
 void ParBar::ButtomLight(){
     gl->EnvironmentLight[0] = 0;
     gl->EnvironmentLight[1] = 0;
@@ -236,7 +248,7 @@ glm::mat4 ParBar::GetChangeMat(int kind){
 			break;
 		// 旋转
 		case 1:
-			mat = glm::rotate(glm::mat4(1.0),float(w), glm::vec3(x, y, z));
+            mat = glm::rotate(glm::mat4(1.0),float(w * PI / 180), glm::vec3(x, y, z));
 			break;
 		// 放缩
 		case 2:
@@ -393,7 +405,7 @@ void ParBar::UpdateMousePos(glm::vec3 v){
 }
 
 void ParBar::SelectModelID(int id){
-    for (int i = 0;i < gl->models.size();++i){
+    for (size_t i = 0;i < gl->models.size();++i){
         if (gl->models[i].id == id){
             ui->listWidgetM->setCurrentRow(i);
             break;
@@ -501,7 +513,7 @@ void ParBar::pushButton8(){
 }
 //长方体
 void ParBar::pushButton9(){
-    Model md = GetPodetium(2, 2, 3);
+    Model md = GetCube(2, 2, 3);
     gl->models.push_back(md);
     AddShape(*(gl->models.end() - 1));
 }
@@ -519,4 +531,19 @@ void ParBar::AddShape(Model &md){
     md.mat = glm::translate(md.mat, glm::vec3(x,y,z));
     UpdatePar();
     gl->update();
+}
+
+
+void ParBar::on_AxisViewed_clicked(bool checked){
+    gl->AxisViewed = checked;
+    gl->update();
+}
+
+void ParBar::on_horizontalSlider_valueChanged(int value)
+{
+    //cout << value << endl;
+    if (value == 0)timer.stop();
+    else{
+        timer.start(1000 / value);
+    }
 }
