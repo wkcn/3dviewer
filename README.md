@@ -17,33 +17,42 @@
 - 选择模型
 
 ![](screenshots/select.png)
+
 - 修改显示模式
 
 ![](screenshots/viewmode.png)
+
 - 材质模式
 
 ![](screenshots/material.png)
+
 - 水晶质感
 
 ![](screenshots/shuijing.png)
+
 - 修改顶点
 
 ![](screenshots/fix1.png)
+
 	- 移动顶点
 
 ![](screenshots/fix2.png)
+
 	- 删除顶点
+
 ![](screenshots/delp.png)
 
 - 修改整个模型
 
 ![](screenshots/fixall.png)
 ![](screenshots/fixall2.png)
+
 - 局部矩阵
 
 ![](screenshots/mat1.png)
 ![](screenshots/mat2.png)
 ![](screenshots/mat3.png)
+
 - 动画
 
 ![](screenshots/ani.png)
