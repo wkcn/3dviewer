@@ -33,7 +33,8 @@ HEADERS += \
     inc/objshape.h \
     inc/shape.h \
     inc/qtgl.h \
-    inc/parbar.h
+    inc/parbar.h \
+    inc/readmtl.h
 
 SOURCES += \
     src/loadobj.cpp \
@@ -43,7 +44,8 @@ SOURCES += \
     src/objshape.cpp \
     src/shape.cpp  \
     src/qtgl.cpp \
-    src/parbar.cpp
+    src/parbar.cpp \
+    src/readmtl.cpp
 
 FORMS += \
     ui/mainwindow.ui \

@@ -5,10 +5,10 @@
 #pragma execution_character_set("utf-8")
 #endif
 #include <QMainWindow>
-#include <QDesktopWidget>
+#include <QScreen>
+#include <QFileDialog>
 #include "qtgl.h"
 #include "parbar.h"
-#include <QFileDialog>
 
 namespace Ui {
 class MainWindow;
@@ -23,7 +23,7 @@ public:
     ~MainWindow();
 private:
     Ui::MainWindow *ui;
-	ParBar *bar;
+    ParBar *bar;
     QtGL *gl;
 public slots:
     void OpenFile(bool);

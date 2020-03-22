@@ -3,11 +3,11 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow),gl(new QtGL(this)), bar(new ParBar(this))
+    ui(new Ui::MainWindow),bar(new ParBar(this)), gl(new QtGL(this))
 {
 
-	QDesktopWidget *desktopWidgt = QApplication::desktop();
-    QRect deskRect = desktopWidgt->availableGeometry();
+    QScreen *screen = QGuiApplication::primaryScreen();
+    QRect deskRect = screen->availableGeometry();
     int deskWidth = deskRect.width();
     int deskHeight = deskRect.height();
     int w = deskHeight - 256;
@@ -21,13 +21,10 @@ MainWindow::MainWindow(QWidget *parent) :
     setCentralWidget(gl);
 
     connect(ui->action_O, SIGNAL(triggered(bool)), this, SLOT(OpenFile(bool)));
-	move(x,y);
-	bar->SetGL(gl);
+    move(x,y);
+    bar->SetGL(gl);
     bar->show();
     bar->move(x+w, y);
-
-
-
 }
 
 MainWindow::~MainWindow(){
